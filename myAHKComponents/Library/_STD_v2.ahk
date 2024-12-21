@@ -11,12 +11,16 @@ activateWindow(className := "", processName := "", titleName := "", multi := 0) 
     if (SPACE())
         consumeSpace()
 
-    ; 配列idに現在稼働中のWindowを突っ込む
+    ; 配列idsに現在稼働中のWindowを突っ込む
     ids := WinGetList(,,"Program Manager")
 
-    ; 最下層から順番に検索
-    for i, this_id in ids {
+	; idsを反転した配列を生成
+	idsR := Array()
+	for index, id in ids
+	    idsR.InsertAt(1, id) ; InsertAtを使用して先頭に挿入することで反転を作成
 
+    ; 最下層から順番に検索
+    for i, this_id in idsR {
         ; this_idのClass, Title, Processを取得
         this_class := WinGetClass(this_id)
 		this_process := WinGetProcessName(this_id)
