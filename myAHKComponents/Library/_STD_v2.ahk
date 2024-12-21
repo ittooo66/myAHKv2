@@ -16,10 +16,10 @@ activateWindow(className := "", processName := "", titleName := "", multi := 0) 
 
 	; idsを反転した配列を生成
 	idsR := Array()
-	for index, id in ids
+	for id in ids
 	    idsR.InsertAt(1, id) ; InsertAtを使用して先頭に挿入することで反転を作成
 
-    ; 最下層から順番に検索
+	; 最下層から順番に検索
     for i, this_id in idsR {
         ; this_idのClass, Title, Processを取得
         this_class := WinGetClass(this_id)
@@ -46,31 +46,12 @@ activateWindow(className := "", processName := "", titleName := "", multi := 0) 
 
 ;最小化されているウィンドウをすべてアクティブにする
 activeAllWindow(){
-	;配列idに現在稼働中のWindowを突っ込む
-	oid := WinGetlist(,,"Program Manager",)
-	aid := Array()
-	id := oid.Length
-	For v in oid
-	{   aid.Push(v)
-	}
-	;for(int A_Index=1;A_Index<N(id);A_Index++)
-	Loop aid.Length
-	{
-		;this_idに現在なめてるWindowIDを入れる
-		this_id := aid[A_Index]
-		;this_idのTitleを取得
-		this_title := WinGetTitle("ahk_id " this_id)
-		;Window位置の取得（最小化）
-		WinGetPos(&X, &Y, &Width, &Height, this_title)
+    ; 配列idsに現在稼働中のWindowを突っ込む
+    ids := WinGetList(,,"Program Manager")
 
-		;最小化されているウィンドウを最前面に表示
-		;モニタa：最小化時はX,Yが-32000になるため、それをフックする
-		;モニタb：最小化時はXが-22613になるため、それをフックする
-		;モニタc：最小化時はX,Yが-48000になるため、それをフックする
-		;※X指定なしを除外するため、最小値も指定。
-		if ( -60000 < X && X < -20000 ){
-			WinActivate("ahk_id " this_id)
-		}
+	; 最下層から順番に検索
+    for i, this_id in ids {
+		WinActivate("ahk_id " this_id)
 	}
 }
 
