@@ -1,32 +1,23 @@
 #Requires AutoHotkey v2.0
 
-global A_ResDir := A_WorkingDir . "\myAHKComponents\Resources"
-
-;icon settings
-TraySetIcon(A_ResDir . "\icon.ico","1")
-;MouseCursor Setting
-execScripts("mouseCursor_black.ps1")
-
 ;super global variable
-global A_AppDir := A_ResDir . "\Apps"
 global A_SpaceDownTime := 0
 global A_SpaceDownFlag := 0
 global A_SpaceConsumeFlag := 0
-global A_Toggle_AudioDevice := 0
-global A_Toggle_Mute := 0
+
+;icon settings
+TraySetIcon(A_WorkingDir . "\myAHKComponents\Resources" . "\icon.ico","1")
+;MouseCursor Setting
+execScripts("mouseCursor_black.ps1")
 
 ;Majinai
-InstallKeybdHook()
+InstallKeybdHook
 A_HotkeyInterval := 100
 #UseHook
 
-;Components Root Directory
-#Include "%A_ScriptDir%\myAHKComponents"
-
 ;Disable CAPSLOCK & VKs & WindowsKey
-;他でRWin,>#,LWin,<#の組み合わせ定義を入れると挙動が変わる。
-;RWinとLWinの状態はGetKeyState()からのみ取得することとし、
-;MBindListener等に関連定義を入れないこと。
+;各所にRWin,>#,LWin,<#の定義を入れるとWinキーの無効化がやりきれなくなる。
+;RWinとLWinの状態はGetKeyState()からのみ取得することとし、MBindListener等に関連定義を入れないこと。
 sc03a::return
 vkFF::return
 vkEB::return
@@ -40,33 +31,21 @@ RAlt::RWin
 ;AltTab
 XButton1 & WheelUp::ShiftAltTab
 XButton1 & WheelDown::AltTab
+<!Tab::AltTab
 
 ;IME
 LShift Up::IME_EN()
 RShift Up::IME_JP()
 
 ;AHK Control
-RAlt & ,::
-XButton2 & MButton::
-{
-	;#SuspendExempt
-	splash("AHK reloading...",300)
-	logger("AHK RELOADED","ahk_ctrl")
-	Reload()
-}
+RAlt & ,::AHK_Reload()
+XButton2 & MButton::AHK_Reload()
+RAlt & .::AHK_Exit()
+XButton1 & MButton::AHK_Exit()
 
-RAlt & .::
-XButton1 & MButton::
-{
-	#SuspendExempt
-	splash("AHK shutting down...",500)
-	execScripts("mouseCursor_standard.ps1")
-	logger("AHK EXIT", "ahk_ctrl")
-	;rm flg file
-	;FileDelete(A_ScriptDir "\isActive.flg")
-	ExitApp()
-}
 
+;Components Root Directory
+#Include "%A_ScriptDir%\myAHKComponents"
 ;MBind
 #Include "MBindListener_v2.ahk"
 #Include "MBindSetting_v2.ahk"
@@ -89,4 +68,3 @@ XButton1 & MButton::
 #Include "Resources\TempMacro\MacroSLS_v2.ahk"
 #Include "Resources\TempMacro\MacroSMC_v2.ahk"
 #Include "Resources\TempMacro\MacroYEN_v2.ahk"
-
