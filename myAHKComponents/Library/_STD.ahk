@@ -339,3 +339,15 @@ AHK_Exit(){
 	logger("AHK EXIT")
 	ExitApp()
 }
+
+;修飾キーの押しっぱなし問題解除用
+resetMods(){
+	Send("{RWin Up}")
+	Send("{LWin Up}")
+	Send("{LAlt Up}")
+	Send("{RAlt Up}")
+	Send("{LShift Up}")
+	Send("{RShift Up}")
+	Send("{LControl Up}")
+	Send("{RControl Up}")
+}

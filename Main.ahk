@@ -1,7 +1,7 @@
 #Requires AutoHotkey v2.0
 
 ;appearance settings
-TraySetIcon(A_WorkingDir . "\myAHKComponents" . "\icon.ico","1")
+TraySetIcon(A_WorkingDir . "\icon.ico","1")
 execScripts("mouseCursor_black.ps1")
 
 ;(deprecated)super global variable
@@ -19,8 +19,15 @@ InstallKeybdHook
 sc03a::return ; Capslock
 vkFF::return ; 変換/無変換(JPキーボード向け)
 vkEB::return ; 変換/無変換(JPキーボード向け)
-RWin::Send("{RWin Up}") ; Windows(Right)
-LWin::return ; Windows(Left)
+
+; ● TODO: 様子みつつ改善を。
+RWin::{ ; Windows(Right), 検証的に押しっぱなし問題解除向け実装を付ける。
+    while(GetKeyState("RWin","P")){
+        Send("{RWin Up}")
+        Sleep(100)
+    }
+}
+LWin::resetMods() ; Windows(Left), 検証的に押しっぱなし問題解除実装を付ける。
 
 ;Change Base Bindings
 Delete::`
@@ -34,12 +41,6 @@ Alt & Tab::AltTab
 ;IME
 LShift Up::IME_EN()
 RShift Up::IME_JP()
-
-;AHK Control
-RAlt & ,::AHK_Reload()
-XButton2 & MButton::AHK_Reload()
-RAlt & .::AHK_Exit()
-XButton1 & MButton::AHK_Exit()
 
 ;MBind
 #Include "%A_ScriptDir%\myAHKComponents\MBindListener.ahk"
@@ -63,4 +64,3 @@ XButton1 & MButton::AHK_Exit()
 #Include "%A_ScriptDir%\Env\MacroSLS.ahk"
 #Include "%A_ScriptDir%\Env\MacroSMC.ahk"
 #Include "%A_ScriptDir%\Env\MacroYEN.ahk"
-

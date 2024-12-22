@@ -753,6 +753,8 @@ mbind_period(){
 		ClipExt_copyTo("SPeriod")
 	else if SPACE()
 		ClipExt_pasteFrom("SPeriod")
+	else if RALT()
+		AHK_Exit()
 	else
 		press(".")
 }
@@ -766,6 +768,8 @@ mbind_camma(){
 		ClipExt_copyTo("SCamma")
 	else if SPACE()
 		ClipExt_pasteFrom("SCamma")
+	else if RALT()
+		AHK_Reload()
 	else
 		press(",")
 }
@@ -916,6 +920,10 @@ mbind_mmb(){
 			}else
 				MsgBox("Invalid Input Number")
 		}
+	}else if MSBLB(){
+		AHK_Exit()
+	}else if MSBLF(){
+		AHK_Reload()
 	}else{
 		moveWindow()
 	}
