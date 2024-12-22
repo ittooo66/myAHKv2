@@ -337,7 +337,5 @@ AHK_Exit(){
 	splash("AHK shutting down...",500)
 	execScripts("mouseCursor_standard.ps1")
 	logger("AHK EXIT", "ahk_ctrl")
-	;rm flg file
-	;FileDelete(A_ScriptDir "\isActive.flg")
 	ExitApp()
 }

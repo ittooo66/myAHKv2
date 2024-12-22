@@ -73,6 +73,7 @@ mbind_d(){
 
 mbind_e(){
 	if (SPACE() && CAPS()){
+		; 起動対象のファイルを直接指定するため、Launch()相当を個別実装する
 		if (SHIFT()){
 			APP_E_PATH := getEnv("APP_E_PATH") 
 			TimeString := FormatTime(, "yyyyMMdd")
@@ -88,7 +89,6 @@ mbind_e(){
 				Run("`"" APP_E_PATH "`"  `"" A_Desktop "\memo\" TimeString ".txt`"")
 			}
 		}
-		;launch("E",SHIFT())
 	}else if LSHIFT() && RSHIFT()
 		ControlMouse("e","d","s","f")
 	else if CAPS() || RCMD(){
