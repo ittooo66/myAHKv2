@@ -52,8 +52,8 @@ XButton1 & MButton::AHK_Exit()
 #Include "%A_ScriptDir%\myAHKComponents\Library\Mouse.ahk"
 ;HotIf WinActives
 #Include "%A_ScriptDir%\myAHKComponents\Library\IWA_General.ahk"
-#Include "%A_ScriptDir%\myAHKComponents\Library\IWA_MS_Excel.ahk"
-#Include "%A_ScriptDir%\myAHKComponents\Library\IWA_MS_Powerpoint.ahk"
+#Include "%A_ScriptDir%\myAHKComponents\Library\IWA_Excel.ahk"
+#Include "%A_ScriptDir%\myAHKComponents\Library\IWA_Powerpoint.ahk"
 ;TempMacro
 #Include "%A_ScriptDir%\Env\MacroZ.ahk"
 #Include "%A_ScriptDir%\Env\MacroX.ahk"
