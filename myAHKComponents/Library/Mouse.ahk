@@ -1,29 +1,21 @@
 ;マウス操作関係
 
 ;key: イベント対象のキー4つ
-ControlMouse(keyUp,keyDown,keyLeft,keyRight,val:=5,slp:=10){
+ControlMouse(keyUp,keyDown,keyLeft,keyRight,val:=1,slp:=10){
 	while(GetKeyState(keyUp,"P") || GetKeyState(keyDown,"P") || GetKeyState(keyLeft,"P") || GetKeyState(keyRight,"P")){
 
 		;移動
-		MoveY += GetKeyState(keyUp, "P") ? -val : 0
-		MoveX += GetKeyState(keyLeft, "P") ? -val : 0
-		MoveY += GetKeyState(keyDown, "P") ? val : 0
-		MoveX += GetKeyState(keyRight, "P") ? val : 0
+		MoveY := val*(GetKeyState(keyDown, "P") - GetKeyState(keyUp, "P"))
+		MoveX := val*(GetKeyState(keyRight, "P") - GetKeyState(keyLeft, "P") )
 
-		;Powershellによるマウス移動
-		;※ HiDPIディスプレイ混成環境にてAHK純正のMouseMoveがバグるため、ps1化
-		execScripts("MouseMove.ps1", MoveX, MoveY )
-		
-		;Control系処理
-		Sleep(slp)
-		val++
-
+		MouseMove(MoveX,MoveY,0,"R")
+		Sleep(1)
 	}
 }
 
 ;key: イベント対象のキー4つ
 ControlMouseFast(keyUp,keyDown,keyLeft,keyRight){
-	ControlMouse(keyUp,keyDown,keyLeft,keyRight,50,10)
+	ControlMouse(keyUp,keyDown,keyLeft,keyRight,40,10)
 }
 
 ;マウスカーソルを中央に配置
