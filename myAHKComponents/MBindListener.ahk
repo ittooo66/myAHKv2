@@ -62,8 +62,15 @@ XButton2 & RButton:: ;明示的に入力を定義しないとXButtonの消費判
 	mbind_mrb()
 }
 *MButton::mbind_mmb()
-*WheelUp::mbind_wheelup()
-*WheelDown::mbind_wheeldown()
+*WheelUp::
+RButton & WheelUp::{
+mbind_wheelup()
+}
+*WheelDown::
+RButton & WheelDown::{
+	mbind_wheeldown()
+}
+
 *XButton1::mbind_msblb()
 *XButton2::mbind_msblf()
 *F19::mbind_msbrf()
