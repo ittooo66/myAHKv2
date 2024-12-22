@@ -79,14 +79,14 @@ directInput(string){
 	;cb_bkに中身を退避
 	cb_bk := ClipboardAll()
 	;Clipboard経由で文字列一括入力
-	Clipboard := string
+	A_Clipboard := ClipboardAll(string)
 	;Clipboard の変更を待機
 	Sleep(50)
 	;文字列貼り付け
 	Send("^v")
 	;入力完了を待ってClipboard内容を復元(要Tuning)
 	Sleep(200)
-	Clipboard := cb_bk
+	A_Clipboard := cb_bk
 }
 
 ;外部変数への書き込み
@@ -225,21 +225,10 @@ launch(str, shift:=0){
 	}
 }
 
-;log出力機能
-logger( message , label:="info" ){
-	;日付情報の作成
-	year := FormatTime(, "yyyy")
-	month := FormatTime(, "MM")
-	day := FormatTime(, "dd")
-	hour := FormatTime(, "HH")
-	minute := FormatTime(, "mm")
-	second := FormatTime(, "ss")
-	logger_date := year . "-" . month . "-" . day . " " . hour . ":" . minute ":" . second . "." . A_MSec . " "
-	log := logger_date . message . "`n"
-	FileAppend(log, A_WorkingDir "\myAHKComponents\Resources\Log\" label ".log")
-}
-
 ;通知メッセージの表示
+;str:通知メッセージの文字列
+;sleeptime:表示時間(ms)。未入力の場合はデフォルトで3秒(3000ms)表示
+;mx,my:メッセージ表示場所。未入力の場合はマウスカーソル位置に表示
 splash(str, sleeptime:=3000 ,width:=0 ,mx:=0,my:=0){
 	if (mx = 0 && my = 0){
 		MouseGetPos(&mx, &my)
@@ -265,4 +254,90 @@ splash(str, sleeptime:=3000 ,width:=0 ,mx:=0,my:=0){
 	splashGui.Show("x" . mx . " y" . my)
 	Sleep sleeptime
 	splashGui.Destroy()
+}
+
+
+;ウィンドウサイズ変更
+;ディスプレイ設定(DPIスケール、モニタ配置)に大幅に依存してるので、注意
+changeWindowSize(){
+	;画面情報を取得
+	;X,Y:スケーリング後のアクティブウインドウの左上のピクセル位置（モニタ1の左上(0,0)からのX:Y座標）
+	;W,H:スケーリング後のアクティブウインドウ幅(W),高さ(H)
+	WinGetPos(&X, &Y, &W, &H, "A")
+	BlockInput("MouseMove")
+
+	;現在のディスプレイ枚数を取得
+	cnt := MonitorGetCount()
+
+	;各画面位置に応じた補正
+	if (cnt > 1 && X > 2560){
+		; DELL 27-WQHD-144Hz のとき
+		rawX := (X-2560)/2
+		rawY := (Y+722)/2
+	}else{
+		;EIZO 27-4K-60Hz のとき
+		rawX := 0
+		rawY := 0
+		;rawX := -X/3
+		;rawY := -Y/3
+	}
+
+	diffX := 0
+	diffY := 0
+
+	;ポイント調整:Y
+	Loop 50
+	{
+		diffX := -25 + A_Index
+		MouseMove(rawX + diffX , rawY + 25 , 0)
+		if ( A_Cursor = "SizeWE"){
+			break
+		}
+	}
+	;ポイント調整:X
+	Loop 50
+	{
+		diffY := 25 - A_Index
+		MouseMove(rawX + diffX , rawY + diffY, 0)
+		if ( A_Cursor = "SizeNWSE" ){
+			MouseMove(RawX + diffX - 1 , rawY + diffY - 1, 0.1)
+			break
+		}
+	}
+
+	Send("{LButton Down}")
+	BlockInput("MouseMoveOff")
+	
+	while(MRB()){
+		Sleep(50)
+	}
+	Send("{LButton Up}")
+}
+
+;ウィンドウの移動
+moveWindow(){
+	Send("!{Space}")
+	Sleep(150)
+	Send("{m}")
+	Sleep(100)
+	Send("{Left}{Right}")
+}
+
+;AHKのリロード
+AHK_Reload(){
+	#SuspendExempt
+	splash("AHK reloading...",300)
+	logger("AHK RELOADED","ahk_ctrl")
+	Reload()
+}
+
+;AHKの停止
+AHK_Exit(){
+	#SuspendExempt
+	splash("AHK shutting down...",500)
+	execScripts("mouseCursor_standard.ps1")
+	logger("AHK EXIT", "ahk_ctrl")
+	;rm flg file
+	;FileDelete(A_ScriptDir "\isActive.flg")
+	ExitApp()
 }

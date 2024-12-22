@@ -2,7 +2,7 @@ mbind_a(){
 	if (SPACE() && CAPS()){
 		launch("A",SHIFT())
 	}else if LSHIFT() && RSHIFT()
-		mouseMoveFast("w","r","a","g")
+		ControlMouseFast("w","r","a","g")
 	else if CAPS() && ALT()
 		Send("{Volume_Down}")
 	else if LCMD() && CAPS(){
@@ -52,7 +52,7 @@ mbind_d(){
 	if (SPACE() && CAPS()){
 		launch("D",SHIFT())
 	}else if LSHIFT() && RSHIFT()
-		mouseMove("e","d","s","f")
+		ControlMouse("e","d","s","f")
 	else if CAPS() && ALT(){
 		Send("^l")
 		Sleep(250)
@@ -90,7 +90,7 @@ mbind_e(){
 		}
 		;launch("E",SHIFT())
 	}else if LSHIFT() && RSHIFT()
-		mouseMove("e","d","s","f")
+		ControlMouse("e","d","s","f")
 	else if CAPS() || RCMD(){
 		press("{UP}")
 	}else if SPACE() && SHIFT()
@@ -107,7 +107,7 @@ mbind_f(){
 	}else if LCMD() && CAPS()
 		Send("^{PgDn}")
 	else if LSHIFT() && RSHIFT()
-		mouseMove("e","d","s","f")
+		ControlMouse("e","d","s","f")
 	else if CAPS() || RCMD()
 		press("{RIGHT}")
 	else if SPACE() && SHIFT()
@@ -122,7 +122,7 @@ mbind_g(){
 	if (SPACE() && CAPS()){
 		launch("G",SHIFT())
 	}else if LSHIFT() && RSHIFT()
-		mouseMoveFast("w","r","a","g")
+		ControlMouseFast("w","r","a","g")
 	else if RCMD() || CAPS()
 		press("^{RIGHT}")
 	else if SPACE() && SHIFT()
@@ -306,7 +306,7 @@ mbind_r(){
 	}else if SPACE() && CAPS(){
 		launch("R",SHIFT())
 	}else if LSHIFT() && RSHIFT()
-		mouseMoveFast("w","r","a","g")
+		ControlMouseFast("w","r","a","g")
 	else if RCMD() || CAPS()
 		press("{END}")
 	else if SPACE() && SHIFT()
@@ -323,7 +323,7 @@ mbind_s(){
 	}else if LCMD() && CAPS()
 		Send("^{PgUp}")
 	else if LSHIFT() && RSHIFT()
-		mouseMove("e","d","s","f")
+		ControlMouse("e","d","s","f")
 	else if CAPS() & ALT(){
 		if ( getEnv("PC_NAME") == "X" ){
 			Send("^!{s}")
@@ -389,7 +389,7 @@ mbind_w(){
 	if (SPACE() && CAPS())
 		launch("W",SHIFT())
 	else if LSHIFT() && RSHIFT()
-		mouseMoveFast("w","r","a","g")
+		ControlMouseFast("w","r","a","g")
 	else if RCMD() || CAPS()
 		press("{HOME}")
 	else if SPACE() && SHIFT()
@@ -872,19 +872,6 @@ mbind_mrb(){
 		execScripts("save_co2_data.bat")
 		CO2 := getEnv("CO2")
 		splash("CO2 Concentration : " . CO2 . "ppm",1500,400)
-		; BT-W3 無効・有効切り替え
-		;if ( A_Toggle_Mute = 0 ){
-		;	A_Toggle_Mute = 1
-		;	setEnv("BT-W3_isEnabled","1")
-		;	run, "C:\Users\ittoo\OneDrive\home\src\ahk\myAHKComponents\Resources\Apps\USB_Connect\USB_On.exe"
-		;	splash("BT-W3 Enabled.",500,200)
-		;}else{
-		;	A_Toggle_Mute = 0
-		;	setEnv("BT-W3_isEnabled","0")
-		;	run, "C:\Users\ittoo\OneDrive\home\src\ahk\myAHKComponents\Resources\Apps\USB_Connect\USB_Off.exe"
-		;	splash("BT-W3 Disabled.",500,200)
-		;}
-
 	}else if MSBLB(){
 		Send("{RWin Down}")
 		while(GetKeyState("RButton","P")){
@@ -970,19 +957,16 @@ mbind_msblf(){
 	}else if MSBRB(){
 		Send("+{,}")
 	}else if MSBRF(){
-		global A_Toggle_AudioDevice
-		if (A_Toggle_AudioDevice = 0 ){
-			A_Toggle_AudioDevice := "1"
+		AudioDevice := getEnv("AUDIO_DEVICE")
+		if (AudioDevice = "USB" ){
 			setEnv("AUDIO_DEVICE","BTD 600")
 			execScripts("SetAudioDevice.ps1")
 			splash("Audio Device Changed to BTD-600.",1000,330)
-		}else if (A_Toggle_AudioDevice = 1 ){
-			A_Toggle_AudioDevice := "2"
+		}else if (AudioDevice = "BTD 600" ){
 			setEnv("AUDIO_DEVICE","M12")
 			execScripts("SetAudioDevice.ps1")
 			splash("Audio Device Changed to M12.",1000,330)
 		}else{
-			A_Toggle_AudioDevice := "0"
 			setEnv("AUDIO_DEVICE","USB")
 			execScripts("SetAudioDevice.ps1")
 			splash("Audio Device Changed to Pebbles.",1000,330)

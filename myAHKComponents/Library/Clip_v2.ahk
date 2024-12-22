@@ -48,8 +48,7 @@ ClipExt_pasteFrom(num){
 	Sleep(250)
 	if SPACE(){
 		;content取得
-		content := FileRead("D:\SRC\ahkv2\myAHKComponents\Resources\Clipboard\1.dat",'RAW')
-		;content := FileRead(A_WorkingDir "\myAHKComponents\Resources\Clipboard\" num ".dat", "c")
+		content := FileRead(A_WorkingDir "\myAHKComponents\Resources\Clipboard\" num ".dat", 'RAW')
 		;content出力
 		directInput(content)
 	}
@@ -82,7 +81,7 @@ ClipExt_openAlias(num){
 	Run(filepath)
 }
 
-;ClipBoard履歴ログの表示
+;ClipBoard履歴の表示
 ClipExt_openLog(){
 	Run("notepad.exe " A_WorkingDir "\myAHKComponents\Resources\Log\clip.log")
 	Sleep(500)

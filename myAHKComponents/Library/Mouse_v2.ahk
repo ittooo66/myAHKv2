@@ -1,95 +1,29 @@
 ;マウス操作関係
 
-;ウィンドウサイズ変更
-;ディスプレイ設定(DPIスケール、モニタ配置)に大幅に依存してるので、注意
-changeWindowSize(){
-	
+;key: イベント対象のキー4つ
+ControlMouse(keyUp,keyDown,keyLeft,keyRight,val:=5,slp:=10){
+	while(GetKeyState(keyUp,"P") || GetKeyState(keyDown,"P") || GetKeyState(keyLeft,"P") || GetKeyState(keyRight,"P")){
 
-	;画面情報を取得
-	;X,Y:スケーリング後のアクティブウインドウの左上のピクセル位置（モニタ1の左上(0,0)からのX:Y座標）
-	;W,H:スケーリング後のアクティブウインドウ幅(W),高さ(H)
-	WinGetPos(&X, &Y, &W, &H, "A")
-	BlockInput("MouseMove")
+		;移動
+		MoveY += GetKeyState(keyUp, "P") ? -val : 0
+		MoveX += GetKeyState(keyLeft, "P") ? -val : 0
+		MoveY += GetKeyState(keyDown, "P") ? val : 0
+		MoveX += GetKeyState(keyRight, "P") ? val : 0
 
-	;現在のディスプレイ枚数を取得
-	cnt := MonitorGetCount()
+		;Powershellによるマウス移動
+		;※ HiDPIディスプレイ混成環境にてAHK純正のMouseMoveがバグるため、ps1化
+		execScripts("MouseMove.ps1", MoveX, MoveY )
+		
+		;Control系処理
+		Sleep(slp)
+		val++
 
-	;各画面位置に応じた補正
-	if (cnt > 1 && X > 2560){
-		; DELL 27-WQHD-144Hz のとき
-		rawX := (X-2560)/2
-		rawY := (Y+722)/2
-	}else{
-		;EIZO 27-4K-60Hz のとき
-		rawX := 0
-		rawY := 0
-		;rawX := -X/3
-		;rawY := -Y/3
 	}
-
-	diffX := 0
-	diffY := 0
-
-	;ポイント調整:Y
-	Loop 50
-	{
-		diffX := -25 + A_Index
-		MouseMove(rawX + diffX , rawY + 25 , 0)
-		if ( A_Cursor = "SizeWE"){
-			break
-		}
-	}
-	;ポイント調整:X
-	Loop 50
-	{
-		diffY := 25 - A_Index
-		MouseMove(rawX + diffX , rawY + diffY, 0)
-		if ( A_Cursor = "SizeNWSE" ){
-			MouseMove(RawX + diffX - 1 , rawY + diffY - 1, 0.1)
-			break
-		}
-	}
-
-	Send("{LButton Down}")
-	BlockInput("MouseMoveOff")
-	
-	while(MRB()){
-		Sleep(50)
-	}
-	Send("{LButton Up}")
-}
-
-;ウィンドウの移動
-moveWindow(){
-	Send("!{Space}")
-	Sleep(200)
-	Send("{m}{Left}{Right}")
 }
 
 ;key: イベント対象のキー4つ
-;mouseMove(keyUp,keyDown,keyLeft,keyRight,val:=5,slp:=10){
-;	while(GetKeyState(keyUp,"P") || GetKeyState(keyDown,"P") || GetKeyState(keyLeft,"P") || GetKeyState(keyRight,"P")){
-;
-;		;移動
-;		MoveY += GetKeyState(keyUp, "P") ? -val : 0
-;		MoveX += GetKeyState(keyLeft, "P") ? -val : 0
-;		MoveY += GetKeyState(keyDown, "P") ? val : 0
-;		MoveX += GetKeyState(keyRight, "P") ? val : 0
-;
-;		;Powershellによるマウス移動
-;		;※ HiDPIディスプレイ混成環境にてAHK純正のMouseMoveがバグるため、ps1化
-;		execScripts("MouseMove.ps1", MoveX, MoveY )
-;		
-;		;Control系処理
-;		Sleep(slp)
-;		val++
-;
-;	}
-;}
-
-;key: イベント対象のキー4つ
-mouseMoveFast(keyUp,keyDown,keyLeft,keyRight){
-;	mouseMove(keyUp,keyDown,keyLeft,keyRight,50,10)
+ControlMouseFast(keyUp,keyDown,keyLeft,keyRight){
+	ControlMouse(keyUp,keyDown,keyLeft,keyRight,50,10)
 }
 
 ;マウスカーソルを中央に配置
@@ -136,4 +70,19 @@ mousePress(leftButtonKey){
 		Sleep(100)
 	}
 	Send("{LButton Up}")
+}
+
+
+;log出力機能
+logger( message , label:="info" ){
+	;日付情報の作成
+	year := FormatTime(, "yyyy")
+	month := FormatTime(, "MM")
+	day := FormatTime(, "dd")
+	hour := FormatTime(, "HH")
+	minute := FormatTime(, "mm")
+	second := FormatTime(, "ss")
+	logger_date := year . "-" . month . "-" . day . " " . hour . ":" . minute ":" . second . "." . A_MSec . " "
+	log := logger_date . message . "`n"
+	FileAppend(log, A_WorkingDir "\myAHKComponents\Resources\Log\" label ".log")
 }
