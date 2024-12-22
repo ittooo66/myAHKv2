@@ -260,12 +260,15 @@ splash(str, sleeptime:=3000 ,width:=0 ,mx:=0,my:=0){
 ;ウィンドウサイズ変更
 ;ディスプレイ設定(DPIスケール、モニタ配置)に大幅に依存してるので、注意
 changeWindowSize(){
+
+	;マウス位置を固定
+	BlockInput "Mouse"
+
 	;画面情報を取得
 	;X,Y:スケーリング後のアクティブウインドウの左上のピクセル位置（モニタ1の左上(0,0)からのX:Y座標）
 	;W,H:スケーリング後のアクティブウインドウ幅(W),高さ(H)
 	WinGetPos(&X, &Y, &W, &H, "A")
-	BlockInput("MouseMove")
-
+	
 	;現在のディスプレイ枚数を取得
 	cnt := MonitorGetCount()
 
@@ -284,13 +287,20 @@ changeWindowSize(){
 
 	diffX := 0
 	diffY := 0
-
+	buffer := 9999
+	
 	;ポイント調整:Y
 	Loop 50
 	{
 		diffX := -25 + A_Index
 		MouseMove(rawX + diffX , rawY + 25 , 0)
 		if ( A_Cursor = "SizeWE"){
+			if(buffer = 9999){
+				buffer := diffX
+			}
+		}else if (buffer != 9999){
+			diffX := (diffX + buffer)/2
+			buffer := 9999
 			break
 		}
 	}
@@ -298,15 +308,22 @@ changeWindowSize(){
 	Loop 50
 	{
 		diffY := 25 - A_Index
-		MouseMove(rawX + diffX , rawY + diffY, 0)
-		if ( A_Cursor = "SizeNWSE" ){
-			MouseMove(RawX + diffX - 1 , rawY + diffY - 1, 0.1)
+		MouseMove(rawX + 25 , rawY + diffY, 0)
+		if ( A_Cursor = "SIZENS" ){
+			if(buffer = 9999){
+				buffer := diffY
+			}
+		}else if (buffer != 9999){
+			diffY := (diffY + buffer)/2
+			buffer := 9999
 			break
 		}
 	}
+	
+	MouseMove(RawX + diffX , rawY + diffY , 0)
 
 	Send("{LButton Down}")
-	BlockInput("MouseMoveOff")
+	BlockInput "off"
 	
 	while(MRB()){
 		Sleep(50)
