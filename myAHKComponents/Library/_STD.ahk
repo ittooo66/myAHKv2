@@ -327,7 +327,7 @@ moveWindow(){
 AHK_Reload(){
 	#SuspendExempt
 	splash("AHK reloading...",300)
-	logger("AHK RELOADED","ahk_ctrl")
+	logger("AHK RELOADED")
 	Reload()
 }
 
@@ -336,6 +336,6 @@ AHK_Exit(){
 	#SuspendExempt
 	splash("AHK shutting down...",500)
 	execScripts("mouseCursor_standard.ps1")
-	logger("AHK EXIT", "ahk_ctrl")
+	logger("AHK EXIT")
 	ExitApp()
 }
