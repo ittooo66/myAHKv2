@@ -1,4 +1,3 @@
-
 ;キーボード ベース定義
 *a::mbind_a()
 *b::mbind_b()
@@ -56,7 +55,12 @@
 *Space Up::mbind_space_up()
 
 ;マウス ベース定義
-*RButton::mbind_mrb()
+*RButton::
+XButton1 & RButton:: ;明示的に入力を定義しないとXButtonの消費判定が行われず、XButton Upのタイミングでmbind()が発動してしまうため記載
+XButton2 & RButton:: ;明示的に入力を定義しないとXButtonの消費判定が行われず、XButton Upのタイミングでmbind()が発動してしまうため記載
+{
+	mbind_mrb()
+}
 *MButton::mbind_mmb()
 *WheelUp::mbind_wheelup()
 *WheelDown::mbind_wheeldown()
@@ -64,6 +68,7 @@
 *XButton2::mbind_msblf()
 *F19::mbind_msbrf()
 *F20::mbind_msbrb()
+
 ;LButton::ここだけはバインドしない。生命線。
 RButton & LButton::
 MButton & LButton::

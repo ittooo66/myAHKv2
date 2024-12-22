@@ -33,7 +33,7 @@ mbind_c(){
 	if (SPACE() && CAPS()){
 		launch("C",SHIFT())
 	}else if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\myAHKComponents\Resources\TempMacro\MacroC.ahk")
+		Run("notepad.exe " A_WorkingDir "\Env\MacroC.ahk")
 	else if CAPS() && ALT()
 		Send("#^{c}")
 	else if RCMD() || CAPS()
@@ -194,9 +194,13 @@ mbind_k(){
 mbind_l(){
 	if LSHIFT() && RSHIFT()
 		Send("{WheelUp}")
-	else if RCMD() || (CAPS() && SHIFT())
+	else if RCMD() || (CAPS() && SHIFT()){
+		;Win+Lショートカットの対策(暫定なので、もっとうまいやり方あれば...)
+		Send("{RWin Up}")
 		press("6")
-	else if CAPS() & LCMD()
+		Sleep(150)
+		Send("{RWin Up}")
+	}else if CAPS() & LCMD()
 		Send("^{l}")
 	else if CAPS()
 		press("{numpad6}")
@@ -404,7 +408,7 @@ mbind_x(){
 	if SPACE() && CAPS()
 		launch("X",SHIFT())
 	else if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\myAHKComponents\Resources\TempMacro\MacroX.ahk")
+		Run("notepad.exe " A_WorkingDir "\Env\MacroX.ahk")
 	else if RCMD() || CAPS()
 		MacroX()
 	else if LCMD()
@@ -432,7 +436,7 @@ mbind_z(){
 	if SPACE() && CAPS()
 		launch("Z",SHIFT())
 	else if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\myAHKComponents\Resources\TempMacro\MacroZ.ahk")
+		Run("notepad.exe " A_WorkingDir "\Env\MacroZ.ahk")
 	else if RCMD() || CAPS()
 		MacroZ()
 	else if SPACE() && SHIFT()
@@ -661,7 +665,7 @@ mbind_equal(){
 
 mbind_bracket_left(){
 	if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\myAHKComponents\Resources\TempMacro\MacroBRL.ahk")
+		Run("notepad.exe " A_WorkingDir "\Env\MacroBRL.ahk")
 	else if RCMD() || CAPS()
 		MacroBRL()
 	else if SPACE() && SHIFT()
@@ -677,7 +681,7 @@ mbind_bracket_left(){
 
 mbind_bracket_right(){
 	if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\myAHKComponents\Resources\TempMacro\MacroBRR.ahk")
+		Run("notepad.exe " A_WorkingDir "\Env\MacroBRR.ahk")
 	else if RCMD() || CAPS()
 		MacroBRR()
 	else if SPACE() && SHIFT()
@@ -690,7 +694,7 @@ mbind_bracket_right(){
 
 mbind_backslash(){
 	if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\myAHKComponents\Resources\TempMacro\MacroYEN.ahk")
+		Run("notepad.exe " A_WorkingDir "\Env\MacroYEN.ahk")
 	else if RCMD() || CAPS()
 		MacroYEN()
 	else if SPACE() && SHIFT()
@@ -703,7 +707,7 @@ mbind_backslash(){
 
 mbind_semicolon(){
 	if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\myAHKComponents\Resources\TempMacro\MacroSMC.ahk")
+		Run("notepad.exe " A_WorkingDir "\Env\MacroSMC.ahk")
 	else if RCMD() || CAPS()
 		MacroSMC()
 	else if LSHIFT() && RSHIFT()
@@ -768,7 +772,7 @@ mbind_camma(){
 
 mbind_slash(){
 	if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\myAHKComponents\Resources\TempMacro\MacroSLS.ahk")
+		Run("notepad.exe " A_WorkingDir "\Env\MacroSLS.ahk")
 	else if RCMD() || CAPS()
 		MacroSLS()
 	else if SPACE() && SHIFT()

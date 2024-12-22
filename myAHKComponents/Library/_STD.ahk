@@ -111,7 +111,7 @@ getEnv(name){
 ;Scripts配下のファイルを実行する ● TODO
 ;scriptName:"ファイル名" 
 execScripts(scriptName,arg1:=0,arg2:=0){
-	script := A_WorkingDir . "\myAHKComponents\Resources\Scripts\" . scriptName
+	script := A_WorkingDir . "\myAHKComponents\Tools\" . scriptName
 	if InStr(scriptName , "ps1") {
 		if (arg1=0 && arg2=0) {
 			Run("powershell.exe " script, , "hide")

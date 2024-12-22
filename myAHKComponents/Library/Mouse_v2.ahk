@@ -84,5 +84,5 @@ logger( message , label:="info" ){
 	second := FormatTime(, "ss")
 	logger_date := year . "-" . month . "-" . day . " " . hour . ":" . minute ":" . second . "." . A_MSec . " "
 	log := logger_date . message . "`n"
-	FileAppend(log, A_WorkingDir "\myAHKComponents\Resources\Log\" label ".log")
+	FileAppend(log, A_WorkingDir "\" label ".log")
 }

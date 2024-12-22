@@ -35,7 +35,7 @@ ClipExt_copyTo(num){
 	;ログ追記
 	logger(A_Clipboard , "clip")
 	;ファイルにClipboardを保存
-	FileAppend(ClipboardAll(), A_WorkingDir "\myAHKComponents\Resources\Clipboard\" num ".dat")
+	FileAppend(ClipboardAll(), A_WorkingDir "\Env\CLIPEXT_" num ".dat")
 	;cb_bkから取得
 	A_Clipboard := cb_bk
 }
@@ -48,7 +48,7 @@ ClipExt_pasteFrom(num){
 	Sleep(250)
 	if SPACE(){
 		;content取得
-		content := FileRead(A_WorkingDir "\myAHKComponents\Resources\Clipboard\" num ".dat", 'RAW')
+		content := FileRead(A_WorkingDir "\Env\CLIPEXT_" num ".dat", 'RAW')
 		;content出力
 		directInput(content)
 	}
@@ -83,7 +83,7 @@ ClipExt_openAlias(num){
 
 ;ClipBoard履歴の表示
 ClipExt_openLog(){
-	Run("notepad.exe " A_WorkingDir "\myAHKComponents\Resources\Log\clip.log")
+	Run("notepad.exe " A_WorkingDir "\clip.log")
 	Sleep(500)
 	Send("^{End}")
 }
