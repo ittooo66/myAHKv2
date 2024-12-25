@@ -12,7 +12,7 @@ ControlMouse(keyUp,keyDown,keyLeft,keyRight,val:=2,slp:=10){
 		cnt := MonitorGetCount()
 
 		CoordMode("Mouse","Screen")
-		MouseGetPos &x, &y
+		MouseGetPos(&x, &y)
 		
 		;各画面位置に応じた補正を行い、対象ウィンドウの左上中心として(rawX,rawY)を取得
 		if (cnt > 1 && x > 2560){
