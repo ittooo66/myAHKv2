@@ -29,7 +29,7 @@ ControlMouse(keyUp,keyDown,keyLeft,keyRight,val:=2,slp:=10){
 
 ;key: イベント対象のキー4つ
 ControlMouseFast(keyUp,keyDown,keyLeft,keyRight){
-	ControlMouse(keyUp,keyDown,keyLeft,keyRight,40,10)
+	ControlMouse(keyUp,keyDown,keyLeft,keyRight,30,10)
 }
 
 ;マウスカーソルを中央に配置
