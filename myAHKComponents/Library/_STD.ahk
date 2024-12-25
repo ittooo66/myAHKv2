@@ -272,7 +272,7 @@ changeWindowSize(){
 	;現在のディスプレイ枚数を取得
 	cnt := MonitorGetCount()
 
-	;各画面位置に応じた補正
+	;各画面位置に応じた補正を行い、対象ウィンドウの左上中心として(rawX,rawY)を取得
 	if (cnt > 1 && X > 2560){
 		; DELL 27-WQHD-144Hz のとき
 		rawX := (X-2560)/2
@@ -285,47 +285,120 @@ changeWindowSize(){
 		;rawY := -Y/3
 	}
 
-	diffX := 0
-	diffY := 0
-	buffer := 9999
-	
-	;ポイント調整:Y
-	Loop 50
-	{
-		diffX := -25 + A_Index
-		MouseMove(rawX + diffX , rawY + 25 , 0)
-		if ( A_Cursor = "SizeWE"){
-			if(buffer = 9999){
-				buffer := diffX
-			}
-		}else if (buffer != 9999){
-			diffX := (diffX + buffer)/2
-			buffer := 9999
-			break
-		}
-	}
-	;ポイント調整:X
-	Loop 50
-	{
-		diffY := 25 - A_Index
-		MouseMove(rawX + 25 , rawY + diffY, 0)
-		if ( A_Cursor = "SIZENS" ){
-			if(buffer = 9999){
-				buffer := diffY
-			}
-		}else if (buffer != 9999){
-			diffY := (diffY + buffer)/2
-			buffer := 9999
-			break
-		}
-	}
-	
-	MouseMove(RawX + diffX , rawY + diffY , 0)
+	; 渦巻きの最大半径
+	maxRadius := 5
 
+	; 現在の位置と方向
+	x := rawX
+	y := rawY
+	step := 1
+
+	; 初期方向 (右方向)
+	dx := 1
+	dy := 0
+
+	; 現在のスパイラルの幅と方向切り替えカウンタ
+	currentWidth := 1
+	stepCounter := 0
+	turns := 0
+
+	; Grab成功判定
+	grabSuccess := 0
+
+	Loop {
+		; マウスカーソル妥当性判定
+		MouseMove(x , y , 0)
+		if ( A_Cursor = "SizeNWSE"){
+			grabSuccess := 1
+			break
+		}
+
+		; 次の座標に移動
+		x += dx
+		y += dy
+
+		stepCounter++
+
+		; 指定した幅分進んだら方向を変更
+		if (stepCounter = currentWidth) {
+			stepCounter := 0
+			turns++
+
+			; 時計回りに方向を変更
+			if (dx = 1 && dy = 0) { ; 右 → 下
+				dx := 0
+				dy := 1
+			} else if (dx = 0 && dy = 1) { ; 下 → 左
+				dx := -1
+				dy := 0
+			} else if (dx = -1 && dy = 0) { ; 左 → 上
+				dx := 0
+				dy := -1
+			} else if (dx = 0 && dy = -1) { ; 上 → 右
+				dx := 1
+				dy := 0
+			}
+
+			; 方向を2回変更した後、幅を1増やす
+			if Mod(turns, 2) = 0
+				currentWidth++
+		}
+
+		; 渦巻きの最大範囲を超えたら終了
+		if Abs(x - rawX) > maxRadius || Abs(y - rawY) > maxRadius
+			break
+	}
+
+	;前述のうずまき戦法で掴み切れなかった場合、後述の十字戦法で掴みに行く
+	;Joplin, Meryなどはこちらじゃないと掴めない
+	if(grabSuccess = 0){
+		diffX := 0
+		diffY := 0
+		buffer := 9999
+	
+		;ポイント調整:Y
+		Loop 20
+			{
+				diffX := -10 + A_Index
+				MouseMove(rawX + diffX , rawY + 25 , 100)
+				if ( A_Cursor = "SizeNWSE"){
+					buffer := 9999
+					break
+				}if ( A_Cursor = "SizeWE"){
+					if(buffer = 9999){
+						buffer := diffX
+					}
+				}else if (buffer != 9999){
+					diffX := (diffX + buffer)/2
+					buffer := 9999
+					break
+				}
+			}
+		;ポイント調整:X
+		Loop 50
+		{
+			diffY := 25 - A_Index
+			MouseMove(rawX + diffX , rawY + diffY, 100)
+			if ( A_Cursor = "SizeNWSE"){
+				buffer := 9999
+				break
+			}if ( A_Cursor = "SIZENS" ){
+				if(buffer = 9999){
+					buffer := diffY
+				}
+			}else if (buffer != 9999){
+				diffY := (diffY + buffer)/2
+				buffer := 9999
+				break
+			}
+		}
+		MouseMove(RawX + diffX , rawY + diffY , 0)
+	}
+	
 	Send("{LButton Down}")
 	BlockInput "off"
 	
-	while(MRB()){
+	while(MRB()&&MLB()){
 		Sleep(50)
 	}
 	Send("{LButton Up}")
