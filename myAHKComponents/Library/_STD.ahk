@@ -360,7 +360,7 @@ changeWindowSize(){
 		Loop 20
 			{
 				diffX := -10 + A_Index
-				MouseMove(rawX + diffX , rawY + 25 , 100)
+				MouseMove(rawX + diffX , rawY + 30 , 100)
 				if ( A_Cursor = "SizeNWSE"){
 					buffer := 9999
 					break
@@ -375,9 +375,9 @@ changeWindowSize(){
 				}
 			}
 		;ポイント調整:X
-		Loop 50
+		Loop 60
 		{
-			diffY := 25 - A_Index
+			diffY := 30 - A_Index
 			MouseMove(rawX + diffX , rawY + diffY, 100)
 			if ( A_Cursor = "SizeNWSE"){
 				buffer := 9999
