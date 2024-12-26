@@ -54,7 +54,7 @@ XButton2 & LButton::{
 		;適用対象判定
 		if(absDiffPointX > absDiffPointY ){
 			;Count値、Stack用意
-			sleepCount := 100/absDiffPointX
+			sleepCount := float(100/absDiffPointX)
 			sleepStack := 0
 
 			;X方向適用
@@ -73,6 +73,9 @@ XButton2 & LButton::{
 				absDiffPointX--
 			}
 		}else{
+			if (absDiffPointY = 0){
+				absDiffPointY := 1
+			}
 			;Count値、Stack用意
 			sleepCount := 100/absDiffPointY
 			sleepStack := 0
