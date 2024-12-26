@@ -1,4 +1,5 @@
 ;キーボード ベース定義
+
 *a::mbind_a()
 *b::mbind_b()
 *c::mbind_c()
@@ -33,7 +34,10 @@
 *6::mbind_6()
 *7::mbind_7()
 *8::mbind_8()
-*9::mbind_9()
+*9::
+LShift & 9::{ ; Shift押しつつカッコ入力したとき、Shift UpのIME入力に反応してカッコの入力が確定してしまうので必要
+	mbind_9()
+}
 *0::mbind_0()
 *-::mbind_minus()
 *=::mbind_equal()
