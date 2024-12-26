@@ -233,8 +233,17 @@ launch(str, shift:=0, man:=0){
 		className := getEnv("APP_" . str . "_CLASS")
 		processName := getEnv("APP_" . str . "_PROCESS")
 		titleName := getEnv("APP_" . str . "_TITLE")
-		if !activateWindow(className,processName,titleName) 
-			Run(path)
+		if !activateWindow(className,processName,titleName) {
+			if (man = 1){
+				name := getEnv("APP_" . str . "_NAME")
+				resetMods()
+				Send("{LWin}")
+				directInput(name)
+				Send("{Enter}")
+			}else{
+				Run(path)
+			}
+		}
 	}
 }
 
