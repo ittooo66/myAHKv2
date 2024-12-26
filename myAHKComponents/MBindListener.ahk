@@ -1,23 +1,7 @@
 ;キーボード ベース定義
 
-*a::
-vkFF & a::
-vkEB & a::
-LControl & a::
-RControl & a::
-LShift & a::
-RShift & a::{
-	mbind_a()
-}
-*b::
-vkFF & b::
-vkEB & b::
-LControl & b::
-RControl & b::
-LShift & b::
-RShift & b::{
-	mbind_b()
-}
+*a::mbind_a()
+*b::mbind_b()
 *c::mbind_c()
 *d::mbind_d()
 *e::mbind_e()
