@@ -83,8 +83,8 @@ XButton2 & RButton:: ;明示的に入力を定義しないとXButtonの消費判
 }
 *MButton::mbind_mmb()
 *WheelUp::
-RButton & WheelUp::{
-mbind_wheelup()
+WheelUp::{
+	mbind_wheelup()
 }
 *WheelDown::
 RButton & WheelDown::{
