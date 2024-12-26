@@ -21,12 +21,14 @@ vkFF::return ; 変換/無変換(JPキーボード向け)
 vkEB::return ; 変換/無変換(JPキーボード向け)
 
 ; ● TODO: 様子みつつ改善を。
-RWin::{ ; Windows(Right), 検証的に押しっぱなし問題解除向け実装を付ける。
-    while(GetKeyState("RWin","P")){
-        Send("{RWin Up}")
-        Sleep(100)
-    }
-}
+RWin::resetMods()
+;上手く動かなかったのでお蔵入り
+;{ ; Windows(Right), 検証的に押しっぱなし問題解除向け実装を付ける。
+;    while(GetKeyState("RWin","P")){
+;        Send("{RWin Up}")
+;        Sleep(100)
+;    }
+;}
 LWin::resetMods() ; Windows(Left), 検証的に押しっぱなし問題解除実装を付ける。
 
 ;Change Base Bindings
