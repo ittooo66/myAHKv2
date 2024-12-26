@@ -203,10 +203,11 @@ intelliScroll(){
 ;ランチャ
 ;str:アプリ名称。バインドしたキー名称のアルファベットに合わせる
 ;shift:強制起動モード。1で有効化
+;man:マニュアル起動モード(Windowsメニューから起動)。1で有効化、デフォルト0
 ;IEのとき：CLASS="IEFrame",PROCESS="",TITLE=""
 ;Outlookのとき：CLASS="rctrl_renwnd32",PROCESS="OUTLOOK.EXE",TITLE=""
 ;AppDirはmyAHKComponents\Resources\Apps配下。
-launch(str, shift:=0){
+launch(str, shift:=0, man:=0){
 	
 	;該当するショートカットがなければ、何もしない
 	path := getEnv("APP_" . str . "_PATH")
@@ -218,8 +219,15 @@ launch(str, shift:=0){
 		}
 	;強制起動モードの場合、strに紐づくアプリショートカットを起動して終了
 	if (shift != 0){
-		Run(path)
-
+		if (man = 1 ){
+			name := getEnv("APP_" . str . "_NAME")
+			resetMods()
+			Send("{LWin}")
+			directInput(name)
+			Send("{Enter}")
+		}else{
+			Run(path)
+		}
 	;通常モードの場合、	既存WindowをActivateして、いなければ起動
 	}else{
 		className := getEnv("APP_" . str . "_CLASS")
@@ -445,4 +453,5 @@ resetMods(){
 	Send("{RShift Up}")
 	Send("{LControl Up}")
 	Send("{RControl Up}")
+	;Space Up入れるとlaunchのマニュアル起動がバグるので抜く
 }

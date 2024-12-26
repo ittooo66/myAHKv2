@@ -1,6 +1,6 @@
 mbind_a(){
 	if (SPACE() && CAPS()){
-		launch("A",SHIFT())
+		launch("A",SHIFT(),1)
 	}else if LSHIFT() && RSHIFT()
 		ControlMouseFast("w","r","a","g")
 	else if CAPS() && ALT()
@@ -993,9 +993,11 @@ mbind_msblf(){
 }
 
 mbind_msbrb(){
+	resetMods()
 }
 
 mbind_msbrf(){
+	resetMods()
 }
 
 mbind_wheelup(){
