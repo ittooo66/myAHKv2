@@ -1,24 +1,37 @@
 ;Excel 個別バインド一式
 #HotIf WinActive("ahk_class XLMAIN")
 
-; Excelバインド - セル関連
-*d::{ 
+*1::{ 
 	if LCMD() && CAPS() 
-		Send("!{h}{h}")							; セル：背景色変更
-	else mbind_d()
+		Send("!{h}{s}{f}")
+	else mbind_1()
 }
+*2::{ 
+	if LCMD() && CAPS() 
+		Send("!{h}{a}{t}")
+	else mbind_2()
+}
+*3::{ 
+	if LCMD() && CAPS() 
+		Send("!{h}{a}{m}")
+	else mbind_3()
+}
+*4::{ 
+	if LCMD() && CAPS() 
+		Send("!{h}{a}{b}")
+	else mbind_4()
+}
+*5::{ 
+	if LCMD() && CAPS() 
+		Send("!{h}{b}{i}")
+	else mbind_5()
+}
+
 *q::{
 	if LCMD() && CAPS() 
 		Send("!{o}{c}{a}")						; セル：幅調整
 	else mbind_q() 
 }
-*g::{
-	if LCMD() && CAPS()
-		Send("!{h}{m}{c}")						; セル：結合/結合解除
-	else mbind_g()
-}
-
-; Excelバインド - 文字列関連
 *w::{
 	if LCMD() && CAPS()
 		Send("!{h}{a}{l}")						; 文字列：左寄せ
@@ -38,6 +51,29 @@
 	if LCMD() && CAPS(){
 		Send("!{h}{f}{c}")						; 文字列：赤字
 	}else mbind_t()
+}
+
+; Excelバインド - セル関連
+*d::{ 
+	if LCMD() && CAPS() 
+		Send("!{h}{h}")							; セル：背景色変更
+	else mbind_d()
+}
+*g::{
+	if LCMD() && CAPS()
+		Send("!{h}{m}{c}")						; セル：結合/結合解除
+	else mbind_g()
+}
+
+*v::{ 
+	if LCMD() && CAPS() 
+		Send("!{w}{f}{f}")
+	else mbind_v()
+}
+*b::{ 
+	if LCMD() && CAPS() 
+		Send("!{h}{b}{f}")
+	else mbind_b()
 }
 
 ; Excelバインド - 罫線関連

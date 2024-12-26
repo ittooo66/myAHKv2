@@ -103,64 +103,68 @@ XButton2 & LButton::{
 ;App個別バインド 一式
 *1::{ 
 	if LCMD() && CAPS() 
-		Send("!{j}{d}{s}{o}{Right}{Right}{Right}{Right}{Right}{Down}{Down}{Down}{Down}{return}") ;枠色変更（青）
+		Send("{1}") ; <TODO>
 	else mbind_1()
 }
 *2::{ 
 	if LCMD() && CAPS() 
-		Send("!{j}{d}{s}{o}{Left}{Left}{Down}{Down}{Down}{Down}{return}") ;枠色変更（青）
+		Send("!{h}{a}{t}{t}") ; 上揃え
 	else mbind_2()
 }
 *3::{ 
 	if LCMD() && CAPS() 
-		Send("!{j}{d}{s}{o}{Left}{Down}{Down}{Down}{Down}{return}") ;枠色変更（緑）
+		Send("!{h}{a}{t}{m}") ; 中央揃え
 	else mbind_3()
 }
 *4::{ 
 	if LCMD() && CAPS() 
-		Send("!{j}{d}{s}{o}{Down}{Down}{Down}{Down}{Down}{Down}{return}") ;枠色変更（赤）
+		Send("!{h}{a}{t}{b}") ; 下揃え
 	else mbind_4()
 }
 *5::{ 
 	if LCMD() && CAPS() 
-		Send("!{j}{d}{s}{o}") ;枠色変更（パレット）
+		Send("!{h}{s}{o}") ; 枠色変更（任意）
 	else mbind_5()
 }
-*f::{ 
-	if LCMD() && CAPS() 
-		Send("!{j}{d}{a}{a}") ; 図形揃え
-	else mbind_f()
+
+*tab::{
+	if LCMD() && CAPS()
+		Send("!{w}{m}")
+	else
+		mbind_tab()
 }
-
-
-*q::{ 
+*q::{
 	if LCMD() && CAPS() 
-		Send("!{h}{f}{1}{Left}{Left}{Left}{Left}{Left}{Down}{Down}{Down}{Down}{return}") ; 文字色変更（橙）
+		Send("!{h}{n}") ; 箇条書き(ID)
 	else mbind_q()
 }
 *w::{ 
 	if LCMD() && CAPS() 
-		Send("!{h}{f}{1}{Left}{Left}{Down}{Down}{Down}{Down}{return}") ; 文字色変更（青）
-	else mbind_w()
+		Send("!{h}{a}{l}") ; 文字左揃え
+	else if LCMD()
+		return ; 閉じるショートカットの無効化
+	else
+		mbind_w()
 }
 *e::{ 
 	if LCMD() && CAPS() 
-		Send("!{h}{f}{1}{Left}{Down}{Down}{Down}{Down}{return}") ; 文字色変更（緑）
+		Send("!{h}{a}{c}") ; 文字中央揃え
 	else mbind_e()
 }
 *r::{ 
 	if LCMD() && CAPS() 
-		Send("!{h}{f}{1}{Down}{Down}{Down}{Down}{Down}{Down}{return}") ; 文字色変更（赤）
+		Send("!{h}{a}{r}") ; 文字左揃え
 	else mbind_r()
 }
 *t::{ 
 	if LCMD() && CAPS() 
-		Send("!{h}{f}{c}")
+		Send("!{h}{f}{c}") ; 文字色変更(任意)
 	else mbind_t()
 }
+
 *a::{ 
 	if LCMD() && CAPS() 
-		Send("!{h}{u}{2}")
+		Send("!{h}{u}")
 	else mbind_a()
 }
 *s::{ 
@@ -170,28 +174,44 @@ XButton2 & LButton::{
 }
 *d::{ 
 	if LCMD() && CAPS() 
-		Send("!{j}{d}{s}{f}")
+		Send("!{h}{s}{f}")
 	else mbind_d()
+}
+*f::{ 
+	if LCMD() && CAPS() 
+		Send("!{h}{g}{a}") ; 図形揃え
+	else mbind_f()
 }
 *g::{ 
 	if LCMD() && CAPS() 
-		Send("!{h}{o}")
+		Send("!{h}{o}{1}")
 	else mbind_g()
 }
+
 *z::{ 
 	if LCMD() && CAPS() 
-		Send("!{j}{d}{a}{f}{r}")
+		Send("!{h}{g}{k}") ; 最背面に移動
 	else mbind_z()
 }
 *x::{ 
 	if LCMD() && CAPS() 
-		Send("!{j}{d}{a}{e}{k}")
+		Send("!{h}{g}{r}") ; 最前面に移動
 	else mbind_x()
+}
+*c::{ 
+	if LCMD() && CAPS() 
+		Send("!{n}{t}") ; 表
+	else mbind_c()
+}
+*v::{ 
+	if LCMD() && CAPS() 
+		Send("!{n}{n}{s}") ; TODO
+	else mbind_v()
 }
 *b::{ 
 	if LCMD() && CAPS() 
-		Send("!{j}{d}{s}{o}{w}")
+		Send("!{h}{s}{o}")
 	else mbind_b()
-	}
+}
 
 #HotIf
