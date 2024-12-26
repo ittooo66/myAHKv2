@@ -47,8 +47,13 @@ ClipExt_pasteFrom(num){
 	;暴発防止のSleep
 	Sleep(250)
 	if SPACE(){
-		;content取得
-		content := FileRead(A_WorkingDir "\Env\CLIPEXT_" num ".dat", 'RAW')
+		try{
+			;content取得
+			content := FileRead(A_WorkingDir "\Env\CLIPEXT_" num ".dat", 'RAW')
+		}catch{
+			;登録コンテンツがなく、FileReadが決まらなかった時にcontentにテキストを埋め込む
+			content := "No Registered Text"
+		}
 		;content出力
 		directInput(content)
 	}

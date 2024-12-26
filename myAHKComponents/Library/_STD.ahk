@@ -78,8 +78,13 @@ press(key){
 directInput(string){
 	;cb_bkに中身を退避
 	cb_bk := ClipboardAll()
-	;Clipboard経由で文字列一括入力
-	A_Clipboard := ClipboardAll(string)
+	try{
+		;Clipboard経由で文字列一括入力
+		A_Clipboard := ClipboardAll(string)
+	}catch{
+		;受け取ったstringがdatではなくstringだった場合、直接入力を行う
+		A_Clipboard := string
+	}
 	;Clipboard の変更を待機
 	Sleep(50)
 	;文字列貼り付け
