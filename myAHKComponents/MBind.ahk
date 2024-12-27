@@ -77,7 +77,10 @@ mbind_e(){
 		if (SHIFT()){
 			APP_E_PATH := getEnv("APP_E_PATH") 
 			TimeString := FormatTime(, "yyyyMMdd")
-			Run("`"" APP_E_PATH "`"  `"" A_Desktop "\memo\" TimeString ".txt`"")
+			Send("#{r}")
+			Sleep(100)
+			directInput("`"" APP_E_PATH "`"  `"" A_Desktop "\memo\" TimeString ".txt`"")
+			Send("{Enter}")
 			ConsumeSpace()
 		}else{
 			className := getEnv("APP_E_CLASS")
@@ -86,7 +89,10 @@ mbind_e(){
 			if !activateWindow(className,processName,titleName) {
 				APP_E_PATH := getEnv("APP_E_PATH")
 				TimeString := FormatTime(, "yyyyMMdd")
-				Run("`"" APP_E_PATH "`"  `"" A_Desktop "\memo\" TimeString ".txt`"")
+				Send("#{r}")
+				Sleep(100)
+				directInput("`"" APP_E_PATH "`"  `"" A_Desktop "\memo\" TimeString ".txt`"")
+				Send("{Enter}")
 			}
 		}
 	}else if LSHIFT() && RSHIFT()
