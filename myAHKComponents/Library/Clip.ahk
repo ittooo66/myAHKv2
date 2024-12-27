@@ -23,7 +23,7 @@ ClipExt_cut(){
 ;拡張クリップボード(copy)
 ClipExt_copyTo(num){
 	;Spaceキーのスタックを消費
-	consumeSpace()
+	mbind_space("Consume")
 	;cb_bkに中身を退避
 	cb_bk := ClipboardAll()
 	;一旦clipboardを空にする
@@ -43,7 +43,7 @@ ClipExt_copyTo(num){
 ;拡張クリップボード(paste)
 ClipExt_pasteFrom(num){
 	;Spaceキーのスタックを消費
-	consumeSpace()
+	mbind_space("Consume")
 	;暴発防止のSleep
 	Sleep(250)
 	if SPACE(){

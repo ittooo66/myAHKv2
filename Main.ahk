@@ -4,11 +4,6 @@
 TraySetIcon(A_WorkingDir . "\icon.ico","1")
 execScripts("mouseCursor_black.ps1")
 
-;(deprecated)super global variable
-global A_SpaceDownTime := 0
-global A_SpaceDownFlag := 0
-global A_SpaceConsumeFlag := 0
-
 ; Majinai
 InstallKeybdHook
 #UseHook

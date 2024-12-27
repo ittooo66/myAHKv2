@@ -9,7 +9,7 @@
 activateWindow(className := "", processName := "", titleName := "", multi := 0) {
     ; Spaceバインドで呼び出している場合、Spaceキーを消費
     if (SPACE())
-        consumeSpace()
+        mbind_space("Consume")
 
     ; 配列idsに現在稼働中のWindowを突っ込む
     ids := WinGetList(,,"Program Manager")

@@ -25,10 +25,10 @@ XButton2::Send("^{y}")
 Space & G::{
 	if (SHIFT()){
 		Send("^+{g}")
-		consumeSpace()
+		mbind_space("Consume")
 	}else{
 		Send("^{g}")
-		consumeSpace()
+		mbind_space("Consume")
 	}
 }
 

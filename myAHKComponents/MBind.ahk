@@ -81,7 +81,7 @@ mbind_e(){
 			Sleep(100)
 			directInput("`"" APP_E_PATH "`"  `"" A_Desktop "\memo\" TimeString ".txt`"")
 			Send("{Enter}")
-			ConsumeSpace()
+			mbind_space("Consume")
 		}else{
 			className := getEnv("APP_E_CLASS")
 			processName := getEnv("APP_E_PROCESS")
@@ -468,10 +468,10 @@ mbind_1(){
 		Reload()	;GrabWindowの挙動がおかしくなるのでReloadしてみる
 	}else if SPACE() && CAPS() && SHIFT(){
 		ClipExt_addAlias("1")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if SPACE() && CAPS(){
 		ClipExt_openAlias("1")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if RCMD() || CAPS(){
 		;F1無効化
 	}else if SPACE() && SHIFT()
@@ -492,10 +492,10 @@ mbind_2(){
 		Reload()	;GrabWindowの挙動がおかしくなるのでReloadしてみる
 	}else if SPACE() && CAPS() && SHIFT(){
 		ClipExt_addAlias("2")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if SPACE() && CAPS(){
 		ClipExt_openAlias("2")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if RCMD() || CAPS()
 		press("{F2}")
 	else if SPACE() && SHIFT()
@@ -516,10 +516,10 @@ mbind_3(){
 		Reload()	;GrabWindowの挙動がおかしくなるのでReloadしてみる
 	}else if SPACE() && CAPS() && SHIFT(){
 		ClipExt_addAlias("3")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if SPACE() && CAPS(){
 		ClipExt_openAlias("3")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if RCMD() || CAPS()
 		press("{F3}")
 	else if SPACE() && SHIFT()
@@ -533,10 +533,10 @@ mbind_3(){
 mbind_4(){
 	if SPACE() && CAPS() && SHIFT(){
 		ClipExt_addAlias("4")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if SPACE() && CAPS(){
 		ClipExt_openAlias("4")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if RCMD() || CAPS()
 		press("{F4}")
 	else if SPACE() && SHIFT()
@@ -550,10 +550,10 @@ mbind_4(){
 mbind_5(){
 	if SPACE() && CAPS() && SHIFT(){
 		ClipExt_addAlias("5")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if SPACE() && CAPS(){
 		ClipExt_openAlias("5")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if RCMD() || CAPS()
 		press("{F5}")
 	else if SPACE() && SHIFT()
@@ -569,10 +569,10 @@ mbind_6(){
 		press("{F6}")
 	else if SPACE() && CAPS() && SHIFT(){
 		ClipExt_addAlias("6")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if SPACE() && CAPS(){
 		ClipExt_openAlias("6")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if SPACE() && SHIFT()
 		ClipExt_copyTo("S6")
 	else if SPACE()
@@ -601,10 +601,10 @@ mbind_8(){
 		press("{F8}")
 	else if SPACE() && CAPS() && SHIFT(){
 		ClipExt_addAlias("8")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if SPACE() && CAPS(){
 		ClipExt_openAlias("8")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if SPACE() && SHIFT()
 		ClipExt_copyTo("S8")
 	else if SPACE()
@@ -616,10 +616,10 @@ mbind_8(){
 mbind_9(){
 	if SPACE() && CAPS() && SHIFT(){
 		ClipExt_addAlias("9")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if SPACE() && CAPS(){
 		ClipExt_openAlias("9")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if SPACE() && SHIFT()
 		ClipExt_copyTo("S9")
 	else if SPACE()
@@ -635,10 +635,10 @@ mbind_9(){
 mbind_0(){
 	if SPACE() && CAPS() && SHIFT(){
 		ClipExt_addAlias("0")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if SPACE() && CAPS(){
 		ClipExt_openAlias("0")
-		consumeSpace()
+		mbind_space("Consume")
 	}else if SPACE() && SHIFT()
 		ClipExt_copyTo("S0")
 	else if SPACE()
@@ -1065,50 +1065,42 @@ mbind_wheeldown(){
 		Send("{WheelDown}")
 }
 
-consumeSpace(){
-	global A_SpaceConsumeFlag
-	A_SpaceConsumeFlag := 1
-}
+mbind_space(command){
+	static A_SpaceDownTime := 0
+	static A_SpaceConsumeFlag := 0
 
-mbind_space_down(){
-	global A_SpaceDownFlag
-	global A_SpaceDownTime
-	global A_SpaceConsumeFlag
+	if command = "Up"{
+		;Spaceバインドが消費済みならば、各バインド判定を無効にして終了
+		if (A_SpaceConsumeFlag != 0)
+			return
 
-	;Spaceキー押し下げ判定がない場合（初回入力）
-	if (A_SpaceDownFlag = 0){
-		;押し下げ判定付与
-		A_SpaceDownFlag := 1
+		;各種Spaceバインド
+		;　一定時間経過後のスペースキーを修飾キー(入力なし)として扱う
+		if CAPS() || RCMD()
+			press("^{Space}")
+		else if(A_TickCount - A_SpaceDownTime < 400){
+			press("{Space}")
+		}
+		
+		;DownTime初期化
+		A_SpaceDownTime := 0
+	}else if command = "Down"{
 		;初回押し下げ時間の記録
-		A_SpaceDownTime := A_TickCount
+		if (A_SpaceDownTime = 0)
+			A_SpaceDownTime := A_TickCount
+
 		;Spaceバインド未消費判定付与
 		A_SpaceConsumeFlag := 0
-	}
 
-	;IME切り替え（即時発動）
-	if LCMD() || RCMD(){
-		Send("!{``}")
-		consumeSpace()
-	}
-}
-
-mbind_space_up(){
-	global A_SpaceDownFlag
-	global A_SpaceDownTime
-	global A_SpaceConsumeFlag
-
-	;Spaceキー押下げ判定を解除
-	A_SpaceDownFlag := 0
-
-	;Spaceバインドが消費済みならば、各バインド判定を無効にして終了
-	if (A_SpaceConsumeFlag != 0)
-		return
-	;各種Spaceバインド
-	;　一定時間経過後のスペースキーを修飾キー(入力なし)として扱う
-	if CAPS() || RCMD()
-		press("^{Space}")
-	else if(A_TickCount - A_SpaceDownTime < 400){
-		press("{Space}")
+		;IME切り替え（即時発動）
+		if LCMD() || RCMD(){
+			Send("!{``}")
+			mbind_space("Consume")
+ 		}
+	}else if command = "Consume"{
+		A_SpaceConsumeFlag := 1
+	}else{
+		MsgBox("mbind_space() Invalid Command : " . command)
 	}
 }
 

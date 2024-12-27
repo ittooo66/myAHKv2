@@ -81,8 +81,8 @@ Alt & Tab::AltTab
 *Tab::mbind_tab()
 
 ;Space機能向けの定義
-*Space::mbind_space_down()
-*Space Up::mbind_space_up()
+*Space::mbind_space("Down")
+*Space Up::mbind_space("Up")
 
 ;マウス ベース定義
 RButton::
