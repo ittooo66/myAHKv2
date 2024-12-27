@@ -45,7 +45,7 @@ ClipExt_pasteFrom(num){
 	;Spaceキーのスタックを消費
 	mbind_space("Consume")
 	;暴発防止のSleep
-	Sleep(250)
+	;Sleep(250)
 	if SPACE(){
 		try{
 			;content取得
