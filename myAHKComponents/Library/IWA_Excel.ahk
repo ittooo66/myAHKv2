@@ -72,7 +72,7 @@
 }
 *b::{ 
 	if LCMD() && CAPS() 
-		Send("!{h}{b}{f}")
+		Send("!{h}{b}{y}")
 	else mbind_b()
 }
 
