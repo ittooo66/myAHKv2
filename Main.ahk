@@ -13,37 +13,6 @@ global A_SpaceConsumeFlag := 0
 InstallKeybdHook
 #UseHook
 
-;Disable Keys
-;各所にRWin,>#,LWin,<#の定義を入れるとWinキーの無効化がやりきれなくなる。
-;RWinとLWinの状態はGetKeyState()からのみ取得することとし、MBindListener等に関連定義を入れないこと。
-sc03a::return ; Capslock
-vkFF::return ; 変換/無変換(JPキーボード向け)
-vkEB::return ; 変換/無変換(JPキーボード向け)
-
-; ● TODO: 様子みつつ改善を。
-RWin::resetMods()
-;上手く動かなかったのでお蔵入り
-;{ ; Windows(Right), 検証的に押しっぱなし問題解除向け実装を付ける。
-;    while(GetKeyState("RWin","P")){
-;        Send("{RWin Up}")
-;        Sleep(100)
-;    }
-;}
-LWin::resetMods() ; Windows(Left), 検証的に押しっぱなし問題解除実装を付ける。
-
-;Change Base Bindings
-Delete::`
-RAlt::RWin
-
-;AltTab
-XButton1 & WheelUp::ShiftAltTab
-XButton1 & WheelDown::AltTab
-Alt & Tab::AltTab
-
-;IME
-LShift Up::IME_EN()
-RShift Up::IME_JP()
-
 ;MBind
 #Include "%A_ScriptDir%\myAHKComponents\MBindListener.ahk"
 #Include "%A_ScriptDir%\myAHKComponents\MBindSetting.ahk"
