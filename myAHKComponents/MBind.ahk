@@ -1065,6 +1065,7 @@ mbind_wheeldown(){
 		Send("{WheelDown}")
 }
 
+;command : "Up"|"Down"|"Consume" 
 mbind_space(command){
 	static A_SpaceDownTime := 0
 	static A_SpaceConsumeFlag := 0

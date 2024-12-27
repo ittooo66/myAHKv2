@@ -130,8 +130,7 @@ XButton2 & LButton::{
 *tab::{
 	if LCMD() && CAPS()
 		Send("!{w}{m}")
-	else
-		mbind_tab()
+	else mbind_tab()
 }
 *q::{
 	if LCMD() && CAPS() 
@@ -143,8 +142,7 @@ XButton2 & LButton::{
 		Send("!{h}{a}{l}") ; 文字左揃え
 	else if LCMD()
 		return ; 閉じるショートカットの無効化
-	else
-		mbind_w()
+	else mbind_w()
 }
 *e::{ 
 	if LCMD() && CAPS() 
