@@ -103,7 +103,7 @@ XButton2 & LButton::{
 ;App個別バインド 一式
 *1::{ 
 	if LCMD() && CAPS() 
-		Send("{1}") ; <TODO>
+		Send("!{j}{p}{v}{c}") ; トリミング
 	else mbind_1()
 }
 *2::{ 
