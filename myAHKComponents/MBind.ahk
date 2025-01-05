@@ -1067,12 +1067,13 @@ mbind_wheeldown(){
 
 ;command : "Up"|"Down"|"Consume" 
 mbind_space(command){
+
+	;Spaceの仮想押下時間
 	static A_SpaceDownTime := 0
-	static A_SpaceConsumeFlag := 0
 
 	if command = "Up"{
-		;Spaceバインドが消費済みならば、各バインド判定を無効にして終了
-		if (A_SpaceConsumeFlag != 0)
+		;Spaceの仮想押下を解除済みならば、何もせず終了
+		if (A_SpaceDownTime = 0)
 			return
 
 		;各種Spaceバインド
@@ -1083,15 +1084,13 @@ mbind_space(command){
 			press("{Space}")
 		}
 		
-		;DownTime初期化
+		;Spaceの仮想押下解除
 		A_SpaceDownTime := 0
+		
 	}else if command = "Down"{
-		;初回押し下げ時間の記録
+		;Spaceの仮想押下時間を記録する
 		if (A_SpaceDownTime = 0)
 			A_SpaceDownTime := A_TickCount
-
-		;Spaceバインド未消費判定付与
-		A_SpaceConsumeFlag := 0
 
 		;IME切り替え（即時発動）
 		if LCMD() || RCMD(){
@@ -1099,7 +1098,8 @@ mbind_space(command){
 			mbind_space("Consume")
  		}
 	}else if command = "Consume"{
-		A_SpaceConsumeFlag := 1
+		;Spaceの仮想押下を解除する
+		A_SpaceDownTime := 0
 	}else{
 		MsgBox("mbind_space() Invalid Command : " . command)
 	}
