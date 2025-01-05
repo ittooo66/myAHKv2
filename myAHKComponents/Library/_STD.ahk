@@ -296,9 +296,11 @@ changeWindowSize(){
 
 	;各画面位置に応じた補正を行い、対象ウィンドウの左上中心として(rawX,rawY)を取得
 	if (cnt > 1 && X > 2560){
+		tooltip("dell")
 		; DELL 27-WQHD-144Hz のとき
 		rawX := (X-2560)/2
-		rawY := (Y+722)/2
+		;rawY := (Y+722)/2
+		rawY := Y/2
 	}else{
 		;EIZO 27-4K-60Hz のとき
 		rawX := 0
