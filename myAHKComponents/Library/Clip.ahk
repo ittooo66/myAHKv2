@@ -52,7 +52,7 @@ ClipExt_pasteFrom(num){
 			content := FileRead(A_WorkingDir "\Env\CLIPEXT_" num ".dat", 'RAW')
 		}catch{
 			;登録コンテンツがなく、FileReadが決まらなかった時にcontentにテキストを埋め込む
-			content := "No Registered Text"
+			content := ""
 		}
 		;content出力
 		directInput(content)
