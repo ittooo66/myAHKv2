@@ -991,20 +991,13 @@ mbind_msblf(){
 	}else if MSBRB(){
 		Send("+{,}")
 	}else if MSBRF(){
+		ToolTip("Changing Audio Device...")
+		execScripts("SetNextAudio.ps1")
+		Sleep(2000)
 		AudioDevice := getEnv("AUDIO_DEVICE")
-		if (AudioDevice = "USB" ){
-			setEnv("AUDIO_DEVICE","BTD 600")
-			execScripts("SetAudioDevice.ps1")
-			splash("Audio Device Changed to BTD-600.",1000,330)
-		}else if (AudioDevice = "BTD 600" ){
-			setEnv("AUDIO_DEVICE","M12")
-			execScripts("SetAudioDevice.ps1")
-			splash("Audio Device Changed to M12.",1000,330)
-		}else{
-			setEnv("AUDIO_DEVICE","USB")
-			execScripts("SetAudioDevice.ps1")
-			splash("Audio Device Changed to Pebbles.",1000,330)
-		}
+		ToolTip("Changed Audio Device to " . AudioDevice)
+		Sleep(1500)
+		ToolTip("")
 	}else if MSBLB(){
 		changeWindowSize()
 	}else if MSBLF(){
