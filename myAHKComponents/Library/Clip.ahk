@@ -24,6 +24,11 @@ ClipExt_cut(){
 ClipExt_copyTo(num){
 	;Spaceキーのスタックを消費
 	mbind_space("Consume")
+
+	;確認画面をつける
+	if (MsgBox("ClipExt_copyto(" . num . ") Execute? " ,,4) != "Yes"){
+		return
+	}
 	;cb_bkに中身を退避
 	cb_bk := ClipboardAll()
 	;一旦clipboardを空にする
@@ -35,6 +40,9 @@ ClipExt_copyTo(num){
 	;ログ追記
 	logger(A_Clipboard , "clip")
 	;ファイルにClipboardを保存
+	try {
+		FileDelete(A_WorkingDir "\Env\CLIPEXT_" num ".dat")
+	}
 	FileAppend(ClipboardAll(), A_WorkingDir "\Env\CLIPEXT_" num ".dat")
 	;cb_bkから取得
 	A_Clipboard := cb_bk
