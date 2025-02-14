@@ -220,9 +220,9 @@ launch(str, shift:=0, man:=0){
 	;強制起動モードの場合、strに紐づくアプリショートカットを起動して終了
 	if (shift != 0){
 		if (man = 1 ){
-			name := getEnv("APP_" . str . "_NAME")
-			resetMods()
-			Send("{LWin}")
+			name := getEnv("APP_" . str . "_PATH")
+			Send("#{r}")
+			Sleep(100)
 			directInput(name)
 			Send("{Enter}")
 		}else{
@@ -235,9 +235,9 @@ launch(str, shift:=0, man:=0){
 		titleName := getEnv("APP_" . str . "_TITLE")
 		if !activateWindow(className,processName,titleName) {
 			if (man = 1){
-				name := getEnv("APP_" . str . "_NAME")
-				resetMods()
-				Send("{LWin}")
+				name := getEnv("APP_" . str . "_PATH")
+				Send("#{r}")
+				Sleep(100)
 				directInput(name)
 				Send("{Enter}")
 			}else{
@@ -251,7 +251,7 @@ launch(str, shift:=0, man:=0){
 ;str:通知メッセージの文字列
 ;sleeptime:表示時間(ms)。未入力の場合はデフォルトで3秒(3000ms)表示
 ;mx,my:メッセージ表示場所。未入力の場合はマウスカーソル位置に表示
-splash(str, sleeptime:=3000 ,width:=0 ,mx:=0,my:=0){
+splash(str, sleeptime:=1500 ,width:=0 ,mx:=0,my:=0){
 	if (mx = 0 && my = 0){
 		MouseGetPos(&mx, &my)
 		WinGetPos(&wx, &wy, , , "a")
