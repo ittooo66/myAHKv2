@@ -113,13 +113,14 @@ getEnv(name){
 	return file
 }
 
-;Scripts配下のファイルを実行する ● TODO
+;Scripts配下のファイルを実行する
 ;scriptName:"ファイル名" 
-execScripts(scriptName,arg1:=0,arg2:=0){
+;visible:可視性設定。デフォルトで非可視、""(空文字列指定)で可視。
+execScripts(scriptName,arg1:=0,arg2:=0,visible:="hide"){
 	script := A_WorkingDir . "\myAHKComponents\Tools\" . scriptName
 	if InStr(scriptName , "ps1") {
 		if (arg1=0 && arg2=0) {
-			Run("powershell.exe " script, , "hide")
+			Run("powershell.exe " script, , visible)
 		}else{
 			;やや反応おそめ。実行時引数が必要になった時だけ、こっちを使う
 			RunWait("powershell.exe -ExecutionPolicy Bypass -File `"" script "`" `"" arg1 "`" `"" arg2 "`"", , "Hide")
