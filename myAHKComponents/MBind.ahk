@@ -991,13 +991,7 @@ mbind_msblf(){
 	}else if MSBRB(){
 		Send("+{,}")
 	}else if MSBRF(){
-		ToolTip("Changing Audio Device...")
-		execScripts("SetNextAudio.ps1")
-		Sleep(2000)
-		AudioDevice := getEnv("AUDIO_DEVICE")
-		ToolTip("Changed Audio Device to " . AudioDevice)
-		Sleep(1500)
-		ToolTip("")
+		execScripts("SetAudioDevice.ps1",,,"")
 	}else if MSBLB(){
 		changeWindowSize()
 	}else if MSBLF(){
