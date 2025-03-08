@@ -1,3 +1,8 @@
 #Log無視
 *.log
+
+#Env無視
 Env/*
+
+#old無視
+_old/*
