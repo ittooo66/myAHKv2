@@ -101,112 +101,112 @@ XButton2 & LButton::{
 }
 
 ;App個別バインド 一式
-*1::{ 
+LWin & 1::{ 
 	if LCMD() && CAPS() 
 		Send("!{j}{p}{v}{c}") ; トリミング
 	else mbind_1()
 }
-*2::{ 
+LWin & 2::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{t}{t}") ; 上揃え
 	else mbind_2()
 }
-*3::{ 
+LWin & 3::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{t}{m}") ; 中央揃え
 	else mbind_3()
 }
-*4::{ 
+LWin & 4::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{t}{b}") ; 下揃え
 	else mbind_4()
 }
-*5::{ 
+LWin & 5::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{s}{o}") ; 枠色変更（任意）
 	else mbind_5()
 }
 
-*tab::{
+LWin & tab::{
 	if LCMD() && CAPS()
 		Send("!{w}{m}")
 	else mbind_tab()
 }
-*q::{
+LWin & q::{
 	if LCMD() && CAPS() 
 		Send("!{h}{n}") ; 箇条書き(ID)
 	else mbind_q()
 }
-*w::{ 
+LWin & w::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{l}") ; 文字左揃え
 	else if LCMD()
 		return ; 閉じるショートカットの無効化
 	else mbind_w()
 }
-*e::{ 
+LWin & e::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{c}") ; 文字中央揃え
 	else mbind_e()
 }
-*r::{ 
+LWin & r::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{r}") ; 文字左揃え
 	else mbind_r()
 }
-*t::{ 
+LWin & t::{
 	if LCMD() && CAPS() 
 		Send("!{h}{f}{c}") ; 文字色変更(任意)
 	else mbind_t()
 }
 
-*a::{ 
+LWin & a::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{u}")
 	else mbind_a()
 }
-*s::{ 
+LWin & s::{ 
 	if LCMD() && CAPS() 
 		Send("!{n}{s}{h}")
 	else mbind_s()
 }
-*d::{ 
+LWin & d::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{s}{f}")
 	else mbind_d()
 }
-*f::{ 
+LWin & f::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{g}{a}") ; 図形揃え
 	else mbind_f()
 }
-*g::{ 
+LWin & g::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{o}{1}")
 	else mbind_g()
 }
 
-*z::{ 
+LWin & z::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{g}{k}") ; 最背面に移動
 	else mbind_z()
 }
-*x::{ 
+LWin & x::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{g}{r}") ; 最前面に移動
 	else mbind_x()
 }
-*c::{ 
+LWin & c::{ 
 	if LCMD() && CAPS() 
 		Send("!{n}{t}") ; 表
 	else mbind_c()
 }
-*v::{ 
+LWin & v::{ 
 	if LCMD() && CAPS() 
 		Send("!{n}{n}{s}") ; TODO
 	else mbind_v()
 }
-*b::{ 
+LWin & b::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{s}{o}")
 	else mbind_b()

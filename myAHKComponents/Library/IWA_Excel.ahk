@@ -1,113 +1,113 @@
 ;Excel 個別バインド一式
 #HotIf WinActive("ahk_class XLMAIN")
 
-*1::{ 
+LWin & 1::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{s}{f}")
 	else mbind_1()
 }
-*2::{ 
+LWin & 2::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{t}")
 	else mbind_2()
 }
-*3::{ 
+LWin & 3::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{m}")
 	else mbind_3()
 }
-*4::{ 
+LWin & 4::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{b}")
 	else mbind_4()
 }
-*5::{ 
+LWin & 5::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{b}{i}")
 	else mbind_5()
 }
 
-*q::{
+LWin & q::{
 	if LCMD() && CAPS() 
 		Send("!{o}{c}{a}")						; セル：幅調整
 	else mbind_q() 
 }
-*w::{
+LWin & w::{
 	if LCMD() && CAPS()
 		Send("!{h}{a}{l}")						; 文字列：左寄せ
 	else mbind_w()
 }
-*e::{
+LWin & e::{
 	if LCMD() && CAPS()
 		Send("!{h}{a}{c}")						; 文字列：中央寄せ
 	else mbind_e()
 }
-*r::{
+LWin & r::{
 	if LCMD() && CAPS()
 		Send("!{h}{a}{r}")						; 文字列：右寄せ	
 	else mbind_r()
 }
-*t::{
+LWin & t::{
 	if LCMD() && CAPS(){
 		Send("!{h}{f}{c}")						; 文字列：赤字
 	}else mbind_t()
 }
 
 ; Excelバインド - セル関連
-*d::{ 
+LWin & d::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{h}")							; セル：背景色変更
 	else mbind_d()
 }
-*g::{
+LWin & g::{
 	if LCMD() && CAPS()
 		Send("!{h}{m}{c}")						; セル：結合/結合解除
 	else mbind_g()
 }
 
-*v::{ 
+LWin & v::{ 
 	if LCMD() && CAPS() 
 		Send("!{w}{f}{f}")
 	else mbind_v()
 }
-*b::{ 
+LWin & b::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{b}{y}")
 	else mbind_b()
 }
 
 ; Excelバインド - 罫線関連
-*u::{
+LWin & u::{
 	if LCMD() && CAPS()
 		Send("!{h}{b}{a}")						; 罫線：格子
 	else mbind_u()
 }
-*h::{
+LWin & h::{
 	if LCMD() && CAPS()
 		Send("!{h}{b}{n}")						; 罫線：削除
 	else mbind_h()
 }
-*i::{
+LWin & i::{
 	if LCMD() && CAPS()
 		Send("!{h}{b}{p}")						; 罫線：上
 	else mbind_i()
 }
-*j::{
+LWin & j::{
 	if LCMD() && CAPS()
 		Send("!{h}{b}{l}")						; 罫線：左
 	else mbind_j()
 }
-*k::{
+LWin & k::{
 	if LCMD() && CAPS()
 		Send("!{h}{b}{o}")						; 罫線：下
 	else mbind_k()
 }
-*l::{
+LWin & l::{
 	if LCMD() && CAPS()
 		Send("!{h}{b}{r}")						; 罫線：右
 	else mbind_l()
 }
-*o::{
+LWin & o::{
 	if LCMD() && CAPS()
 		Send("!{h}{b}{s}")						; 罫線：外枠
 	else mbind_o()
