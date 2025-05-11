@@ -1,113 +1,155 @@
 ;Excel 個別バインド一式
 #HotIf WinActive("ahk_class XLMAIN")
 
-LWin & 1::{ 
+*1::
+<^1::
+LControl & 1::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{s}{f}")
 	else mbind_1()
 }
-LWin & 2::{ 
+*2::
+<^2::
+LControl & 2::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{t}")
 	else mbind_2()
 }
-LWin & 3::{ 
+*3::
+<^3::
+LControl & 3::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{m}")
 	else mbind_3()
 }
-LWin & 4::{ 
+*4::
+<^4::
+LControl & 4::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{b}")
 	else mbind_4()
 }
-LWin & 5::{ 
+*5::
+<^5::
+LControl & 5::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{b}{i}")
 	else mbind_5()
 }
 
-LWin & q::{
+*q::
+<^q::
+LControl & q::{ 
 	if LCMD() && CAPS() 
 		Send("!{o}{c}{a}")						; セル：幅調整
 	else mbind_q() 
 }
-LWin & w::{
+*w::
+<^w::
+LControl & w::{ 
 	if LCMD() && CAPS()
 		Send("!{h}{a}{l}")						; 文字列：左寄せ
 	else mbind_w()
 }
-LWin & e::{
+*e::
+<^e::
+LControl & e::{ 
 	if LCMD() && CAPS()
 		Send("!{h}{a}{c}")						; 文字列：中央寄せ
 	else mbind_e()
 }
-LWin & r::{
+*r::
+<^r::
+LControl & r::{ 
 	if LCMD() && CAPS()
 		Send("!{h}{a}{r}")						; 文字列：右寄せ	
 	else mbind_r()
 }
-LWin & t::{
+*t::
+<^t::
+LControl & t::{ 
 	if LCMD() && CAPS(){
 		Send("!{h}{f}{c}")						; 文字列：赤字
 	}else mbind_t()
 }
 
 ; Excelバインド - セル関連
-LWin & d::{ 
+*d::
+<^d::
+LControl & d::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{h}")							; セル：背景色変更
 	else mbind_d()
 }
-LWin & g::{
+*g::
+<^g::
+LControl & g::{ 
 	if LCMD() && CAPS()
 		Send("!{h}{m}{c}")						; セル：結合/結合解除
 	else mbind_g()
 }
 
-LWin & v::{ 
+*v::
+<^v::
+LControl & v::{ 
 	if LCMD() && CAPS() 
 		Send("!{w}{f}{f}")
 	else mbind_v()
 }
-LWin & b::{ 
+*b::
+<^b::
+LControl & b::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{b}{y}")
 	else mbind_b()
 }
 
 ; Excelバインド - 罫線関連
-LWin & u::{
+*u::
+<^u::
+LControl & u::{ 
 	if LCMD() && CAPS()
 		Send("!{h}{b}{a}")						; 罫線：格子
 	else mbind_u()
 }
-LWin & h::{
+*h::
+<^h::
+LControl & h::{ 
 	if LCMD() && CAPS()
 		Send("!{h}{b}{n}")						; 罫線：削除
 	else mbind_h()
 }
-LWin & i::{
+*i::
+<^i::
+LControl & i::{ 
 	if LCMD() && CAPS()
 		Send("!{h}{b}{p}")						; 罫線：上
 	else mbind_i()
 }
-LWin & j::{
+*j::
+<^j::
+LControl & j::{ 
 	if LCMD() && CAPS()
 		Send("!{h}{b}{l}")						; 罫線：左
 	else mbind_j()
 }
-LWin & k::{
+*k::
+<^k::
+LControl & k::{ 
 	if LCMD() && CAPS()
 		Send("!{h}{b}{o}")						; 罫線：下
 	else mbind_k()
 }
-LWin & l::{
+*l::
+<^l::
+LControl & l::{ 
 	if LCMD() && CAPS()
 		Send("!{h}{b}{r}")						; 罫線：右
 	else mbind_l()
 }
-LWin & o::{
+*o::
+<^o::
+LControl & o::{ 
 	if LCMD() && CAPS()
 		Send("!{h}{b}{s}")						; 罫線：外枠
 	else mbind_o()

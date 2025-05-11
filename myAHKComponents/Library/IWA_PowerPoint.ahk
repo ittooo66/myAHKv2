@@ -101,115 +101,156 @@ XButton2 & LButton::{
 }
 
 ;App個別バインド 一式
-LWin & 1::{ 
+*1::
+<^1::
+LControl & 1::{
 	if LCMD() && CAPS() 
 		Send("!{j}{p}{v}{c}") ; トリミング
 	else mbind_1()
 }
-LWin & 2::{ 
+*2::
+<^2::
+LControl & 2::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{t}{t}") ; 上揃え
 	else mbind_2()
 }
-LWin & 3::{ 
+*3::
+<^3::
+LControl & 3::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{t}{m}") ; 中央揃え
 	else mbind_3()
 }
-LWin & 4::{ 
+*4::
+<^4::
+LControl & 4::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{t}{b}") ; 下揃え
 	else mbind_4()
 }
-LWin & 5::{ 
+*5::
+<^5::
+LControl & 5::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{s}{o}") ; 枠色変更（任意）
 	else mbind_5()
 }
 
-LWin & tab::{
+*Tab::
+<^Tab::
+LControl & tab::{
 	if LCMD() && CAPS()
 		Send("!{w}{m}")
 	else mbind_tab()
 }
-LWin & q::{
+*q::
+<^q::
+LControl & q::{
 	if LCMD() && CAPS() 
 		Send("!{h}{n}") ; 箇条書き(ID)
 	else mbind_q()
 }
-LWin & w::{ 
+*w::
+<^w::
+LControl & w::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{l}") ; 文字左揃え
 	else if LCMD()
 		return ; 閉じるショートカットの無効化
 	else mbind_w()
 }
-LWin & e::{ 
+*e::
+<^e::
+LControl & e::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{c}") ; 文字中央揃え
 	else mbind_e()
 }
-LWin & r::{ 
+*r::
+<^r::
+LControl & r::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{a}{r}") ; 文字左揃え
 	else mbind_r()
 }
-LWin & t::{
+*t::
+<^t::
+LControl & t::{
 	if LCMD() && CAPS() 
 		Send("!{h}{f}{c}") ; 文字色変更(任意)
 	else mbind_t()
 }
 
-LWin & a::{ 
+*a::
+<^a::
+LControl & a::{
 	if LCMD() && CAPS() 
 		Send("!{h}{u}")
 	else mbind_a()
 }
-LWin & s::{ 
+*s::
+<^s::
+LControl & s::{
 	if LCMD() && CAPS() 
 		Send("!{n}{s}{h}")
 	else mbind_s()
 }
-LWin & d::{ 
+*d::
+<^d::
+LControl & d::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{s}{f}")
 	else mbind_d()
 }
-LWin & f::{ 
+*f::
+<^f::
+LControl & f::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{g}{a}") ; 図形揃え
 	else mbind_f()
 }
-LWin & g::{ 
+*g::
+<^g::
+LControl & g::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{o}{1}")
 	else mbind_g()
 }
 
-LWin & z::{ 
+*z::
+<^z::
+LControl & z::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{g}{k}") ; 最背面に移動
 	else mbind_z()
 }
-LWin & x::{ 
+*x::
+<^x::
+LControl & x::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{g}{r}") ; 最前面に移動
 	else mbind_x()
 }
-LWin & c::{ 
+*c::
+<^c::
+LControl & c::{ 
 	if LCMD() && CAPS() 
 		Send("!{n}{t}") ; 表
 	else mbind_c()
 }
-LWin & v::{ 
+*v::
+<^v::
+LControl & v::{ 
 	if LCMD() && CAPS() 
 		Send("!{n}{n}{s}") ; TODO
 	else mbind_v()
 }
-LWin & b::{ 
+*b::
+<^b::
+LControl & b::{ 
 	if LCMD() && CAPS() 
 		Send("!{h}{s}{o}")
 	else mbind_b()
 }
-
 #HotIf
