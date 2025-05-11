@@ -42,7 +42,25 @@
 #HotIf
 
 #HotIf WinActive("ahk_class CabinetWClass")				;WindowsExplorer 個別定義 一式
-	RButton & WheelUp::Send("!{Up}")					;上へ
+
+	RButton & WheelUp::Send("^+{Tab}")					;左へ
+	*f::
+	<^f::
+	LControl & f::{ 
+	if LCMD() && CAPS()
+		Send("^{Tab}")
+	else mbind_f()
+	}
+
+	RButton & WheelDown::Send("^{Tab}")					;右へ
+	*s::
+	<^s::
+	LControl & s::{ 
+	if LCMD() && CAPS()
+		Send("^+{Tab}")
+	else mbind_s()
+	}
+
 #HotIf
 
 ;よさげなスクロール(for MPC)
