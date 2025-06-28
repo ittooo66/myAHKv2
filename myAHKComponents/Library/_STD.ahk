@@ -464,5 +464,7 @@ resetMods(){
 	Send("{RShift Up}")
 	Send("{LControl Up}")
 	Send("{RControl Up}")
-	;Space Up入れるとlaunchのマニュアル起動がバグるので抜く
+	
+	;Space Up入れるとlaunchのマニュアル起動がバグるので抜く?
+	Send("{Space Up}")
 }
