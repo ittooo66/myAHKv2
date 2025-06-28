@@ -844,21 +844,8 @@ mbind_delete(){
 }
 
 mbind_escape(){
-	;即時二回押下でresetMod()発動
-
-	;遅延時間の定義
-	static MB_ESCAPE_TIME_DELAY := 400
-	;変数初期化
-	static windowCloseDownTime := A_TickCount - MB_ESCAPE_TIME_DELAY
-	;前回押し下げが遅延時間(ms)以内に行われていた場合
-	if (A_TickCount - windowCloseDownTime < MB_ESCAPE_TIME_DELAY){
-		resetMods()
-		;今回の押し下げ時間を記録(暴発防止で遅延時間も加算)
-		windowCloseDownTime := A_TickCount - MB_ESCAPE_TIME_DELAY
-	}else{
-		;今回の押し下げ時間を記録
-		windowCloseDownTime := A_TickCount
-	}
+	;押しっぱなし解消キー
+	resetMods()
 
 	if CAPS() || RCMD()
 		Send("{Delete}")
