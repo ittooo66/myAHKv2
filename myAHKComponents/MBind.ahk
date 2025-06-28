@@ -818,8 +818,10 @@ mbind_enter(){
 		if !activateWindow("ConsoleWindowClass","",""){ 
 			Run("ssh RHEL9-Management")
 		}
-	}else if (SPACE()){
-		directInput("<br>")
+	}else if SPACE() && SHIFT()
+		ClipExt_copyTo("Enter")
+	else if SPACE(){
+		ClipExt_pasteFrom("Enter")
 	}else if CAPS() || RCMD() {
 		Send("^{Enter}")
 	}else{
