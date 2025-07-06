@@ -1,5 +1,8 @@
 # Need https://github.com/frgnca/AudioDeviceCmdlets
 
+# すべての出力を無効化
+$ErrorActionPreference = "SilentlyContinue"
+
 Add-Type -AssemblyName System.Windows.Forms
 
 # Create the form
