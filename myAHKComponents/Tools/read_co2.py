@@ -5,7 +5,7 @@ import co2meter as co2
 import os
 
 # CO2.txtの出力先ディレクトリを指定
-file_path = r"C:\Users\ittoo\OneDrive\Backups\SRC\ahkv2\Env\CO2.txt"
+file_path = r"C:\Users\ittoo\OneDrive\SRC\ahkv2\Env\CO2.txt"
 
 # CO2データを読み取る
 mon = co2.CO2monitor()
