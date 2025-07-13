@@ -4,6 +4,10 @@
 $ErrorActionPreference = "SilentlyContinue"
 
 Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
+# フォント定義（フォント名, サイズ）
+$font = New-Object System.Drawing.Font("Segoe UI", 12)
 
 # Create the form
 $form = New-Object System.Windows.Forms.Form
@@ -12,11 +16,13 @@ $form.Size = New-Object System.Drawing.Size(350,250)
 $form.StartPosition = "CenterScreen"
 $form.FormBorderStyle = "FixedDialog"
 $form.MaximizeBox = $false
+$form.Font = $font
 
 # Create the list box
 $listBox = New-Object System.Windows.Forms.ListBox
 $listBox.Location = New-Object System.Drawing.Point(10,10)
 $listBox.Size = New-Object System.Drawing.Size(320,150)
+$listBox.Font = $font
 
 # Create a panel for buttons
 $buttonPanel = New-Object System.Windows.Forms.Panel
@@ -28,6 +34,7 @@ $okButton = New-Object System.Windows.Forms.Button
 $okButton.Text = "OK"
 $okButton.Size = New-Object System.Drawing.Size(90,30)
 $okButton.Location = New-Object System.Drawing.Point(110,5)
+$okButton.Font = $font
 $okButton.Add_Click({ $form.DialogResult = [System.Windows.Forms.DialogResult]::OK })
 
 # Create the Cancel button
@@ -35,6 +42,7 @@ $cancelButton = New-Object System.Windows.Forms.Button
 $cancelButton.Text = "Cancel"
 $cancelButton.Size = New-Object System.Drawing.Size(90,30)
 $cancelButton.Location = New-Object System.Drawing.Point(210,5)
+$cancelButton.Font = $font
 $cancelButton.Add_Click({ $form.Close() })
 
 # Get the list of audio devices
