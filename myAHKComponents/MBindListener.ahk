@@ -830,22 +830,3 @@ F19 & F20::{
 	mbind_msbrb()
 }
 
-;キーパッド ベース定義
-Numpad1::mbind_key1()
-NumpadEnd::mbind_key1()
-Numpad2::mbind_key2()
-NumpadDown::mbind_key2()
-Numpad3::mbind_key3()
-NumpadPgdn::mbind_key3()
-Numpad4::mbind_key4()
-NumpadLeft::mbind_key4()
-Numpad5::mbind_key5()
-NumpadClear::mbind_key5()
-Numpad6::mbind_key6()
-NumpadRight::mbind_key6()
-Numpad7::mbind_key7()
-NumpadHome::mbind_key7()
-Numpad8::mbind_key8()
-NumpadUp::mbind_key8()
-Numpad9::mbind_key9()
-NumpadPgup::mbind_key9()
