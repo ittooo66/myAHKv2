@@ -63,6 +63,21 @@
 
 #HotIf
 
+#HotIf WinActive("ahk_class VALORANTUnrealWindow")		
+	;Valorant AHKバインド回避用上書き定義
+	;  入力遅延回避のため、ゲーム操作用のキーは原則AHK管理外のキー(F1~F24,Num0~9)で操作させる。
+	;  Spaceキーのみ特殊のためバインドを上書きして利用(AstralForm上昇がSpaceキー以外だとできない)
+	Space::Space
+#HotIf
+
+#HotIf WinActive("ahk_class RiotWindowClass")
+	;TFT AHKバインド回避用上書き定義
+	;  無効でかぶせておけば直接入力側だけ入っていくのでそれでOK
+	RButton::return
+	XButton1::return
+	XButton2::return
+#HotIf
+
 ;よさげなスクロール(for MPC)
 MPC_intelliScroll(){
 	;初期マウス位置の取得
