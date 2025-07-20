@@ -7,7 +7,7 @@ iwa_xlsx_3     := () => Send("!{h}{a}{m}") ; 文字列 - 上下中央揃え
 iwa_xlsx_4     := () => Send("!{h}{a}{b}") ; 文字列 - 下揃え
 iwa_xlsx_5     := () => Send("!{h}{b}{i}") ; 罫線 - 色変更
 
-iwa_xlsx_tab   := () => Send("")    ; TODO
+iwa_xlsx_tab   := () => Send("TBD")
 
 iwa_xlsx_q     := () => Send("!{o}{c}{a}") ; セル幅調整
 iwa_xlsx_w     := () => Send("!{h}{a}{l}") ; 文字列 - 左揃え
@@ -70,9 +70,9 @@ XButton2 & LButton::{
 			;X方向適用
 			while(absDiffPointX > 0){
 				if(diffPointX>0)
-					Send("{Left}") 		;Excel_scrollRight()
+					Send("{WheelLeft}") 		;Excel_scrollRight()
 				else
-					Send("{Right}") 	;Excel_scrollLeft()
+					Send("{WheelRight}") 	;Excel_scrollLeft()
 				
 				;スタック溜まったらSleep（１ミリSleepはまともに挙動しないので20程度見る）
 				sleepStack +=sleepCount
