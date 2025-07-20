@@ -1,4 +1,5 @@
 #Requires AutoHotkey v2.0
+#SingleInstance Force
 
 ;appearance settings
 TraySetIcon(A_WorkingDir . "\icon.ico","1")
