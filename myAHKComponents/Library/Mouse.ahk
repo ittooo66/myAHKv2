@@ -8,23 +8,8 @@ ControlMouse(keyUp,keyDown,keyLeft,keyRight,val:=2,slp:=10){
 		MoveY := val*(GetKeyState(keyDown, "P") - GetKeyState(keyUp, "P"))
 		MoveX := val*(GetKeyState(keyRight, "P") - GetKeyState(keyLeft, "P") )
 
-		;現在のディスプレイ枚数を取得
-		cnt := MonitorGetCount()
-
-		CoordMode("Mouse","Screen")
-		MouseGetPos(&x, &y)
-		
-		;各画面位置に応じた補正を行い、対象ウィンドウの左上中心として(rawX,rawY)を取得
-		if (cnt > 1 && x > 2560){
-			;EIZO 27-4K-60Hz のとき
-			;TODO
-			MouseMove(x*3/2-1280+MoveX,y*3/2+360+MoveY,10)
-		}else{
-			;DELL 27-WQHD-144Hz のとき
-			MouseMove(MoveX,MoveY,0,"R")
-		}	
-
-		Sleep(1)
+		MouseMove(MoveX,MoveY,0,"R")
+		Sleep 1
 	}
 }
 

@@ -251,33 +251,42 @@ launch(str, shift:=0, man:=0){
 ;sleeptime:表示時間(ms)。未入力の場合はデフォルトで3秒(3000ms)表示
 ;mx,my:メッセージ表示場所。未入力の場合はマウスカーソル位置に表示
 splash(str, sleeptime:=1500 ,width:=0 ,mx:=0,my:=0){
-	if (mx = 0 && my = 0){
-		MouseGetPos(&mx, &my)
-		WinGetPos(&wx, &wy, , , "a")
-		mx+=wx
-		my+=wy
-	}
+    if (mx = 0 && my = 0){
+        MouseGetPos(&mx, &my)
+        WinGetPos(&wx, &wy, , , "a")
+        mx+=wx
+        my+=wy
+    }
 
-	; 新しいGUIオブジェクトを作成
-	splashGui := Gui()
+    ; 現在のモニターのDPI取得
+    hMonitor := DllCall("MonitorFromPoint", "int64", (mx & 0xFFFFFFFF) | (my << 32), "uint", 2, "ptr")
+    dpi := GetDpiForMonitor(hMonitor)
+    scale := dpi / 96
 
-	; GUI設定：フォント
-	splashGui.SetFont("s16 c12d4b4 bold")
-	; GUI設定：背景
-	splashGui.BackColor := "000000"
-	; GUI設定：キャプション無効
-	splashGui.Opt("-Caption")
+    ; フォントサイズをスケーリング
+    fontSize := Round(16 * scale)
 
-	; テキストを追加
-	splashGui.addText(, str)
+    splashGui := Gui()
+    splashGui.SetFont("s" fontSize " c12d4b4 bold")
+    splashGui.BackColor := "000000"
+    splashGui.Opt("-Caption +AlwaysOnTop")
 
-	; n秒間表示
-	splashGui.Show("x" . mx . " y" . my)
-	Sleep sleeptime
-	splashGui.Destroy()
+    splashGui.addText(, str)
+    splashGui.Show("x" . mx . " y" . my)
+    Sleep sleeptime
+    splashGui.Destroy
 }
 
-
+; GetDpiForMonitor 関数の定義
+GetDpiForMonitor(hMonitor) {
+    ; Windows 8.1以降必要
+    return DllCall("Shcore\GetDpiForMonitor"
+        , "ptr", hMonitor
+        , "int", 0  ; MDT_EFFECTIVE_DPI
+        , "uint*", &dpiX := 0
+        , "uint*", &dpiY := 0
+    ) = 0 ? dpiX : 96  ; 失敗時は96dpiとみなす
+}
 ;ウィンドウサイズ変更
 ;ディスプレイ設定(DPIスケール、モニタ配置)に大幅に依存してるので、注意
 changeWindowSize(){
@@ -293,19 +302,9 @@ changeWindowSize(){
 	;現在のディスプレイ枚数を取得
 	cnt := MonitorGetCount()
 
-	;各画面位置に応じた補正を行い、対象ウィンドウの左上中心として(rawX,rawY)を取得
-	if (cnt > 1 && X > 2560){
-		; DELL 27-WQHD-144Hz のとき
-		rawX := (X-2560)/2
-		;rawY := (Y+722)/2
-		rawY := Y/2
-	}else{
-		;EIZO 27-4K-60Hz のとき
-		rawX := 0
-		rawY := 0
-		;rawX := -X/3
-		;rawY := -Y/3
-	}
+	;対象ウィンドウの左上中心として(rawX,rawY)を取得
+	rawX := 0
+	rawY := 0
 
 	; 渦巻きの最大半径
 	maxRadius := 5
