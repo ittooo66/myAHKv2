@@ -24,9 +24,7 @@ InstallKeybdHook
 ;TempMacro
 #Include "%A_ScriptDir%\Env\MacroZ.ahk"
 #Include "%A_ScriptDir%\Env\MacroX.ahk"
-#Include "%A_ScriptDir%\Env\MacroC.ahk"
 #Include "%A_ScriptDir%\Env\MacroBRL.ahk"
 #Include "%A_ScriptDir%\Env\MacroBRR.ahk"
 #Include "%A_ScriptDir%\Env\MacroSLS.ahk"
 #Include "%A_ScriptDir%\Env\MacroSMC.ahk"
-#Include "%A_ScriptDir%\Env\MacroYEN.ahk"

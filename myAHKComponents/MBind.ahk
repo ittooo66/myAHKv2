@@ -32,12 +32,10 @@ mbind_b(){
 mbind_c(){
 	if (SPACE() && CAPS()){
 		launch("C",SHIFT())
-	}else if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\Env\MacroC.ahk")
-	else if CAPS() && ALT()
+	}else if CAPS() && ALT()
 		Send("#^{c}")
 	else if RCMD() || CAPS()
-		MacroC()
+		ClipExt_Ecopy()
 	else if LCMD()
 		ClipExt_copy()
 	else if SPACE() && SHIFT()
@@ -384,7 +382,7 @@ mbind_v(){
 	}else if (SPACE() && CAPS()){
 		Run("`"C:\Program Files\TrueCrypt\TrueCrypt.exe`" /q /v \Device\Harddisk1\Partition0 /lr")
 	}else if RCMD() || CAPS()
-		ClipExt_openLog()
+		ClipExt_Epaste()
 	else if SPACE() && SHIFT()
 		ClipExt_copyTo("SV")
 	else if SPACE()
@@ -701,10 +699,8 @@ mbind_bracket_right(){
 }
 
 mbind_backslash(){
-	if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\Env\MacroYEN.ahk")
-	else if RCMD() || CAPS()
-		MacroYEN()
+	if RCMD() || CAPS()
+		ClipExt_openLog()
 	else if SPACE() && SHIFT()
 		ClipExt_copyTo("SBackslash")
 	else if SPACE()
