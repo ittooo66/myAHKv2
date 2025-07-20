@@ -17,6 +17,7 @@ ControlMouse(keyUp,keyDown,keyLeft,keyRight,val:=2,slp:=10){
 		;各画面位置に応じた補正を行い、対象ウィンドウの左上中心として(rawX,rawY)を取得
 		if (cnt > 1 && x > 2560){
 			;EIZO 27-4K-60Hz のとき
+			;TODO
 			MouseMove(x*3/2-1280+MoveX,y*3/2+360+MoveY,10)
 		}else{
 			;DELL 27-WQHD-144Hz のとき
@@ -44,7 +45,7 @@ mouseCursorResetToCenter(){
 		;各画面位置に応じた補正を行い、対象ウィンドウの左上中心として(rawX,rawY)を取得
 		if (cnt > 1 && x > 2560){
 			;EIZO 27-4K-60Hz のとき
-			MouseMove(4480,360,0)
+			MouseMove(4480,1080,0)
 		}else{
 			;DELL 27-WQHD-144Hz のとき
 			MouseMove(1280,720,0)
