@@ -428,11 +428,12 @@ changeWindowSize(){
 
 ;ウィンドウの移動
 moveWindow(){
-	Send("!{Space}")
-	Sleep(150)
-	Send("{m}")
-	Sleep(100)
-	Send("{Left}{Right}")
+	hwnd := WinExist("A")  ; アクティブウィンドウのハンドルを取得
+    if hwnd {
+        PostMessage(0x112, 0xF010, , , hwnd)  ; WM_SYSCOMMAND + SC_MOVE
+        Sleep(50)
+        Send("{Left}{Right}")  ; 任意のキーで移動モードを開始
+    }
 }
 
 ;AHKのリロード
