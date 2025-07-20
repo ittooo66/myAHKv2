@@ -5,7 +5,7 @@ iwa_pptx_1     := () => Send("!{j}{p}{v}{c}") ; トリミング
 iwa_pptx_2     := () => Send("!{h}{a}{t}{t}") ; 上揃え
 iwa_pptx_3     := () => Send("!{h}{a}{t}{m}") ; 中央揃え
 iwa_pptx_4     := () => Send("!{h}{a}{t}{b}") ; 下揃え
-iwa_pptx_5     := () => Send("!{h}{s}{o}")    ; 枠色変更（任意）
+iwa_pptx_5     := () => Send("!{h}{s}{o}")    ; 枠色変更
 
 iwa_pptx_tab   := () => Send("!{w}{m}")       ; スライドマスタ
 
@@ -13,7 +13,7 @@ iwa_pptx_q     := () => Send("!{h}{n}")       ; 箇条書き(ID)
 iwa_pptx_w     := () => Send("!{h}{a}{l}")    ; 文字左揃え
 iwa_pptx_e     := () => Send("!{h}{a}{c}")    ; 文字中央揃え
 iwa_pptx_r     := () => Send("!{h}{a}{r}")    ; 文字左揃え
-iwa_pptx_t     := () => Send("!{h}{f}{c}")    ; 文字色変更(任意)
+iwa_pptx_t     := () => Send("!{h}{f}{c}")    ; 文字色変更
 
 iwa_pptx_a     := () => Send("!{h}{u}")       ; 箇条書き
 iwa_pptx_s     := () => Send("!{n}{s}{h}")    ; 図形選択

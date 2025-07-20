@@ -13,7 +13,7 @@ iwa_xlsx_q     := () => Send("!{o}{c}{a}") ; セル幅調整
 iwa_xlsx_w     := () => Send("!{h}{a}{l}") ; 文字列 - 左揃え
 iwa_xlsx_e     := () => Send("!{h}{a}{c}") ; 文字列 - 中央揃え
 iwa_xlsx_r     := () => Send("!{h}{a}{r}") ; 文字列 - 右揃え
-iwa_xlsx_t     := () => Send("!{h}{f}{c}") ; 
+iwa_xlsx_t     := () => Send("!{h}{f}{c}") ; 文字色変更(任意)
 
 iwa_xlsx_a     := () => Send("TBD")
 iwa_xlsx_s     := () => Send("TBD")
@@ -36,8 +36,8 @@ iwa_xlsx_k     := () => Send("!{h}{b}{o}")
 iwa_xlsx_l     := () => Send("!{h}{b}{r}")
 iwa_xlsx_o     := () => Send("!{h}{b}{s}")
 
-; Excelバインド - パッチ関連
-Shift & Space::Send("+{Space}")					; 挙動是正パッチ
+; Excelバインド - 挙動是正パッチ
+Shift & Space::Send("+{Space}")
 
 ; リスナー処理
 *1::
