@@ -16,9 +16,9 @@ iwa_xlsx_r     := () => Send("!{h}{a}{r}") ; 文字列 - 右揃え
 iwa_xlsx_t     := () => Send("!{h}{f}{c}") ; 文字色変更(任意)
 
 iwa_xlsx_a     := () => Send("TBD")
-iwa_xlsx_s     := () => Send("TBD")
+;iwa_xlsx_s     :元バインドをそのまま利用
 iwa_xlsx_d     := () => Send("!{h}{h}")
-iwa_xlsx_f     := () => Send("TBD")
+;iwa_xlsx_f     :元バインドをそのまま利用
 iwa_xlsx_g     := () => Send("!{h}{m}{c}")
 
 iwa_xlsx_z     := () => Send("TBD")
@@ -126,24 +126,24 @@ LControl & a::{
 		iwa_xlsx_a()
 	else mbind_a()
 }
-<^s::
-LControl & s::{ 
-	if LCMD() && CAPS() 
-		iwa_xlsx_s()
-	else mbind_s()
-}
+;<^s::
+;LControl & s::{ 
+;	if LCMD() && CAPS() 
+;		iwa_xlsx_s()
+;	else mbind_s()
+;}
 <^d::
 LControl & d::{ 
 	if LCMD() && CAPS() 
 		iwa_xlsx_d()
 	else mbind_d()
 }
-<^f::
-LControl & f::{ 
-	if LCMD() && CAPS() 
-		iwa_xlsx_f()
-	else mbind_f()
-}
+;<^f::
+;LControl & f::{ 
+;	if LCMD() && CAPS() 
+;		iwa_xlsx_f()
+;	else mbind_f()
+;}
 *g::
 <^g::
 LControl & g::{ 
