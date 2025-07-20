@@ -132,7 +132,7 @@ execScripts(scriptName,arg1:=0,arg2:=0,visible:="hide"){
 intelliScroll(){
 	;初期マウス位置の取得
 	MouseGetPos(&preMouseX, &preMouseY)
-	while(GetKeyState("LButton","P")){
+	while(MLB() && MSBLF()){
 		;現在マウス位置の取得
 		MouseGetPos(&mouseX, &mouseY)
 		
