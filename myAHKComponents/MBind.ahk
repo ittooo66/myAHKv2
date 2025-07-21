@@ -976,7 +976,7 @@ mbind_msblf(){
 	}else if MSBRB(){
 		Send("+{,}")
 	}else if MSBRF(){
-		execScripts("SetAudioDevice.vbs",,,"")
+		execScripts("SetAudioDevice.vbs")
 	}else if MSBLB(){
 		changeWindowSize()
 	}else if MSBLF(){
