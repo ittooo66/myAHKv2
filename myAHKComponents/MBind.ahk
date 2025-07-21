@@ -905,7 +905,38 @@ mbind_mrb(){
 			hour := FormatTime(, "H")
 			minute := FormatTime(, "mm")
 			second := FormatTime(, "ss")
-			splash(month . "/" . daily . "(" . yb . ") " . hour . ":" . minute . ":" . second ,1000,,mx,my)
+			press := ""
+			if LCMD() 
+				press .= "LCMD "
+			if RCMD()
+				press .= "RCMD "
+			if CAPS()
+				press .= "CAPS "
+			if LSHIFT()
+				press .= "LSHIFT "
+			if RSHIFT()
+				press .= "RSHIFT "
+			if SPACE()
+				press .= "SPACE "
+			if LALT()
+				press .= "LALT "
+			if RALT()
+				press .= "RALT "
+			if MLB()
+				press .= "MLB "
+			if MMB()
+				press .= "MMB "
+			if MSBLB()
+				press .= "MSBLB "
+			if MSBRF()
+				press .= "MSBRF "
+			if MSBRB()
+				press .= "MSBRB "
+
+			if (press != "")
+				press := "`n" . press
+
+			splash(month . "/" . daily . "(" . yb . ") " . hour . ":" . minute . ":" . second . press,1000,,mx,my)
 		}
 	}else{
 		Send("{RButton}")
