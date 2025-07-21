@@ -4,8 +4,11 @@
 import co2meter as co2
 import os
 
-# CO2.txtの出力先ディレクトリを指定
-file_path = r"C:\Users\ittoo\OneDrive\SRC\ahkv2\Env\CO2.txt"
+# 現在のスクリプトのパスを基準にする
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Env/CO2.txt への相対パスを結合
+file_path = os.path.abspath(os.path.join(script_dir, '..', '..', 'Env', 'CO2.txt'))
 
 # CO2データを読み取る
 mon = co2.CO2monitor()
