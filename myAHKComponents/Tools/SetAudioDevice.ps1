@@ -1,64 +1,61 @@
-# Need https://github.com/frgnca/AudioDeviceCmdlets
+# https://github.com/frgnca/AudioDeviceCmdlets
+# 必須モジュール
+# Install-Module -Name AudioDeviceCmdlets -Scope CurrentUser
 
-# すべての出力を無効化
-$ErrorActionPreference = "SilentlyContinue"
-
+Add-Type -AssemblyName PresentationFramework
+Add-Type -AssemblyName PresentationCore
+Add-Type -AssemblyName WindowsBase
 Add-Type -AssemblyName System.Windows.Forms
-Add-Type -AssemblyName System.Drawing
 
-# フォント定義（フォント名, サイズ）
-$font = New-Object System.Drawing.Font("Segoe UI", 12)
+# XAML（WPF UI定義）
+$xaml = @"
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        Title="Select Audio Device"
+        Height="300" Width="400"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-# Create the form
-$form = New-Object System.Windows.Forms.Form
-$form.Text = "Select Audio Device"
-$form.Size = New-Object System.Drawing.Size(350,250)
-$form.StartPosition = "CenterScreen"
-$form.FormBorderStyle = "FixedDialog"
-$form.MaximizeBox = $false
-$form.Font = $font
+        <ListBox Name="DeviceList" FontSize="14" Grid.Row="0" Margin="0,0,0,10"/>
 
-# Create the list box
-$listBox = New-Object System.Windows.Forms.ListBox
-$listBox.Location = New-Object System.Drawing.Point(10,10)
-$listBox.Size = New-Object System.Drawing.Size(320,150)
-$listBox.Font = $font
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" >
+            <Button Name="CancelButton" Width="80" Margin="5" Content="Cancel"/>
+            <Button Name="OkButton" Width="80" Margin="5" Content="OK"/>
+        </StackPanel>
+    </Grid>
+</Window>
+"@
 
-# Create a panel for buttons
-$buttonPanel = New-Object System.Windows.Forms.Panel
-$buttonPanel.Location = New-Object System.Drawing.Point(10,170)
-$buttonPanel.Size = New-Object System.Drawing.Size(320,40)
+# XAMLを読み込む
+[xml]$xamlReader = $xaml
+$reader = (New-Object System.Xml.XmlNodeReader $xamlReader)
+$window = [Windows.Markup.XamlReader]::Load($reader)
 
-# Create the OK button
-$okButton = New-Object System.Windows.Forms.Button
-$okButton.Text = "OK"
-$okButton.Size = New-Object System.Drawing.Size(90,30)
-$okButton.Location = New-Object System.Drawing.Point(110,5)
-$okButton.Font = $font
-$okButton.Add_Click({ $form.DialogResult = [System.Windows.Forms.DialogResult]::OK })
+# コントロール参照を取得
+$deviceList = $window.FindName("DeviceList")
+$okButton   = $window.FindName("OkButton")
+$cancelButton = $window.FindName("CancelButton")
 
-# Create the Cancel button
-$cancelButton = New-Object System.Windows.Forms.Button
-$cancelButton.Text = "Cancel"
-$cancelButton.Size = New-Object System.Drawing.Size(90,30)
-$cancelButton.Location = New-Object System.Drawing.Point(210,5)
-$cancelButton.Font = $font
-$cancelButton.Add_Click({ $form.Close() })
+# オーディオデバイス取得（AudioDeviceCmdlets 必須）
+$devices = Get-AudioDevice -List | Where-Object { $_.Type -eq "Playback" }
+$devices | ForEach-Object { $deviceList.Items.Add($_.Name) }
 
-# Get the list of audio devices
-$audioDevices = Get-AudioDevice -List | Where-Object { $_.Type -eq "Playback" }
-$audioDevices | ForEach-Object { $listBox.Items.Add($_.Name) }
+# OKボタン処理
+$okButton.Add_Click({
+    if ($deviceList.SelectedIndex -ge 0) {
+        $selected = $devices[$deviceList.SelectedIndex]
+        Set-AudioDevice -Index $selected.Index
+        $window.Close()
+    }
+})
 
-# Add controls to the panel
-$buttonPanel.Controls.Add($okButton)
-$buttonPanel.Controls.Add($cancelButton)
+# Cancelボタン処理
+$cancelButton.Add_Click({ $window.Close() })
 
-# Add controls to the form
-$form.Controls.Add($listBox)
-$form.Controls.Add($buttonPanel)
+# ウィンドウ表示（ShowDialog()は同期的）
+$window.ShowDialog() | Out-Null
 
-# Show the form and process the selected result
-if ($form.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK -and $listBox.SelectedIndex -ge 0) {
-    $selectedDevice = $audioDevices[$listBox.SelectedIndex]
-    Set-AudioDevice -Index $selectedDevice.Index
-}
