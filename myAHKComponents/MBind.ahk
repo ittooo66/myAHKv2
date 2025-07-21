@@ -312,7 +312,10 @@ mbind_q(){
 
 mbind_r(){
 	if CAPS() && ALT(){
-		execScripts("explorer_restart.bat")
+		;Explorerの再起動
+		Run("taskkill /f /im explorer.exe", , "Hide")
+		Sleep(1000)  ; 1秒待機（explorerが完全に終了するのを待つ）
+		Run("explorer.exe")
 	}else if SPACE() && CAPS(){
 		launch("R",SHIFT())
 	}else if LSHIFT() && RSHIFT()
