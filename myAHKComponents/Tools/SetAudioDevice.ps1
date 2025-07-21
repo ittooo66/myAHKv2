@@ -34,6 +34,7 @@ $xaml = @"
 [xml]$xamlReader = $xaml
 $reader = (New-Object System.Xml.XmlNodeReader $xamlReader)
 $window = [Windows.Markup.XamlReader]::Load($reader)
+$window.Topmost = $true
 
 # コントロール参照を取得
 $deviceList = $window.FindName("DeviceList")
