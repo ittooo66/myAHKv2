@@ -123,7 +123,10 @@ execScripts(scriptName,arg1:=0,arg2:=0,visible:="hide"){
 			;やや反応おそめ。実行時引数が必要になった時だけ、こっちを使う
 			RunWait("pwsh.exe -ExecutionPolicy Bypass -File `"" script "`" `"" arg1 "`" `"" arg2 "`"", , "Hide")
 		}
-	} else {
+	} else if InStr(scriptName, ".py") {
+        ; Pythonスクリプトを実行（作業ディレクトリをスクリプトの場所に）
+        Run("python " script, ,"Hide")
+    } else {
 		Run(script, , "hide")
 	}
 }
