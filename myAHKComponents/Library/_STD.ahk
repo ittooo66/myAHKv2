@@ -114,7 +114,7 @@ getEnv(name){
 ;Scripts配下のファイルを実行する
 ;scriptName:"ファイル名" 
 ;visible:可視性設定。デフォルトで非可視、""(空文字列指定)で可視。
-execScripts(scriptName,arg1:=0,arg2:=0,visible:="hide"){
+execScripts(scriptName,visible:="hide",arg1:=0,arg2:=0,arg3:=0){
 	script := A_WorkingDir . "\myAHKComponents\Tools\" . scriptName
 	if InStr(scriptName , "ps1") {
 		if (arg1=0 && arg2=0) {
@@ -468,4 +468,15 @@ resetMods(){
 	
 	;Space Up入れるとlaunchのマニュアル起動がバグるので抜く?
 	Send("{Space Up}")
+}
+
+;PhilipsHue用関数
+philipsHue(state, bri:=0, ct:=0){
+	if state = 0 {
+		Run('curl -X PUT "http://192.168.10.20/api/wYcnCswCImWhoyfzFtGKhVgsS-W8H6J1S1LjcVbq/lights/2/state" -d "{\"on\":false}"', , "Hide")
+		Run('curl -X PUT "http://192.168.10.20/api/wYcnCswCImWhoyfzFtGKhVgsS-W8H6J1S1LjcVbq/lights/3/state" -d "{\"on\":false}"', , "Hide")
+	}else{
+		Run('curl -X PUT http://192.168.10.20/api/wYcnCswCImWhoyfzFtGKhVgsS-W8H6J1S1LjcVbq/lights/2/state -d "{\"on\":true,\"bri\":' . bri . ',\"ct\":' . ct . '}"', , "Hide")
+		Run('curl -X PUT http://192.168.10.20/api/wYcnCswCImWhoyfzFtGKhVgsS-W8H6J1S1LjcVbq/lights/3/state -d "{\"on\":true,\"bri\":' . bri . ',\"ct\":' . ct . '}"', , "Hide")
+	}
 }

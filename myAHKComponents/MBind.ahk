@@ -867,7 +867,7 @@ mbind_mlb(){
 	}else if MMB(){
 		Send("#{Tab}")
 	}else if MSBRB(){
-		execScripts("PhilipsHueOn.bat " . getEnv("HUE_BRI") . " " . getEnv("HUE_CT") )
+		philipsHue(1,getEnv("HUE_BRI"),getEnv("HUE_CT"))
 	}else if MSBLF(){
 		intelliScroll()
 	}else if MSBLB(){
@@ -885,9 +885,9 @@ mbind_mrb(){
 	if MMB(){
 		Send("^{n}")
 	}else if MSBRB(){
-		execScripts("PhilipsHueOff.bat")
+		philipsHue(0)
 	}else if MSBRF(){
-		execScripts("save_co2_data.bat")
+		execScripts("read_co2.py")
 		CO2 := getEnv("CO2")
 		splash("CO2 Concentration : " . CO2 . "ppm",1500,400)
 	}else if MSBLB(){
@@ -957,7 +957,7 @@ mbind_mmb(){
 			if isInteger(ct)
 			{
 				setEnv("HUE_CT",ct)
-				execScripts("PhilipsHueOn.bat " . getEnv("HUE_BRI") . " " . getEnv("HUE_CT"))
+				philipsHue(1,getEnv("HUE_BRI"),getEnv("HUE_CT"))
 			}else
 				MsgBox("Invalid Input Number")
 		}
@@ -1042,7 +1042,7 @@ mbind_wheelup(){
 		}else{
 			setEnv("HUE_BRI", 254)
 		}
-		execScripts("PhilipsHueOn.bat " . getEnv("HUE_BRI") . " " . getEnv("HUE_CT") )
+		philipsHue(1,getEnv("HUE_BRI"),getEnv("HUE_CT"))
 		
 	}else if MMB()
 		Send("#^{Left}")
@@ -1064,7 +1064,7 @@ mbind_wheeldown(){
 		}else{
 			setEnv("HUE_BRI",0)
 		}
-		execScripts("PhilipsHueOn.bat " . getEnv("HUE_BRI") . " " . getEnv("HUE_CT") )
+		philipsHue(1,getEnv("HUE_BRI"),getEnv("HUE_CT"))
 	}else if MMB()
 		Send("#^{Right}")
 	else
