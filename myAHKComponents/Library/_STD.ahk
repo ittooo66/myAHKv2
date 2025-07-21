@@ -114,7 +114,7 @@ getEnv(name){
 ;Scripts配下のファイルを実行する
 ;scriptName:"ファイル名" 
 ;visible:可視性設定。デフォルトで非可視、""(空文字列指定)で可視。
-execScripts(scriptName,arg1:=0,arg2:=0,visible:="hide"){
+execScripts(scriptName,visible:="hide",arg1:=0,arg2:=0,arg3:=0){
 	script := A_WorkingDir . "\myAHKComponents\Tools\" . scriptName
 	if InStr(scriptName , "ps1") {
 		if (arg1=0 && arg2=0) {
@@ -123,7 +123,10 @@ execScripts(scriptName,arg1:=0,arg2:=0,visible:="hide"){
 			;やや反応おそめ。実行時引数が必要になった時だけ、こっちを使う
 			RunWait("pwsh.exe -ExecutionPolicy Bypass -File `"" script "`" `"" arg1 "`" `"" arg2 "`"", , "Hide")
 		}
-	} else {
+	} else if InStr(scriptName, ".py") {
+        ; Pythonスクリプトを実行（作業ディレクトリをスクリプトの場所に）
+        Run("python " script, ,"Hide")
+    } else {
 		Run(script, , "hide")
 	}
 }

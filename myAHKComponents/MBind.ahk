@@ -887,7 +887,7 @@ mbind_mrb(){
 	}else if MSBRB(){
 		execScripts("PhilipsHueOff.bat")
 	}else if MSBRF(){
-		execScripts("save_co2_data.bat")
+		execScripts("read_co2.py")
 		CO2 := getEnv("CO2")
 		splash("CO2 Concentration : " . CO2 . "ppm",1500,400)
 	}else if MSBLB(){
