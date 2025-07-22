@@ -34,15 +34,15 @@ xorCrypt(buf) {
     return out
 }
 
-; クリップボードのテキストを暗号化し、Base64文字列に置き換える
-ClipExt_Ecopy() {
-    A_Clipboard := ""  ; クリップボード初期化
+; クリップボードのテキストを暗号化し、Base64文字列に置き換えてTrelloに送信
+ClipExt_Tcopy() {
+
+	A_Clipboard := ""  ; クリップボード初期化
     Send("^c")
     if !ClipWait(1) {
         MsgBox("クリップボードの取得に失敗しました。")
         return
     }
-
     clipText := A_Clipboard
     if clipText = ""
         return
@@ -68,11 +68,75 @@ ClipExt_Ecopy() {
 
     base64 := StrGet(outBuf, outSize, "UTF-16")
     A_Clipboard := base64
+
+	CardID := getEnv("TRELLO_CARD_ID") 
+	TrelloKey := getEnv("TRELLO_API_KEY")
+	TrelloToken := getEnv("TRELLO_API_TOKEN")
+	descText := A_Clipboard
+
+	; Trello API の URL（descの更新）
+	url := Format("https://api.trello.com/1/cards/{}/desc?key={}&token={}", CardID, TrelloKey, TrelloToken)
+
+	; HTTPリクエスト送信（POST）
+	http := ComObject("WinHttp.WinHttpRequest.5.1")
+	http.Open("PUT", url, false)
+	http.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+	http.Send("value=" . UriEncode(descText))
+
+	; レスポンスの確認
+	if (http.Status == 200) {
+		splash "Trelloカードの説明が正常に更新されました。"
+	} else {
+		MsgBox Format("エラーが発生しました。Status: {}`nResponse: {}", http.Status, http.ResponseText)
+	}
+
+}
+
+; URIエンコード関数（必要）
+UriEncode(str) {
+    static enc := "%"
+    size := StrPut(str, "UTF-8")
+    buf := Buffer(size)
+    StrPut(str, buf.Ptr, size, "UTF-8")
+
+    out := ""
+    Loop size - 1 {
+        code := NumGet(buf.Ptr + A_Index - 1, "UChar")
+        if (code >= 0x30 && code <= 0x39  ; 0-9
+         || code >= 0x41 && code <= 0x5A  ; A-Z
+         || code >= 0x61 && code <= 0x7A  ; a-z
+         || code = 0x2D || code = 0x2E || code = 0x5F || code = 0x7E)  ; - . _ ~
+            out .= Chr(code)
+        else
+            out .= enc . Format("{:02X}", code)
+    }
+    return out
 }
 
 ; クリップボード内のBase64文字列を復号・貼り付け
-ClipExt_Epaste() {
-    Sleep(200)
+ClipExt_Tpaste() {
+	CardID := getEnv("TRELLO_CARD_ID") 
+	TrelloKey := getEnv("TRELLO_API_KEY")
+	TrelloToken := getEnv("TRELLO_API_TOKEN")
+    url := Format("https://api.trello.com/1/cards/{}/desc?key={}&token={}", CardID, TrelloKey, TrelloToken)
+
+    try {
+        http := ComObject("WinHttp.WinHttpRequest.5.1")
+        http.Open("GET", url, false)
+        http.Send()
+
+        if (http.Status == 200) {
+            ; レスポンスはJSON（例: {"desc":"説明文"})
+            desc := JSONExtract(http.ResponseText, "_value")
+            A_Clipboard := desc
+            ClipWait(1)
+        } else {
+            MsgBox Format("エラー: Status {} - {}", http.Status, http.ResponseText)
+        }
+    } catch {
+        MsgBox "通信エラー" 
+    }
+
     try {
         base64 := A_Clipboard
         if !base64
@@ -96,6 +160,14 @@ ClipExt_Epaste() {
     }
 
     directInput(decrypted) 
+}
+
+JSONExtract(json, key) {
+    ; 例: {"desc":"Hello world"} から "Hello world" を取り出す
+    pattern := '"' key '":"((?:\\.|[^"\\])*)"'  ; エスケープ文字も考慮
+    if RegExMatch(json, pattern, &m)
+        return StrReplace(m[1], '\"', '"')  ; \" を " に戻す
+    return ""
 }
 
 ;拡張クリップボード(copy)

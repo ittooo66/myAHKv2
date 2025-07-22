@@ -35,7 +35,7 @@ mbind_c(){
 	}else if CAPS() && ALT()
 		Send("#^{c}")
 	else if RCMD() || CAPS()
-		ClipExt_Ecopy()
+		ClipExt_Tcopy()
 	else if LCMD()
 		ClipExt_copy()
 	else if SPACE() && SHIFT()
@@ -385,7 +385,7 @@ mbind_v(){
 	}else if (SPACE() && CAPS()){
 		Run("`"C:\Program Files\TrueCrypt\TrueCrypt.exe`" /q /v \Device\Harddisk1\Partition0 /lr")
 	}else if RCMD() || CAPS()
-		ClipExt_Epaste()
+		ClipExt_Tpaste()
 	else if SPACE() && SHIFT()
 		ClipExt_copyTo("SV")
 	else if SPACE()
