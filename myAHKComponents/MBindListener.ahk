@@ -1,4 +1,4 @@
-;変更対象キー定義一覧
+;変更対象キー定義
 Delete::`
 RAlt::RWin
 
@@ -6,7 +6,7 @@ RAlt::RWin
 LShift Up::IME_EN()
 RShift Up::IME_JP()
 
-;無効キー定義一覧
+;無効キー定義
 sc03a::return ; Capslock
 vkFF::return ; 変換/無変換(JPキーボード向け)
 vkEB::return ; 変換/無変換(JPキーボード向け)
@@ -14,6 +14,19 @@ RWin::return ; R-Windows
 RWin Up::return ; R-Windows
 LWin::return ; L-Windows
 LWin Up::return ; R-Windows
+
+;AHK制御定義(サスペンド対象外として定義)
+#SuspendExempt
+XButton1 & MButton::AHK_Suspend()
+XButton2 & MButton::AHK_Reload()
+Alt & .::AHK_Suspend
+Alt & ,::AHK_Reload
+
+;非常停止用
+F19 & MButton::AHK_Exit()
+^!MButton::AHK_Exit()
+Alt & /::AHK_Exit
+#SuspendExempt False
 
 ;キーのフック定義一覧
 ; ・明示的にフックの組み合わせを定義して全入力を刈り取る。*a,*bなどの定義だけだと、
@@ -744,11 +757,11 @@ F20 & RButton::
 
 MButton::
 RButton & MButton::
-XButton1 & MButton::
-XButton2 & MButton::
-F19 & MButton::
+;XButton1 & MButton:: 上部のAHK制御定義で直接利用
+;XButton2 & MButton:: 上部のAHK制御定義で直接利用
+;F19 & MButton:: 上部のAHK制御定義で直接利用
 F20 & MButton::
-^!MButton::
+;^!MButton:: 上部のAHK制御定義で直接利用
 !+MButton::{
 	mbind_mmb()
 }

@@ -440,17 +440,29 @@ moveWindow(){
 
 ;AHKのリロード
 AHK_Reload(){
-	splash("AHK reloading...",300)
-	logger("AHK RELOADED")
+    splash("Reloading AHK...", 300)
+    logger("AHK Reloaded")
 	Reload()
 }
 
 ;AHKの停止
 AHK_Exit(){
-	splash("AHK shutting down...",500)
+    splash("Shutting down AHK...", 500)
 	execScripts("mouseCursor_standard.ps1")
-	logger("AHK EXIT")
+	logger("AHK Exit")
 	ExitApp()
+}
+
+;AHKのサスペンド
+AHK_Suspend(){
+	if !A_IsSuspended {
+		Suspend
+		execScripts("mouseCursor_standard.ps1")
+		splash("Suspending AHK...", 300)
+		logger("AHK Suspend Enabled")
+	}else{
+		splash("AHK is already suspended.", 300)
+	}
 }
 
 ;修飾キーの押しっぱなし問題解除用
