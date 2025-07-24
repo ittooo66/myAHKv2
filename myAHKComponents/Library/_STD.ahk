@@ -467,17 +467,32 @@ AHK_Suspend(){
 
 ;修飾キーの押しっぱなし問題解除用
 resetMods(){
-	Send("{RWin Up}")
-	Send("{LWin Up}")
-	Send("{LAlt Up}")
-	Send("{RAlt Up}")
-	Send("{LShift Up}")
-	Send("{RShift Up}")
-	Send("{LControl Up}")
-	Send("{RControl Up}")
-	
-	;Space Up入れるとlaunchのマニュアル起動がバグるので抜く?
-	Send("{Space Up}")
+	if LCMD() 
+		Send("{vkEB Up}{LWin Up}")
+	if RCMD()
+		Send("{vkFF Up}{RWin Up}")
+	if CAPS()
+		Send("{LControl Up}{RControl Up}{sc03a Up}")
+	if SHIFT()
+		Send("{LShift Up}{RShift Up}")
+	if SPACE()
+		Send("{Space Up}")
+	if ALT()
+		Send("{LAlt Up}{RAlt Up}")
+	if MLB()
+		Send("{LButton Up}")
+	if MRB()
+		Send("{RButton Up}")
+	if MMB()
+		Send("{MButton Up}")
+	if MSBLB()
+		Send("{XButton1 Up}")
+	if MSBLF()
+		Send("{XButton2 Up}")
+	if MSBRF()
+		Send("{F19 Up}{Ctrl Up}{Alt Up}")
+	if MSBRB()
+		Send("{F20 Up}{Alt Up}{Shift Up}")
 }
 
 ;PhilipsHue用関数
