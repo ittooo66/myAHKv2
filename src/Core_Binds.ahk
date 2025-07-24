@@ -72,6 +72,7 @@ mbind_d(){
 mbind_e(){
 	if (SPACE() && CAPS()){
 		; 起動対象のファイルを直接指定するため、Launch()相当を個別実装する
+		; TODO Tuning対象
 		if (SHIFT()){
 			APP_E_PATH := getEnv("APP_E_PATH") 
 			TimeString := FormatTime(, "yyyyMMdd")
@@ -417,7 +418,7 @@ mbind_x(){
 	if SPACE() && CAPS()
 		launch("X",SHIFT())
 	else if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\Env\MacroX.ahk")
+		Run("notepad.exe " A_WorkingDir "\env\MacroX.ahk")
 	else if RCMD() || CAPS()
 		MacroX()
 	else if LCMD()
@@ -445,7 +446,7 @@ mbind_z(){
 	if SPACE() && CAPS()
 		launch("Z",SHIFT())
 	else if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\Env\MacroZ.ahk")
+		Run("notepad.exe " A_WorkingDir "\env\MacroZ.ahk")
 	else if RCMD() || CAPS()
 		MacroZ()
 	else if SPACE() && SHIFT()
@@ -674,7 +675,7 @@ mbind_equal(){
 
 mbind_bracket_left(){
 	if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\Env\MacroBRL.ahk")
+		Run("notepad.exe " A_WorkingDir "\env\MacroBRL.ahk")
 	else if RCMD() || CAPS()
 		MacroBRL()
 	else if SPACE() && SHIFT()
@@ -690,7 +691,7 @@ mbind_bracket_left(){
 
 mbind_bracket_right(){
 	if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\Env\MacroBRR.ahk")
+		Run("notepad.exe " A_WorkingDir "\env\MacroBRR.ahk")
 	else if RCMD() || CAPS()
 		MacroBRR()
 	else if SPACE() && SHIFT()
@@ -714,7 +715,7 @@ mbind_backslash(){
 
 mbind_semicolon(){
 	if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\Env\MacroSMC.ahk")
+		Run("notepad.exe " A_WorkingDir "\env\MacroSMC.ahk")
 	else if RCMD() || CAPS()
 		MacroSMC()
 	else if LSHIFT() && RSHIFT()
@@ -781,7 +782,7 @@ mbind_camma(){
 
 mbind_slash(){
 	if ( CAPS() || RCMD() )&& SHIFT()
-		Run("notepad.exe " A_WorkingDir "\Env\MacroSLS.ahk")
+		Run("notepad.exe " A_WorkingDir "\env\MacroSLS.ahk")
 	else if RCMD() || CAPS()
 		MacroSLS()
 	else if SPACE() && SHIFT()

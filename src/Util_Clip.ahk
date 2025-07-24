@@ -191,9 +191,9 @@ ClipExt_copyTo(num){
 	logger(A_Clipboard , "clip")
 	;ファイルにClipboardを保存
 	try {
-		FileDelete(A_WorkingDir "\Env\CLIPEXT_" num ".dat")
+		FileDelete(A_WorkingDir "\env\CLIPEXT_" num ".dat")
 	}
-	FileAppend(ClipboardAll(), A_WorkingDir "\Env\CLIPEXT_" num ".dat")
+	FileAppend(ClipboardAll(), A_WorkingDir "\env\CLIPEXT_" num ".dat")
 	;cb_bkから取得
 	A_Clipboard := cb_bk
 }
@@ -207,7 +207,7 @@ ClipExt_pasteFrom(num){
 	if SPACE(){
 		try{
 			;content取得
-			content := FileRead(A_WorkingDir "\Env\CLIPEXT_" num ".dat", 'RAW')
+			content := FileRead(A_WorkingDir "\env\CLIPEXT_" num ".dat", 'RAW')
 		}catch{
 			;登録コンテンツがなく、FileReadが決まらなかった時にcontentにテキストを埋め込む
 			content := ""

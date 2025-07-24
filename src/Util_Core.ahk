@@ -96,15 +96,15 @@ directInput(string){
 ;揮発性なし（Reload,再起動でも値は普遍）
 ;書き方：setEnv("var","true")でvar.txtにtrueが書き込まれる
 setEnv(name, param){
-	FileDelete(A_WorkingDir "\Env\" name ".txt")
-	FileAppend(param, A_WorkingDir "\Env\" name ".txt")
+	FileDelete(A_WorkingDir "\env\" name ".txt")
+	FileAppend(param, A_WorkingDir "\env\" name ".txt")
 }
 
 ;外部変数の読み込み
 ;揮発性なし（Reload,再起動でも値は普遍）
 ;書き方：getEnv("var")でvar.txt内部の文字列を取得する
 getEnv(name){
-	Try file := FileRead(A_WorkingDir "\Env\" name ".txt")
+	Try file := FileRead(A_WorkingDir "\env\" name ".txt")
 	Catch
 		return ""
 
@@ -115,7 +115,7 @@ getEnv(name){
 ;scriptName:"ファイル名" 
 ;visible:可視性設定。デフォルトで非可視、""(空文字列指定)で可視。
 execScripts(scriptName,visible:="hide",arg1:=0,arg2:=0,arg3:=0){
-	script := A_WorkingDir . "\myAHKComponents\Tools\" . scriptName
+	script := A_WorkingDir . "\tools\" . scriptName
 	if InStr(scriptName , "ps1") {
 		if (arg1=0 && arg2=0) {
 			Run("pwsh.exe " script, , visible)
@@ -208,7 +208,6 @@ intelliScroll(){
 ;man:マニュアル起動モード(Windowsメニューから起動)。1で有効化、デフォルト0
 ;IEのとき：CLASS="IEFrame",PROCESS="",TITLE=""
 ;Outlookのとき：CLASS="rctrl_renwnd32",PROCESS="OUTLOOK.EXE",TITLE=""
-;AppDirはmyAHKComponents\Resources\Apps配下。
 launch(str, shift:=0, man:=0){
 	
 	;該当するショートカットがなければ、何もしない

@@ -13,22 +13,22 @@ InstallKeybdHook
 #UseHook
 
 ;MBind
-#Include "%A_ScriptDir%\myAHKComponents\MBindListener.ahk"
-#Include "%A_ScriptDir%\myAHKComponents\MBindSetting.ahk"
-#Include "%A_ScriptDir%\myAHKComponents\MBind.ahk"
+#Include "%A_ScriptDir%\src\Core_Listener.ahk"
+#Include "%A_ScriptDir%\src\Core_Setting.ahk"
+#Include "%A_ScriptDir%\src\Core_Binds.ahk"
 ;Library
-#Include "%A_ScriptDir%\myAHKComponents\Library\_STD.ahk"
-#Include "%A_ScriptDir%\myAHKComponents\Library\Clip.ahk"
-#Include "%A_ScriptDir%\myAHKComponents\Library\IME.ahk"
-#Include "%A_ScriptDir%\myAHKComponents\Library\Mouse.ahk"
+#Include "%A_ScriptDir%\src\Util_Core.ahk"
+#Include "%A_ScriptDir%\src\Util_Clip.ahk"
+#Include "%A_ScriptDir%\src\Util_IME.ahk"
+#Include "%A_ScriptDir%\src\Util_Mouse.ahk"
 ;HotIf WinActives
-#Include "%A_ScriptDir%\myAHKComponents\Library\IWA_General.ahk"
-#Include "%A_ScriptDir%\myAHKComponents\Library\IWA_Excel.ahk"
-#Include "%A_ScriptDir%\myAHKComponents\Library\IWA_Powerpoint.ahk"
+#Include "%A_ScriptDir%\src\IWA_General.ahk"
+#Include "%A_ScriptDir%\src\IWA_Excel.ahk"
+#Include "%A_ScriptDir%\src\IWA_Powerpoint.ahk"
 ;TempMacro
-#Include "%A_ScriptDir%\Env\MacroZ.ahk"
-#Include "%A_ScriptDir%\Env\MacroX.ahk"
-#Include "%A_ScriptDir%\Env\MacroBRL.ahk"
-#Include "%A_ScriptDir%\Env\MacroBRR.ahk"
-#Include "%A_ScriptDir%\Env\MacroSLS.ahk"
-#Include "%A_ScriptDir%\Env\MacroSMC.ahk"
+#Include "%A_ScriptDir%\env\MacroZ.ahk"
+#Include "%A_ScriptDir%\env\MacroX.ahk"
+#Include "%A_ScriptDir%\env\MacroBRL.ahk"
+#Include "%A_ScriptDir%\env\MacroBRR.ahk"
+#Include "%A_ScriptDir%\env\MacroSLS.ahk"
+#Include "%A_ScriptDir%\env\MacroSMC.ahk"
