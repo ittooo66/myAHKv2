@@ -440,7 +440,6 @@ moveWindow(){
 
 ;AHKのリロード
 AHK_Reload(){
-	#SuspendExempt
 	splash("AHK reloading...",300)
 	logger("AHK RELOADED")
 	Reload()
@@ -448,7 +447,6 @@ AHK_Reload(){
 
 ;AHKの停止
 AHK_Exit(){
-	#SuspendExempt
 	splash("AHK shutting down...",500)
 	execScripts("mouseCursor_standard.ps1")
 	logger("AHK EXIT")
