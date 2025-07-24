@@ -442,6 +442,7 @@ AHK_Reload(){
     splash("Reloading AHK...", 300)
     logger("AHK Reloaded")
 	Reload()
+	resetMods()
 }
 
 ;AHKの停止
