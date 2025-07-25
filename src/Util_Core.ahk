@@ -368,7 +368,7 @@ AHK_Reload(){
 ;AHKの停止
 AHK_Exit(){
     splash("Shutting down AHK...", 500)
-	execScripts("mouseCursor_standard.ps1")
+	execScripts("SetMouseCursor.ps1",,"standard")
 	logger("AHK Exit")
 	ExitApp()
 }
@@ -377,7 +377,7 @@ AHK_Exit(){
 AHK_Suspend(){
 	if !A_IsSuspended {
 		Suspend
-		execScripts("mouseCursor_standard.ps1")
+		execScripts("SetMouseCursor.ps1",,"standard")
 		splash("Suspending AHK...", 300)
 		logger("AHK Suspend Enabled")
 	}else{

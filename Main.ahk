@@ -6,7 +6,7 @@ DllCall("SetThreadDpiAwarenessContext", "ptr", -4, "ptr")
 
 ;appearance settings
 TraySetIcon(A_WorkingDir . "\icon.ico","1")
-execScripts("mouseCursor_black.ps1")
+execScripts("SetMouseCursor.ps1",,"black")
 
 ; Majinai
 InstallKeybdHook
