@@ -52,13 +52,15 @@ mbind_d(){
 	}else if LSHIFT() && RSHIFT()
 		ControlMouse("e","d","s","f")
 	else if CAPS() && ALT(){
+		;yt-dlp Support
 		Send("^l")
 		Sleep(250)
 		A_Clipboard := ""
 		Send("^c")
 		Errorlevel := !ClipWait()
-		execScripts("youtube-dl-mp3.ps1")
-		splash("Queued : " . A_Clipboard ,,800)
+		FileEncoding "UTF-8-RAW"
+		FileAppend A_Clipboard, getEnv("YTDLP_PATH") . FormatTime(, "yyyyMMddHHmmss")
+		splash("yt-dlp Queued : " . A_Clipboard ,,800)
 	}else if RCMD() || CAPS(){
 		press("{DOWN}")
 	}else if SPACE() && SHIFT()
