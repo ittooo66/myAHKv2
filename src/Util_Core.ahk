@@ -92,23 +92,38 @@ directInput(string){
 	A_Clipboard := cb_bk
 }
 
-;外部変数への書き込み
-;揮発性なし（Reload,再起動でも値は普遍）
-;書き方：setEnv("var","true")でvar.txtにtrueが書き込まれる
-setEnv(name, param){
-	FileDelete(A_WorkingDir "\env\" name ".txt")
-	FileAppend(param, A_WorkingDir "\env\" name ".txt")
+
+setEnv(name, param) {
+    envMap := Map()
+
+	yaml := FileRead(A_WorkingDir "\env\env.yaml")
+	Loop Parse, yaml, "`n", "`r"
+	{
+		if RegExMatch(A_LoopField, "^\s*(\S+)\s*:\s*(.*)$", &m)
+			envMap[m[1]] := m[2]
+	}
+	
+    ; 値を更新
+    envMap[name] := param
+
+    ; YAMLとして保存
+    out := ""
+    for key, val in envMap
+        out .= key ": " val "`n"
+
+    FileDelete(A_WorkingDir "\env\env.yaml")
+    FileAppend(out, A_WorkingDir "\env\env.yaml")
 }
 
-;外部変数の読み込み
-;揮発性なし（Reload,再起動でも値は普遍）
-;書き方：getEnv("var")でvar.txt内部の文字列を取得する
-getEnv(name){
-	Try file := FileRead(A_WorkingDir "\env\" name ".txt")
-	Catch
-		return ""
-
-	return file
+getEnv(name) {
+    yaml := FileRead(A_WorkingDir "\env\env.yaml")
+    Loop Parse, yaml, "`n", "`r"
+    {
+        if RegExMatch(A_LoopField, "^\s*(\S+)\s*:\s*(.*)$", &m)
+            if (m[1] = name)
+                return m[2]
+    }
+    return ""
 }
 
 ;Scripts配下のファイルを実行する
