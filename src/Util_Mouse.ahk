@@ -47,21 +47,6 @@ mousePress(leftButtonKey){
 	Send("{LButton Up}")
 }
 
-
-;log出力機能
-logger( message , label:="info" ){
-	;日付情報の作成
-	year := FormatTime(, "yyyy")
-	month := FormatTime(, "MM")
-	day := FormatTime(, "dd")
-	hour := FormatTime(, "HH")
-	minute := FormatTime(, "mm")
-	second := FormatTime(, "ss")
-	logger_date := year . "-" . month . "-" . day . " " . hour . ":" . minute ":" . second . "." . A_MSec . " "
-	log := logger_date . message . "`n"
-	FileAppend(log, A_WorkingDir "\" label ".log")
-}
-
 ;ウィンドウサイズ変更
 ;ディスプレイ設定(DPIスケール、モニタ配置)に大幅に依存してるので、注意
 changeWindowSize(){
@@ -85,7 +70,7 @@ changeWindowSize(){
 	maxRadius := 5
 
 	; 現在の位置と方向
-	x := rawX - 1
+	x := rawX - 5
 	y := rawY
 	step := 1
 

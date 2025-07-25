@@ -1,11 +1,15 @@
-;特定のWindowクラスを最下層から引っ張る
-;className:クラス名。空指定（""）の場合、Class指定なし
-;processName:プロセス名。idea.exeとかそういうやつ。空指定（""）の場合、Process指定なし
-;titleName:タイトル。空指定（""）の場合、Title指定なし
-;multi:該当Windowの複数フックモード、デフォルトは無効(0)
-;===返り値===
-;true:引っ張ってこれた
-;false:存在しなかった
+; 指定された条件（クラス名・プロセス名・タイトル名）に一致するウィンドウをアクティブ化する関数。
+; ウィンドウはZオーダーの下位（背面）から順に検索され、最初に一致したものをアクティブにする。
+; オプションで複数一致させる処理も可能。
+;
+; パラメータ:
+;   className   - ウィンドウクラス名（部分一致、空文字で無条件）
+;   processName - プロセス名（部分一致、空文字で無条件）
+;   titleName   - ウィンドウタイトル（部分一致、空文字で無条件）
+;   multi       - 複数ウィンドウ一致許可フラグ（0: 最初に一致したウィンドウのみアクティブ化, 1: 一致する全ウィンドウをアクティブ化）
+;
+; 戻り値:
+;   一致するウィンドウが見つかってアクティブ化された場合は true、見つからなければ false。
 activateWindow(className := "", processName := "", titleName := "", multi := 0) {
     ; Spaceバインドで呼び出している場合、Spaceキーを消費
     if (SPACE())
@@ -420,4 +424,18 @@ philipsHue(state, bri:=0, ct:=0){
 		Run('curl -X PUT http://192.168.10.20/api/wYcnCswCImWhoyfzFtGKhVgsS-W8H6J1S1LjcVbq/lights/2/state -d "{\"on\":true,\"bri\":' . bri . ',\"ct\":' . ct . '}"', , "Hide")
 		Run('curl -X PUT http://192.168.10.20/api/wYcnCswCImWhoyfzFtGKhVgsS-W8H6J1S1LjcVbq/lights/3/state -d "{\"on\":true,\"bri\":' . bri . ',\"ct\":' . ct . '}"', , "Hide")
 	}
+}
+
+;log出力機能
+logger( message , label:="info" ){
+	;日付情報の作成
+	year := FormatTime(, "yyyy")
+	month := FormatTime(, "MM")
+	day := FormatTime(, "dd")
+	hour := FormatTime(, "HH")
+	minute := FormatTime(, "mm")
+	second := FormatTime(, "ss")
+	logger_date := year . "-" . month . "-" . day . " " . hour . ":" . minute ":" . second . "." . A_MSec . " "
+	log := logger_date . message . "`n"
+	FileAppend(log, A_WorkingDir "\" label ".log")
 }
