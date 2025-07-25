@@ -92,7 +92,11 @@ directInput(string){
 	A_Clipboard := cb_bk
 }
 
-
+; 指定された名前と値を環境設定ファイル(env.yaml)に保存する関数。
+; 既存のキーがあれば上書きし、なければ新しく追加する。
+; パラメータ:
+;   name  - 設定するキー名 (文字列)
+;   param - 設定する値 (文字列)
 setEnv(name, param) {
     envMap := Map()
 
@@ -115,6 +119,12 @@ setEnv(name, param) {
     FileAppend(out, A_WorkingDir "\env\env.yaml")
 }
 
+; 環境設定ファイル(env.yaml)から指定された名前の値を取得する関数。
+; 指定したキーが存在しない場合は空文字を返す。
+; パラメータ:
+;   name - 取得するキー名 (文字列)
+; 戻り値:
+;   対応する値 (文字列)、または見つからなければ空文字
 getEnv(name) {
     yaml := FileRead(A_WorkingDir "\env\env.yaml")
     Loop Parse, yaml, "`n", "`r"
@@ -126,27 +136,44 @@ getEnv(name) {
     return ""
 }
 
-;Scripts配下のファイルを実行する
-;scriptName:"ファイル名" 
-;visible:可視性設定。デフォルトで非可視、""(空文字列指定)で可視。
-execScripts(scriptName,visible:="hide",arg1:=0,arg2:=0,arg3:=0){
-	script := A_WorkingDir . "\tools\" . scriptName
-	if InStr(scriptName , "ps1") {
-		if (arg1=0 && arg2=0) {
-			Run("pwsh.exe " script, , visible)
-		}else{
-			;やや反応おそめ。実行時引数が必要になった時だけ、こっちを使う
-			RunWait("pwsh.exe -ExecutionPolicy Bypass -File `"" script "`" `"" arg1 "`" `"" arg2 "`"", , "Hide")
-		}
-	} else if InStr(scriptName, ".py") {
-        ; Pythonスクリプトを実行（作業ディレクトリをスクリプトの場所に）
-        Run("python " script, ,"Hide")
-    } else {
-		Run(script, , "hide")
-	}
+; 指定されたスクリプトファイル（PowerShell または Python）を実行する関数。
+; 対応拡張子は .ps1（PowerShell）および .py（Python）。
+; スクリプトが存在しない場合や未対応の拡張子の場合はエラーメッセージを表示。
+;
+; パラメータ:
+;   scriptName - 実行するスクリプトファイル名（tools フォルダ内）
+;   visible    - 実行時のウィンドウ表示状態（省略時は "Hide"）
+;   arg        - スクリプトに渡す追加の引数（省略可）
+execScripts(scriptName, visible := "Hide", arg := "") {
+	
+	; スクリプトファイル存在チェック
+	scriptPath := A_WorkingDir "\tools\" scriptName
+    if !FileExist(scriptPath) {
+        MsgBox "スクリプトが存在しません: " scriptPath
+        return
+    }
+
+    SplitPath(scriptPath, , , &ext)
+
+    switch ext {
+        case "ps1":
+            runner := "pwsh.exe"
+            cmd := '-ExecutionPolicy Bypass -File "' scriptPath '" ' arg
+        case "py":
+            runner := "python"
+            cmd := '"' scriptPath '" ' arg
+        default:
+            MsgBox "サポートされていない拡張子: " ext
+            return
+    }
+
+    Run runner " " cmd, , visible
 }
 
-;よさげなスクロール
+; マウスのドラッグ操作に応じて、スクロールを行う関数。
+; 左マウスボタン + サイドボタン（戻るボタン）を押しながらマウスを移動することで、
+; 水平方向または垂直方向にスクロールする。
+; 移動量に応じてスクロール速度と回数を調整する動的な挙動を提供する。
 intelliScroll(){
 	;初期マウス位置の取得
 	MouseGetPos(&preMouseX, &preMouseY)
@@ -217,12 +244,21 @@ intelliScroll(){
 	}
 }
 
-;ランチャ
-;str:アプリ名称。バインドしたキー名称のアルファベットに合わせる
-;shift:強制起動モード。1で有効化
-;man:マニュアル起動モード(Windowsメニューから起動)。1で有効化、デフォルト0
-;IEのとき：CLASS="IEFrame",PROCESS="",TITLE=""
-;Outlookのとき：CLASS="rctrl_renwnd32",PROCESS="OUTLOOK.EXE",TITLE=""
+; 環境変数に定義されたアプリケーションを起動、または既存のウィンドウをアクティブにする関数。
+; ショートカットやウィンドウのクラス名・プロセス名・タイトルに基づいて起動制御を行う。
+;
+; パラメータ:
+;   str   - アプリケーション識別子（例: "EXCEL" → APP_EXCEL_PATH などの環境変数に対応）
+;   shift - 強制起動フラグ（≠0 で強制起動モード。0 なら通常起動モード）
+;   man   - 手動入力モード（1 の場合、Win+R ダイアログ経由で直接コマンド入力）
+;
+; 動作概要:
+;   - shift ≠ 0（強制起動）:
+;       man = 1 : Win+R ダイアログでアプリのパスを直接入力して起動
+;       man ≠ 1 : Run コマンドで直接実行
+;   - shift = 0（通常起動）:
+;       - 対象ウィンドウが存在する場合はアクティブ化
+;       - 存在しない場合は起動（man の値により起動方法を分岐）
 launch(str, shift:=0, man:=0){
 	
 	;該当するショートカットがなければ、何もしない
@@ -263,24 +299,37 @@ launch(str, shift:=0, man:=0){
 	}
 }
 
-;通知メッセージの表示
-;str:通知メッセージの文字列
-;sleeptime:表示時間(ms)。未入力の場合はデフォルトで3秒(3000ms)表示
-;mx,my:メッセージ表示場所。未入力の場合はマウスカーソル位置に表示
-splash(str, sleeptime:=1500 ,width:=0 ,mx:=0,my:=0){
-    if (mx = 0 && my = 0){
+
+; 指定したテキストを、マウス位置または指定位置に一時的にスプラッシュ表示する関数。
+; DPIスケーリングに対応し、現在のモニターの解像度に合わせた表示を行う。
+;
+; パラメータ:
+;   str       - 表示する文字列（スプラッシュメッセージ）
+;   sleeptime - 表示持続時間（ミリ秒、デフォルト: 1500ms）
+;   width     - （未使用）GUIの幅。将来的な拡張用（現在は0）
+;   mx, my    - スプラッシュ表示位置の座標。省略時は現在のマウス位置＋アクティブウィンドウ位置
+splash(str, sleeptime := 1500, width := 0, mx := 0, my := 0) {
+    if (mx = 0 && my = 0) {
         MouseGetPos(&mx, &my)
-        WinGetPos(&wx, &wy, , , "a")
-        mx+=wx
-        my+=wy
+        WinGetPos(&wx, &wy, , , "A")
+        mx += wx
+        my += wy
     }
 
-    ; 現在のモニターのDPI取得
+    ; DPI取得（内部関数として統合）
+    GetDpiForMonitor(hMonitor) {
+        return DllCall("Shcore\GetDpiForMonitor"
+            , "ptr", hMonitor
+            , "int", 0  ; MDT_EFFECTIVE_DPI
+            , "uint*", &dpiX := 0
+            , "uint*", &dpiY := 0
+        ) = 0 ? dpiX : 96  ; 失敗時は96dpiとみなす
+    }
+
     hMonitor := DllCall("MonitorFromPoint", "int64", (mx & 0xFFFFFFFF) | (my << 32), "uint", 2, "ptr")
     dpi := GetDpiForMonitor(hMonitor)
     scale := dpi / 96
 
-    ; フォントサイズをスケーリング
     fontSize := Round(16 * scale)
 
     splashGui := Gui()
@@ -288,21 +337,10 @@ splash(str, sleeptime:=1500 ,width:=0 ,mx:=0,my:=0){
     splashGui.BackColor := "000000"
     splashGui.Opt("-Caption +AlwaysOnTop")
 
-    splashGui.addText(, str)
+    splashGui.AddText(, str)
     splashGui.Show("x" . mx . " y" . my)
     Sleep sleeptime
     splashGui.Destroy
-}
-
-; GetDpiForMonitor 関数の定義
-GetDpiForMonitor(hMonitor) {
-    ; Windows 8.1以降必要
-    return DllCall("Shcore\GetDpiForMonitor"
-        , "ptr", hMonitor
-        , "int", 0  ; MDT_EFFECTIVE_DPI
-        , "uint*", &dpiX := 0
-        , "uint*", &dpiY := 0
-    ) = 0 ? dpiX : 96  ; 失敗時は96dpiとみなす
 }
 
 ;ウィンドウの移動
