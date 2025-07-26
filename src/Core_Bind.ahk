@@ -207,7 +207,7 @@ mbind_l(){
 		press("6")
 		Sleep(150)
 		Send("{RWin Up}")
-	}else if CAPS() & LCMD()
+	}else if CAPS() && LCMD()
 		Send("^{l}")
 	else if CAPS()
 		press("{numpad6}")
@@ -340,7 +340,7 @@ mbind_s(){
 		Send("^{PgUp}")
 	else if LSHIFT() && RSHIFT()
 		ControlMouse("e","d","s","f")
-	else if CAPS() & ALT(){
+	else if CAPS() && ALT(){
 		if ( getEnv("PC_NAME") == "X" ){
 			Send("^!{s}")
 		}else{
