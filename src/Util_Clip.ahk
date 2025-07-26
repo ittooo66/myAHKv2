@@ -85,7 +85,7 @@ ClipExt_Tcopy() {
 
 	; レスポンスの確認
 	if (http.Status == 200) {
-		splash "Trelloカードの説明が正常に更新されました。"
+		splash "TrelloClipの送信処理が正常終了しました。"
 	} else {
 		MsgBox Format("エラーが発生しました。Status: {}`nResponse: {}", http.Status, http.ResponseText)
 	}
