@@ -267,12 +267,11 @@ launch(str, shift:=0, man:=0){
 	
 	;該当するショートカットがなければ、何もしない
 	path := getEnv("APP_" . str . "_PATH")
+	if !FileExist(path)	{
+		splash("invalid Application path : " . path )
+		return
+	}
 
-	if !FileExist(path)
-		{
-			Splash("invalid Application path : " %path% )
-			return
-		}
 	;強制起動モードの場合、strに紐づくアプリショートカットを起動して終了
 	if (shift != 0){
 		if (man = 1 ){
