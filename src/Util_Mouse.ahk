@@ -70,7 +70,7 @@ changeWindowSize(){
 	maxRadius := 5
 
 	; 現在の位置と方向
-	x := rawX - 5
+	x := rawX
 	y := rawY
 	step := 1
 
