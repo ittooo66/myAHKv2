@@ -59,4 +59,3 @@ $cancelButton.Add_Click({ $window.Close() })
 
 # ウィンドウ表示（ShowDialog()は同期的）
 $window.ShowDialog() | Out-Null
-
