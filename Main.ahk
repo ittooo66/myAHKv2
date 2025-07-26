@@ -21,14 +21,8 @@ InstallKeybdHook
 #Include "%A_ScriptDir%\src\Util_Clip.ahk"
 #Include "%A_ScriptDir%\src\Util_IME.ahk"
 #Include "%A_ScriptDir%\src\Util_Mouse.ahk"
+#Include "%A_ScriptDir%\src\Util_Macros.ahk"
 ;HotIf WinActives
 #Include "%A_ScriptDir%\src\IWA_Any.ahk"
 #Include "%A_ScriptDir%\src\IWA_Excel.ahk"
 #Include "%A_ScriptDir%\src\IWA_Powerpoint.ahk"
-;TempMacro
-#Include "%A_ScriptDir%\env\MacroZ.ahk"
-#Include "%A_ScriptDir%\env\MacroX.ahk"
-#Include "%A_ScriptDir%\env\MacroBRL.ahk"
-#Include "%A_ScriptDir%\env\MacroBRR.ahk"
-#Include "%A_ScriptDir%\env\MacroSLS.ahk"
-#Include "%A_ScriptDir%\env\MacroSMC.ahk"
