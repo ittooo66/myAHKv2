@@ -51,136 +51,65 @@ mousePress(leftButtonKey){
 ;ディスプレイ設定(DPIスケール、モニタ配置)に大幅に依存してるので、注意
 changeWindowSize(){
 
-	;マウス位置を固定
-	BlockInput "Mouse"
-
-	;画面情報を取得
-	;X,Y:スケーリング後のアクティブウインドウの左上のピクセル位置（モニタ1の左上(0,0)からのX:Y座標）
-	;W,H:スケーリング後のアクティブウインドウ幅(W),高さ(H)
-	WinGetPos(&X, &Y, &W, &H, "A")
-	
-	;現在のディスプレイ枚数を取得
-	cnt := MonitorGetCount()
-
-	;対象ウィンドウの左上中心として(rawX,rawY)を取得
-	rawX := 0
-	rawY := 0
-
-	; 渦巻きの最大半径
-	maxRadius := 5
-
-	; 現在の位置と方向
-	x := rawX
-	y := rawY
-	step := 1
-
-	; 初期方向 (右方向)
-	dx := 1
-	dy := 0
-
-	; 現在のスパイラルの幅と方向切り替えカウンタ
-	currentWidth := 1
-	stepCounter := 0
-	turns := 0
-
 	; Grab成功判定
 	grabSuccess := 0
 
-	Loop {
-		; マウスカーソル妥当性判定
-		MouseMove(x , y , 0)
-		if ( A_Cursor = "SizeNWSE"){
-			grabSuccess := 1
-			break
-		}
+	; アクティブウィンドウの左上(x=0,y=0)に即時(=0)移動し、カーソル変化が起きるまでSleep()
+	MouseMove(0, 0, 0)
+	Sleep(5)
 
-		; 次の座標に移動
-		x += dx
-		y += dy
+	; カーソルが左上-右下の矢印になっている場合、成功
+	if(A_Cursor = "SizeNWSE")
+		grabSuccess := 1
 
-		stepCounter++
+	; ここまでの処理でうまく掴めてない場合、試行錯誤を実施
+	if(!grabSuccess)
+		grabSuccess := MouseMove_NWSE(-3,+2) ; Windows Explorer (Low Dpi)
+	if(!grabSuccess)
+		grabSuccess := MouseMove_NWSE(-6,+4) ; Windows Explorer (High Dpi)
+	if(!grabSuccess)
+		grabSuccess := MouseMove_NWSE(-4,-24) ; Joplin & Mery (Low Dpi)
+	if(!grabSuccess)
+		grabSuccess := MouseMove_NWSE(-5,-38) ; Joplin & Mery (High Dpi)
 
-		; 指定した幅分進んだら方向を変更
-		if (stepCounter = currentWidth) {
-			stepCounter := 0
-			turns++
-
-			; 時計回りに方向を変更
-			if (dx = 1 && dy = 0) { ; 右 → 下
-				dx := 0
-				dy := 1
-			} else if (dx = 0 && dy = 1) { ; 下 → 左
-				dx := -1
-				dy := 0
-			} else if (dx = -1 && dy = 0) { ; 左 → 上
-				dx := 0
-				dy := -1
-			} else if (dx = 0 && dy = -1) { ; 上 → 右
-				dx := 1
-				dy := 0
-			}
-
-			; 方向を2回変更した後、幅を1増やす
-			if Mod(turns, 2) = 0
-				currentWidth++
-		}
-
-		; 渦巻きの最大範囲を超えたら終了
-		if Abs(x - rawX) > maxRadius || Abs(y - rawY) > maxRadius
-			break
-	}
-
-	;前述のうずまき戦法で掴み切れなかった場合、後述の十字戦法で掴みに行く
-	;Joplin, Meryなどはこちらじゃないと掴めない
-	if(grabSuccess = 0){
-		diffX := 0
-		diffY := 0
-		buffer := 9999
-	
-		;ポイント調整:Y
-		Loop 20
-			{
-				diffX := -10 + A_Index
-				MouseMove(rawX + diffX , rawY + 30 , 100)
-				if ( A_Cursor = "SizeNWSE"){
-					buffer := 9999
-					break
-				}if ( A_Cursor = "SizeWE"){
-					if(buffer = 9999){
-						buffer := diffX
-					}
-				}else if (buffer != 9999){
-					diffX := (diffX + buffer)/2
-					buffer := 9999
-					break
-				}
-			}
-		;ポイント調整:X
-		Loop 60
-		{
-			diffY := 10 - A_Index
-			MouseMove(rawX + diffX , rawY + diffY, 100)
-			if ( A_Cursor = "SizeNWSE"){
-				buffer := 9999
-				break
-			}if ( A_Cursor = "SIZENS" ){
-				if(buffer = 9999){
-					buffer := diffY
-				}
-			}else if (buffer != 9999){
-				diffY := (diffY + buffer)/2
-				buffer := 9999
+	; 試行錯誤で何ともならなかった場合、x,yの新セットを捜索
+	if(!grabSuccess){
+		x := 0
+		y := 0
+		xTemp := 9999
+		;ポイント調整:X(-10~10),Yは30で固定
+		Loop 20 {
+			x := -10 + A_Index
+			MouseMove(x, 30, 0)
+			if ((A_Cursor = "SizeWE") && (xTemp = 9999)){
+				xTemp := x
+			}else if (xTemp != 9999){
+				x := (x + xTemp)/2
 				break
 			}
 		}
-		MouseMove(RawX + diffX , rawY + diffY , 0)
+		;ポイント調整:Y(10 ~ -50),Xは前半の調整値で固定
+		Loop 60 {
+			y := 10 - A_Index
+			MouseMove(x, y, 0)
+			if ( A_Cursor = "SizeNWSE")
+				break
+		}
+		tooltip("New Window Type : x=" . x . ", y=" y)
 	}
-	
+
+	; GrabWindow操作を実施
 	Send("{LButton Down}")
-	BlockInput "off"
-	
-	while(MRB()&&MLB()){
-		Sleep(50)
-	}
+	while(MRB()&&MLB())
+		Sleep(100)
 	Send("{LButton Up}")
+}
+
+MouseMove_NWSE(x,y){
+	MouseMove(x, y, 0)
+	Sleep(5)
+	if(A_Cursor = "SizeNWSE")
+		return 1
+	else
+		return 0
 }
