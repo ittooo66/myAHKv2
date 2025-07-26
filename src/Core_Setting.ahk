@@ -3,7 +3,7 @@
 LCMD(){ ;HHKB_左ダイヤ
 	return GetKeyState("vkEB", "P") | GetKeyState("LWin","P")
 }
-RCMD(){ ;HHKB_右ダイヤ
+RCMD(){ ;HHKB_右ダイヤ(一部HHKBでKana(vkFF)へリマップ済)
 	return GetKeyState("vkFF", "P") | GetKeyState("RWin","P")
 }
 CAPS(){ ;HHKB_Control
