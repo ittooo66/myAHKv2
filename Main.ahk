@@ -22,7 +22,7 @@ InstallKeybdHook
 #Include "%A_ScriptDir%\src\Util_IME.ahk"
 #Include "%A_ScriptDir%\src\Util_Mouse.ahk"
 ;HotIf WinActives
-#Include "%A_ScriptDir%\src\IWA_General.ahk"
+#Include "%A_ScriptDir%\src\IWA_Any.ahk"
 #Include "%A_ScriptDir%\src\IWA_Excel.ahk"
 #Include "%A_ScriptDir%\src\IWA_Powerpoint.ahk"
 ;TempMacro
