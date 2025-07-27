@@ -3,7 +3,7 @@
 
 import co2meter as co2
 import os
-import yaml
+import re
 
 # 現在のスクリプトのパスを基準にする
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -16,13 +16,13 @@ mon = co2.CO2monitor()
 data = mon.read_data()
 co2_value = data[1]
 
-# YAMLファイルを読み込む
+# YAMLファイルの内容を読み込む
 with open(yaml_path, 'r', encoding='utf-8') as file:
-    yaml_data = yaml.safe_load(file)
+    content = file.read()
 
-# CO2の値を更新
-yaml_data['CO2'] = co2_value
+# CO2 の行を正規表現で置き換える
+new_content = re.sub(r"^(CO2:\s*)['\"]?\d+['\"]?", f"\\1'{co2_value}'", content, flags=re.MULTILINE)
 
-# YAMLファイルを書き戻す
+# 変更後の内容を書き戻す
 with open(yaml_path, 'w', encoding='utf-8') as file:
-    yaml.safe_dump(yaml_data, file, allow_unicode=True)
+    file.write(new_content)
