@@ -50,6 +50,8 @@ mousePress(leftButtonKey){
 ;ウィンドウサイズ変更
 ;ディスプレイ設定(DPIスケール、モニタ配置)に大幅に依存してるので、注意
 changeWindowSize(){
+	;新セット発見時、再試行ですぐ消せるように定義
+	ToolTip
 
 	; Grab成功判定
 	grabSuccess := 0
