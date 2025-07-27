@@ -3,21 +3,23 @@
 ;コピー
 ClipExt_copy(){
 	;ClipboardにCopy
+    A_Clipboard := ""  ; ClipWait用の初期化
 	Send("^c")
-	;0.5secクリップボードの中身が入ってくるまで待つ。第二引数はClipboardAllタイプの変数を待つ、の証(1)
-	Errorlevel := !ClipWait(0.5, 1)
-	;ログ追記
-	logger(A_Clipboard , "clip")
+    ClipWait(1)
+
+	;clip.logにログ追記
+	FileAppend(A_Clipboard . "`n`n-----`n`n", A_WorkingDir "\clip.log", "UTF-8-RAW")
 }
 
 ;切り取り
 ClipExt_cut(){
 	;ClipboardにCut
+    A_Clipboard := ""  ; ClipWait用の初期化
 	Send("^x")
-	;0.5secクリップボードの中身が入ってくるまで待つ。第二引数はClipboardAllタイプの変数を待つ、の証(1)
-	Errorlevel := !ClipWait(0.5, 1)
-	;ログ追記
-	logger(A_Clipboard , "clip")
+    ClipWait(1)
+
+	;clip.logにログ追記
+	FileAppend(A_Clipboard . "`n`n-----`n`n", A_WorkingDir "\clip.log", "UTF-8-RAW")
 }
 
 ; XOR暗号化・復号（共通）
@@ -37,12 +39,10 @@ xorCrypt(buf) {
 ; クリップボードのテキストを暗号化し、Base64文字列に置き換えてTrelloに送信
 ClipExt_Tcopy() {
 
-	A_Clipboard := ""  ; クリップボード初期化
+	A_Clipboard := ""  ; ClipWait用の初期化
     Send("^c")
-    if !ClipWait(1) {
-        MsgBox("クリップボードの取得に失敗しました。")
-        return
-    }
+    ClipWait(1)
+
     clipText := A_Clipboard
     if clipText = ""
         return
@@ -181,14 +181,13 @@ ClipExt_copyTo(num){
 	}
 	;cb_bkに中身を退避
 	cb_bk := ClipboardAll()
-	;一旦clipboardを空にする
-	A_Clipboard := ""
-	;clipboardにCopy
+	
+	A_Clipboard := ""  ; ClipWait用の初期化
 	Send("^c")
-	;0.5secクリップボードの中身が入ってくるまで待つ。第二引数はClipboardAllタイプの変数を待つ、の証(1)
-	Errorlevel := !ClipWait(0.5, 1)
-	;ログ追記
-	logger(A_Clipboard , "clip")
+	ClipWait(1)
+
+	;clip.logにログ追記
+	FileAppend(A_Clipboard . "`n`n-----`n`n", A_WorkingDir "\clip.log", "UTF-8-RAW")
 	;ファイルにClipboardを保存
 	setEnv("CLIPEXT_" . num , A_Clipboard)
 	;cb_bkから取得
@@ -217,10 +216,11 @@ ClipExt_addAlias(num){
 	}
 	;Clipboard退避
 	cb_bk := ClipboardAll()
-	;clipboardにコピー
-	A_Clipboard := ""
+
+    A_Clipboard := ""  ; ClipWait用の初期化
 	Send("^c")
-	Errorlevel := !ClipWait(1)
+	ClipWait(1)
+
 	;filepathの書き出し
 	param := "CLIPEXT_ALIAS_" . num
 	setEnv(param,A_Clipboard)
@@ -238,4 +238,36 @@ ClipExt_openLog(){
 	Run("notepad.exe " A_WorkingDir "\clip.log")
 	Sleep(500)
 	Send("^{End}")
+}
+
+;ClipLogのガベージ(AHKのReloadにひっかけて定期実行)
+ClipLogGarbage() {
+    logFile := A_WorkingDir "\clip.log"
+
+    ; ファイルが存在しない場合は終了
+    if !FileExist(logFile)
+        return
+
+    ; ファイル内容を読み込む
+    content := FileRead(logFile, "UTF-8")
+
+    ; 改行で分割
+    lines := StrSplit(content, "`n")
+
+    ; 残す行数（5000行）
+    keepLines := 10000
+
+    ; 行数が5000以下なら何もしない
+    if lines.Length <= keepLines
+        return
+
+    ; 末尾の5000行を取得
+    trimmed := ""
+    Loop keepLines {
+        trimmed .= lines[lines.Length - keepLines + A_Index] . "`n"
+    }
+
+    ; ファイルに上書き保存
+    FileDelete(logFile)
+    FileAppend(trimmed, logFile, "UTF-8")
 }
