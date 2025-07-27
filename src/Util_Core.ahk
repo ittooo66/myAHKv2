@@ -104,7 +104,7 @@ directInput(string){
 setEnv(name, param) {
     envMap := Map()
 
-	yaml := FileRead(A_WorkingDir "\env\env.yaml")
+	yaml := FileRead(A_WorkingDir "\env\env.yaml", "UTF-8-RAW")
 	Loop Parse, yaml, "`n", "`r"
 	{
 		if RegExMatch(A_LoopField, "^\s*(\S+)\s*:\s*(.*)$", &m)
@@ -120,7 +120,7 @@ setEnv(name, param) {
         out .= key ": " val "`n"
 
     FileDelete(A_WorkingDir "\env\env.yaml")
-    FileAppend(out, A_WorkingDir "\env\env.yaml")
+    FileAppend(out, A_WorkingDir "\env\env.yaml", "UTF-8-RAW")
 }
 
 ; 環境設定ファイル(env.yaml)から指定された名前の値を取得する関数。
@@ -130,7 +130,7 @@ setEnv(name, param) {
 ; 戻り値:
 ;   対応する値 (文字列)、または見つからなければ空文字
 getEnv(name) {
-    yaml := FileRead(A_WorkingDir "\env\env.yaml")
+    yaml := FileRead(A_WorkingDir "\env\env.yaml", "UTF-8-RAW")
     Loop Parse, yaml, "`n", "`r"
     {
         if RegExMatch(A_LoopField, "^\s*(\S+)\s*:\s*(.*)$", &m)

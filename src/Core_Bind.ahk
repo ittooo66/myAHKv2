@@ -58,8 +58,7 @@ mbind_d(){
 		A_Clipboard := ""
 		Send("^c")
 		Errorlevel := !ClipWait()
-		FileEncoding "UTF-8-RAW"
-		FileAppend A_Clipboard, getEnv("YTDLP_PATH") . FormatTime(, "yyyyMMddHHmmss")
+		FileAppend(A_Clipboard, getEnv("YTDLP_PATH") . FormatTime(, "yyyyMMddHHmmss") , "UTF-8-RAW")
 		splash("yt-dlp Queued : " . A_Clipboard ,,800)
 	}else if RCMD() || CAPS(){
 		press("{DOWN}")
