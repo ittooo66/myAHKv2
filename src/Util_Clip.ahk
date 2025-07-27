@@ -190,10 +190,7 @@ ClipExt_copyTo(num){
 	;ログ追記
 	logger(A_Clipboard , "clip")
 	;ファイルにClipboardを保存
-	try {
-		FileDelete(A_WorkingDir "\env\CLIPEXT_" num ".dat")
-	}
-	FileAppend(ClipboardAll(), A_WorkingDir "\env\CLIPEXT_" num ".dat")
+	setEnv("CLIPEXT_" . num , A_Clipboard)
 	;cb_bkから取得
 	A_Clipboard := cb_bk
 }
@@ -205,13 +202,7 @@ ClipExt_pasteFrom(num){
 	;暴発防止のSleep
 	Sleep(200)
 	if SPACE(){
-		try{
-			;content取得
-			content := FileRead(A_WorkingDir "\env\CLIPEXT_" num ".dat", 'RAW')
-		}catch{
-			;登録コンテンツがなく、FileReadが決まらなかった時にcontentにテキストを埋め込む
-			content := ""
-		}
+		content := getEnv("CLIPEXT_" . num )
 		;content出力
 		directInput(content)
 	}
