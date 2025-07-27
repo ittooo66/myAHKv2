@@ -283,7 +283,7 @@ intelliScroll(){
 ;   - shift = 0（通常起動）:
 ;       - 対象ウィンドウが存在する場合はアクティブ化
 ;       - 存在しない場合は起動（man の値により起動方法を分岐）
-launch(str, shift:=0, man:=0){
+launch(str, shift, man:=0, arg:=""){
 	
 	;該当するショートカットがなければ、何もしない
 	path := getEnv("APP_" . str . "_PATH")
@@ -298,10 +298,10 @@ launch(str, shift:=0, man:=0){
 			name := getEnv("APP_" . str . "_PATH")
 			Send("#{r}")
 			Sleep(100)
-			directInput(name)
+			directInput(name . " " . arg)
 			Send("{Enter}")
 		}else{
-			Run(path)
+			Run(path . " " . arg)
 		}
 	;通常モードの場合、	既存WindowをActivateして、いなければ起動
 	}else{
@@ -313,10 +313,10 @@ launch(str, shift:=0, man:=0){
 				name := getEnv("APP_" . str . "_PATH")
 				Send("#{r}")
 				Sleep(100)
-				directInput(name)
+				directInput(name . " " . arg)
 				Send("{Enter}")
 			}else{
-				Run(path)
+				Run(path . " " . arg)
 			}
 		}
 	}

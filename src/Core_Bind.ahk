@@ -72,29 +72,9 @@ mbind_d(){
 
 mbind_e(){
 	if (SPACE() && CAPS()){
-		; 起動対象のファイルを直接指定するため、Launch()相当を個別実装する
-		; TODO Tuning対象
-		if (SHIFT()){
-			APP_E_PATH := getEnv("APP_E_PATH") 
-			TimeString := FormatTime(, "yyyyMMdd")
-			Send("#{r}")
-			Sleep(100)
-			directInput("`"" APP_E_PATH "`"  `"" A_Desktop "\memo\" TimeString ".txt`"")
-			Send("{Enter}")
-			mbind_space("Consume")
-		}else{
-			className := getEnv("APP_E_CLASS")
-			processName := getEnv("APP_E_PROCESS")
-			titleName := getEnv("APP_E_TITLE")
-			if !activateWindow(className,processName,titleName) {
-				APP_E_PATH := getEnv("APP_E_PATH")
-				TimeString := FormatTime(, "yyyyMMdd")
-				Send("#{r}")
-				Sleep(100)
-				directInput("`"" APP_E_PATH "`"  `"" A_Desktop "\memo\" TimeString ".txt`"")
-				Send("{Enter}")
-			}
-		}
+		; 引数に日付メモ.txtを指定して起動
+		TimeString := FormatTime(, "yyyyMMdd")
+		launch("E",SHIFT(),1, A_Desktop . "\memo\"  . TimeString ".txt")
 	}else if LSHIFT() && RSHIFT()
 		ControlMouse("e","d","s","f")
 	else if CAPS() || RCMD(){
