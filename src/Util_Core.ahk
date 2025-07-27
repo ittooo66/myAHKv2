@@ -78,8 +78,9 @@ press(key){
 
 ;直接入力、IME無視で文字列(string)(dat可)を入力する
 directInput(string){
-	;cb_bkに中身を退避
+	;cb_bkに中身を退避し、Clipboardを空にする
 	cb_bk := ClipboardAll()
+	A_Clipboard := ""
 	try{
 		;Clipboard経由で文字列一括入力
 		A_Clipboard := ClipboardAll(string)
@@ -88,7 +89,7 @@ directInput(string){
 		A_Clipboard := string
 	}
 	;Clipboard の変更を待機
-	Sleep(50)
+	ClipWait(1)
 	;文字列貼り付け
 	Send("^v")
 	;入力完了を待ってClipboard内容を復元(要Tuning)
