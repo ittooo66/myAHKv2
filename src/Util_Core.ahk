@@ -445,9 +445,9 @@ philipsHue(state, bri:=0, ct:=0){
 	}
 }
 
-;log出力機能
-logger( message , label:="info" ){
-	;日付情報の作成
+; log出力機能(To Discord)
+logger(message, label:="INFO") {
+    url := getEnv("WEBHOOK_" . label)
 	year := FormatTime(, "yyyy")
 	month := FormatTime(, "MM")
 	day := FormatTime(, "dd")
@@ -455,6 +455,9 @@ logger( message , label:="info" ){
 	minute := FormatTime(, "mm")
 	second := FormatTime(, "ss")
 	logger_date := year . "-" . month . "-" . day . " " . hour . ":" . minute ":" . second . "." . A_MSec . " "
-	log := logger_date . message . "`n"
-	FileAppend(log, A_WorkingDir "\" label ".log")
+	json := '{ "content": "``' logger_date . message '``" }'
+    http := ComObject("WinHttp.WinHttpRequest.5.1")
+    http.Open("POST", url, false)
+    http.SetRequestHeader("Content-Type", "application/json")
+    http.Send(json)
 }
