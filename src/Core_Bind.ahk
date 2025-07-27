@@ -844,8 +844,7 @@ mbind_mrb(){
 		philipsHue(0)
 	}else if MSBRF(){
 		execScripts("read_co2.py")
-		CO2 := getEnv("CO2")
-		splash("CO2 Concentration : " . CO2 . "ppm",1500,400)
+		splash("CO2 Concentration : " . getEnv("CO2") . "ppm",1500,400)
 	}else if MSBLB(){
 		Send("{RWin Down}")
 		while(GetKeyState("RButton","P")){
@@ -931,6 +930,7 @@ mbind_msblb(){
 	}else if MSBLF(){
 		changeWindowSize()
 	}else if MSBRF(){
+		; MuteTimer
 		IB := InputBox("Mute After N minute", "Delayed Mute", "w200 h130", 60), muteMinute := IB.Value, ErrorLevel := IB.Result="OK" ? 0 : IB.Result="CANCEL" ? 1 : IB.Result="Timeout" ? 2 : "ERROR"
 			if (ErrorLevel != 0)
 				return
