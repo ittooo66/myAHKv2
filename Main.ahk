@@ -1,18 +1,18 @@
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 
-; DPI Aware Per Monitor設定。ピクセル操作するあらゆる関数がこの設定ないと事故るので必須。
+;DPI Aware Per Monitor設定。ピクセル操作するあらゆる関数がこの設定ないと事故るので必須。
 DllCall("SetThreadDpiAwarenessContext", "ptr", -4, "ptr")
 
 ;appearance settings
 TraySetIcon(A_WorkingDir . "\icon.ico","1")
 execScripts("SetMouseCursor.ps1",,"black")
 
-; Majinai
+;Majinai
 InstallKeybdHook
 #UseHook
 
-;MBind
+;Core
 #Include "%A_ScriptDir%\src\Core_Hook.ahk"
 #Include "%A_ScriptDir%\src\Core_Setting.ahk"
 #Include "%A_ScriptDir%\src\Core_Bind.ahk"
