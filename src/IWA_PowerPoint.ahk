@@ -27,20 +27,19 @@ iwa_pptx_c     := () => Send("!{n}{t}")       ; 表
 iwa_pptx_v     := () => Send("!{n}{n}{s}")    ; アイコン挿入
 iwa_pptx_b     := () => Send("!{h}{s}{o}")    ; 図形の枠線
 
-LShift & WheelUp::Send("^{]}")			;文字サイズ変更
-LShift & WheelDown::Send("^{[}")		;文字サイズ変更
+LShift & WheelUp::Send("^{]}")                ;文字サイズ変更
+LShift & WheelDown::Send("^{[}")              ;文字サイズ変更
 
-;図形サイズの変更
-Space & WheelUp::Send(MSBLF() ? "+{Left}" : "+{Up}")
-Space & WheelDown::Send(MSBLF()?"+{Right}":"+{Down}")
-
-XButton1::Send("^{z}")
-XButton2::Send("^{y}")
+XButton1::Send("^{z}")                        ;戻る
+XButton2::Send("^{y}")                        ;進む
 
 ;グループ化
 Space & g::Send((SHIFT() ? "^+" : "^") "{g}"), mbind_space("Consume")
 
-; リスナー処理
+
+
+
+; ----- ----- リスナー処理 ここから ----- -----
 *1::
 <^1::
 LControl & 1::{ 
