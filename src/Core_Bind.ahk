@@ -393,9 +393,8 @@ mbind_v(){
 	else if SPACE()
 		ClipExt_pasteFrom("SV")
 	else if LCMD() && LALT(){
-		;テキスト形式にして貼り付け
-		arg := A_Clipboard
-		directInput(arg)
+		;テキスト形式の貼り付け
+		directInput(A_Clipboard)
 	}else
 		press("v")
 }
