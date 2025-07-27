@@ -230,9 +230,7 @@ ClipExt_addAlias(num){
 
 ;ショートカットを開く
 ClipExt_openAlias(num){
-	param := "CLIPEXT_ALIAS_" . num 
-	filepath := getEnv(param)
-	Run(filepath)
+	Run(getEnv("CLIPEXT_ALIAS_" . num))
 }
 
 ;ClipBoard履歴の表示
