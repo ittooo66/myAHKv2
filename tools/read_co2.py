@@ -17,12 +17,12 @@ data = mon.read_data()
 co2_value = data[1]
 
 # YAMLファイルを読み込む
-with open(yaml_path, 'r', encoding='shift-jis') as file:
+with open(yaml_path, 'r', encoding='utf-8') as file:
     yaml_data = yaml.safe_load(file)
 
 # CO2の値を更新
 yaml_data['CO2'] = co2_value
 
 # YAMLファイルを書き戻す
-with open(yaml_path, 'w', encoding='shift-jis') as file:
+with open(yaml_path, 'w', encoding='utf-8') as file:
     yaml.safe_dump(yaml_data, file, allow_unicode=True)
