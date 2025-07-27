@@ -461,14 +461,7 @@ mbind_z(){
 }
 
 mbind_1(){
-	if CAPS() && ALT(){
-		;表示Window制御：左画面のみ(DELL 27 WQHD)に表示
-		Send("{RWin Down}{p}{RWin Up}")
-		Sleep(200)
-		Send("{End}{Enter}{Esc}")
-		Sleep(5000)
-		Reload()	;GrabWindowの挙動がおかしくなるのでReloadしてみる
-	}else if SPACE() && CAPS() && SHIFT(){
+	if SPACE() && CAPS() && SHIFT(){
 		ClipExt_addAlias("1")
 		mbind_space("Consume")
 	}else if SPACE() && CAPS(){
@@ -485,14 +478,7 @@ mbind_1(){
 }
 
 mbind_2(){
-	if CAPS() && ALT(){
-		;表示Window制御：全画面に表示
-		Send("{RWin Down}{p}{RWin Up}")
-		Sleep(200)
-		Send("{End}{Up}{Enter}{Esc}")
-		Sleep(5000)
-		Reload()	;GrabWindowの挙動がおかしくなるのでReloadしてみる
-	}else if SPACE() && CAPS() && SHIFT(){
+	if SPACE() && CAPS() && SHIFT(){
 		ClipExt_addAlias("2")
 		mbind_space("Consume")
 	}else if SPACE() && CAPS(){
@@ -509,14 +495,7 @@ mbind_2(){
 }
 
 mbind_3(){
-	if CAPS() && ALT(){
-		;表示Window制御：右画面のみ(EIZO 27 4K)に表示
-		Send("{RWin Down}{p}{RWin Up}")
-		Sleep(200)
-		Send("{Home}{Enter}{Esc}")
-		Sleep(5000)
-		Reload()	;GrabWindowの挙動がおかしくなるのでReloadしてみる
-	}else if SPACE() && CAPS() && SHIFT(){
+	if SPACE() && CAPS() && SHIFT(){
 		ClipExt_addAlias("3")
 		mbind_space("Consume")
 	}else if SPACE() && CAPS(){
