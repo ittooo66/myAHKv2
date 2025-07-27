@@ -102,25 +102,39 @@ directInput(string){
 ;   name  - 設定するキー名 (文字列)
 ;   param - 設定する値 (文字列)
 setEnv(name, param) {
-    envMap := Map()
+	envMap := Map()
+    yamlPath := A_WorkingDir "\env\env.yaml"
+    yaml := FileExist(yamlPath) ? FileRead(yamlPath, "UTF-8-RAW") : ""
 
-	yaml := FileRead(A_WorkingDir "\env\env.yaml", "UTF-8-RAW")
-	Loop Parse, yaml, "`n", "`r"
-	{
-		if RegExMatch(A_LoopField, "^\s*(\S+)\s*:\s*(.*)$", &m)
-			envMap[m[1]] := m[2]
-	}
-	
-    ; 値を更新
+    ; YAML読み込みと復元処理（クオート解除＆改行解除）
+    Loop Parse, yaml, "`n", "`r" {
+        if RegExMatch(A_LoopField, "^\s*(\S+)\s*:\s*(.*)$", &m) {
+            key := m[1]
+            val := m[2]
+
+            if (SubStr(val, 1, 1) = "'" && SubStr(val, -1) = "'")
+                val := SubStr(val, 2, StrLen(val) - 2)
+            val := StrReplace(val, "''", "'")        ; 保管時の2重クオート → クオート
+			val := StrReplace(val, "\ahkrn", "`r`n") ; \n → 改行(CRLF)
+			val := StrReplace(val, "\ahkn", "`n")    ; \n → 改行(LF)
+            envMap[key] := val
+        }
+    }
+
+    ; 値をMapに上書き
     envMap[name] := param
 
-    ; YAMLとして保存
+    ; YAML書き出し（クオートと改行）
     out := ""
-    for key, val in envMap
-        out .= key ": " val "`n"
+    for key, val in envMap {
+        val := StrReplace(val, "'", "''")        ; エスケープ
+		val := StrReplace(val, "`r`n", "\ahkrn") ; 改行(CRLF) → `r`n
+		val := StrReplace(val, "`n", "\ahkn")    ; 改行(LF) → `n
+        out .= key ": '" val "'`n"
+    }
 
-    FileDelete(A_WorkingDir "\env\env.yaml")
-    FileAppend(out, A_WorkingDir "\env\env.yaml", "UTF-8-RAW")
+    FileDelete(yamlPath)
+    FileAppend(out, yamlPath, "UTF-8-RAW")
 }
 
 ; 環境設定ファイル(env.yaml)から指定された名前の値を取得する関数。
@@ -131,11 +145,16 @@ setEnv(name, param) {
 ;   対応する値 (文字列)、または見つからなければ空文字
 getEnv(name) {
     yaml := FileRead(A_WorkingDir "\env\env.yaml", "UTF-8-RAW")
-    Loop Parse, yaml, "`n", "`r"
-    {
+    Loop Parse, yaml, "`n", "`r" {
         if RegExMatch(A_LoopField, "^\s*(\S+)\s*:\s*(.*)$", &m)
-            if (m[1] = name)
-                return m[2]
+            if (m[1] = name) {
+                val := m[2]
+                if (SubStr(val, 1, 1) = "'" && SubStr(val, -1) = "'")
+                    val := SubStr(val, 2, StrLen(val) - 2)
+				val := StrReplace(val, "\ahkrn", "`r`n")    ; 改行(CRLF) → `r`n
+				val := StrReplace(val, "\ahkn", "`n")       ; 改行(LF) → `n
+                return StrReplace(val, "''", "'")
+            }
     }
     return ""
 }
