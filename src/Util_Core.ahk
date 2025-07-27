@@ -379,6 +379,7 @@ moveWindow(){
 AHK_Reload(){
     splash("Reloading AHK...", 300)
     logger("AHK Reloaded")
+	ClipLogGarbage()
 	Reload()
 	resetMods()
 }
