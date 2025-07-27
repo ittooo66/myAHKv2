@@ -2,7 +2,4 @@
 *.log
 
 #Env無視
-Env/*
-
-#old無視
-_old/*
+env/*
