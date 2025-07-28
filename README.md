@@ -36,10 +36,10 @@ myAHKv2/
 
 各スクリプトで定義されている主な関数をまとめました。詳細な動作は各ファイルを参照してください。
 
-### Core_Bind.ahk
+### Core_Binds.ahk
 `mbind_a`, `mbind_b`, `mbind_c`, `mbind_d`, `mbind_e`, `mbind_f`, `mbind_g`, `mbind_h`, `mbind_i`, `mbind_j`, `mbind_k`, `mbind_l`, `mbind_m`, `mbind_n`, `mbind_o`, `mbind_p`, `mbind_q`, `mbind_r`, `mbind_s`, `mbind_t`, `mbind_u`, `mbind_v`, `mbind_w`, `mbind_x`, `mbind_y`, `mbind_z`, `mbind_1`, `mbind_2`, `mbind_3`, `mbind_4`, `mbind_5`, `mbind_6`, `mbind_7`, `mbind_8`, `mbind_9`, `mbind_0`, `mbind_minus`, `mbind_equal`, `mbind_bracket_left`, `mbind_bracket_right`, `mbind_backslash`, `mbind_semicolon`, `mbind_quote`, `mbind_period`, `mbind_camma`, `mbind_slash`, `mbind_backspace`, `mbind_enter`, `mbind_delete`, `mbind_escape`, `mbind_tab`, `mbind_mlb`, `mbind_mrb`, `mbind_mmb`, `mbind_msblb`, `mbind_msblf`, `mbind_msbrb`, `mbind_msbrf`, `mbind_wheelup`, `mbind_wheeldown`, `mbind_space`
 
-### Core_Setting.ahk
+### Core_Mods.ahk
 `LCMD`, `RCMD`, `CAPS`, `SHIFT`, `LSHIFT`, `RSHIFT`, `SPACE`, `ALT`, `RALT`, `LALT`, `MLB`, `MRB`, `MMB`, `MSBLB`, `MSBLF`, `MSBRF`, `MSBRB`
 
 ### IWA_Any.ahk
