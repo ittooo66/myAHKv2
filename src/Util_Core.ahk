@@ -375,10 +375,10 @@ moveWindow(){
 ;AHKのリロード
 AHK_Reload(){
     splash("Reloading AHK...", 300)
-    logger("AHK Reloaded")
-	ClipLogGarbage()
 	Reload()
+	ClipLogGarbage()
 	resetMods()
+	logger("AHK Reloaded")
 }
 
 ;AHKの停止
