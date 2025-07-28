@@ -405,6 +405,60 @@ AHK_Suspend(){
 	}
 }
 
+;AHKのダッシュボード
+AHK_Dashboard(){
+	MouseGetPos(&mx, &my)
+	WinGetPos(&wx, &wy, , , "a")
+	mx+=wx
+	my+=wy
+	while(GetKeyState("RButton","P")){
+		month := FormatTime(, "M")
+		daily := FormatTime(, "d")
+		yb := FormatTime(, "ddd")
+		hour := FormatTime(, "H")
+		minute := FormatTime(, "mm")
+		second := FormatTime(, "ss")
+		press := ""
+		if LCMD() 
+			press .= "LCMD "
+		if RCMD()
+			press .= "RCMD "
+		if CAPS()
+			press .= "CAPS "
+		if LSHIFT()
+			press .= "LSHIFT "
+		if RSHIFT()
+			press .= "RSHIFT "
+		if SPACE()
+			press .= "SPACE "
+		if LALT()
+			press .= "LALT "
+		if RALT()
+			press .= "RALT "
+		if MLB()
+			press .= "MLB "
+		if MMB()
+			press .= "MMB "
+		if MSBLB()
+			press .= "MSBLB "
+		if MSBRF()
+			press .= "MSBRF "
+		if MSBRB()
+			press .= "MSBRB "
+		if (GetKeyState("NumLock", "T"))
+			press .= "NumLock "
+		if (GetKeyState("ScrollLock", "T"))
+			press .= "ScrollLock "
+		if (GetKeyState("CapsLock", "T"))
+			press .= "CapsLock "
+
+		if (press != "")
+			press := "`n" . press
+
+		splash(month . "/" . daily . "(" . yb . ") " . hour . ":" . minute . ":" . second . press,1000,,mx,my)
+	}
+}
+
 ;修飾キーの押しっぱなし問題解除用
 resetMods(){
 	if LCMD() 
@@ -433,6 +487,12 @@ resetMods(){
 		Send("{F19 Up}{Ctrl Up}{Alt Up}")
 	if MSBRB()
 		Send("{F20 Up}{Alt Up}{Shift Up}")
+	if (GetKeyState("NumLock", "T"))
+		Send("{NumLock}")
+	if (GetKeyState("ScrollLock", "T"))
+		Send("{ScrollLock}")
+	if (GetKeyState("CapsLock", "T"))
+		Send("{CapsLock}")
 }
 
 ;PhilipsHue用関数

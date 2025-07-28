@@ -852,50 +852,7 @@ mbind_mrb(){
 		}
 		Send("{RWin Up}")
 	}else if MSBLF(){
-		MouseGetPos(&mx, &my)
-		WinGetPos(&wx, &wy, , , "a")
-		mx+=wx
-		my+=wy
-		while(GetKeyState("RButton","P")){
-			month := FormatTime(, "M")
-			daily := FormatTime(, "d")
-			yb := FormatTime(, "ddd")
-			hour := FormatTime(, "H")
-			minute := FormatTime(, "mm")
-			second := FormatTime(, "ss")
-			press := ""
-			if LCMD() 
-				press .= "LCMD "
-			if RCMD()
-				press .= "RCMD "
-			if CAPS()
-				press .= "CAPS "
-			if LSHIFT()
-				press .= "LSHIFT "
-			if RSHIFT()
-				press .= "RSHIFT "
-			if SPACE()
-				press .= "SPACE "
-			if LALT()
-				press .= "LALT "
-			if RALT()
-				press .= "RALT "
-			if MLB()
-				press .= "MLB "
-			if MMB()
-				press .= "MMB "
-			if MSBLB()
-				press .= "MSBLB "
-			if MSBRF()
-				press .= "MSBRF "
-			if MSBRB()
-				press .= "MSBRB "
-
-			if (press != "")
-				press := "`n" . press
-
-			splash(month . "/" . daily . "(" . yb . ") " . hour . ":" . minute . ":" . second . press,1000,,mx,my)
-		}
+		AHK_Dashboard()
 	}else{
 		Send("{RButton}")
 	}
