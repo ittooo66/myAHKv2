@@ -13,9 +13,9 @@ InstallKeybdHook
 #UseHook
 
 ;Core
-#Include "%A_ScriptDir%\src\Core_Hook.ahk"
-#Include "%A_ScriptDir%\src\Core_Setting.ahk"
-#Include "%A_ScriptDir%\src\Core_Bind.ahk"
+#Include "%A_ScriptDir%\src\Core_Hooks.ahk"
+#Include "%A_ScriptDir%\src\Core_Mods.ahk"
+#Include "%A_ScriptDir%\src\Core_Binds.ahk"
 ;Library
 #Include "%A_ScriptDir%\src\Util_Core.ahk"
 #Include "%A_ScriptDir%\src\Util_Clip.ahk"
