@@ -290,16 +290,6 @@ splash(str, sleeptime := 1500, width := 0, mx := 0, my := 0) {
     splashGui.Destroy
 }
 
-;ウィンドウの移動
-moveWindow(){
-	hwnd := WinExist("A")  ; アクティブウィンドウのハンドルを取得
-    if hwnd {
-        PostMessage(0x112, 0xF010, , , hwnd)  ; WM_SYSCOMMAND + SC_MOVE
-        Sleep(50)
-        Send("{Left}{Right}")  ; 任意のキーで移動モードを開始
-    }
-}
-
 ;AHKのリロード
 AHK_Reload(){
     splash("Reloading AHK...", 300)

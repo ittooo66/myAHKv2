@@ -121,6 +121,16 @@ intelliScroll(){
 	}
 }
 
+;ウィンドウの移動
+moveWindow(){
+	hwnd := WinExist("A")  ; アクティブウィンドウのハンドルを取得
+    if hwnd {
+        PostMessage(0x112, 0xF010, , , hwnd)  ; WM_SYSCOMMAND + SC_MOVE
+        Sleep(50)
+        Send("{Left}{Right}")  ; 任意のキーで移動モードを開始
+    }
+}
+
 ;ウィンドウサイズ変更
 ;ディスプレイ設定(DPIスケール、モニタ配置)に大幅に依存してるので、注意
 changeWindowSize(){
