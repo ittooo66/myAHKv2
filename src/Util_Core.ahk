@@ -159,7 +159,8 @@ getEnv(name) {
 ;   scriptName - 実行するスクリプトファイル名（tools フォルダ内）
 ;   visible    - 実行時のウィンドウ表示状態（省略時は "Hide"）
 ;   arg        - スクリプトに渡す追加の引数（省略可）
-execScripts(scriptName, visible := "Hide", arg := "") {
+;   wait       - 1の時はRunWaitで実行
+execScripts(scriptName, visible := "Hide", arg := "", wait := 0) {
 	
 	; スクリプトファイル存在チェック
 	scriptPath := A_WorkingDir "\tools\" scriptName
@@ -182,7 +183,11 @@ execScripts(scriptName, visible := "Hide", arg := "") {
             return
     }
 
-    Run runner " " cmd, , visible
+	if !wait{
+    	Run runner " " cmd, , visible
+	}else{
+		RunWait runner " " cmd, , visible
+	}
 }
 
 ; 環境変数に定義されたアプリケーションを起動、または既存のウィンドウをアクティブにする関数。

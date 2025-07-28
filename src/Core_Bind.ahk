@@ -799,7 +799,9 @@ mbind_mrb(){
 	else if MSBRB()
 		philipsHue(0)
 	else if MSBRF(){
-		execScripts("read_co2.py")
+		ToolTip "Measuring CO2 concentration..."
+		execScripts("read_co2.py",,,1)
+		ToolTip 
 		splash("CO2 Concentration : " . getEnv("CO2") . "ppm",1500,400)
 	}else if MSBLB(){
 		Send("{RWin Down}")
