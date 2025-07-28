@@ -196,8 +196,9 @@ ClipExt_copyTo(num){
 
 ;拡張クリップボード(paste)
 ClipExt_pasteFrom(num){
-	;Spaceキーのスタックを消費
-	mbind_space("Consume")
+    ;一式SPACE()から呼ぶため、Spaceキースタック消費処理はこちらに実装
+    mbind_space("Consume")
+
 	;暴発防止のSleep
 	Sleep(200)
 	if SPACE(){
@@ -209,6 +210,9 @@ ClipExt_pasteFrom(num){
 
 ;ショートカット生成
 ClipExt_addAlias(num){
+    ;一式SPACE()から呼ぶため、Spaceキースタック消費処理はこちらに実装
+    mbind_space("Consume")
+
 	;Explorer画面以外で暴発しないように
 	class := WinGetClass("A")
 	if(class != "CabinetWClass"){
@@ -230,6 +234,9 @@ ClipExt_addAlias(num){
 
 ;ショートカットを開く
 ClipExt_openAlias(num){
+    ;一式SPACE()から呼ぶため、Spaceキースタック消費処理はこちらに実装
+    mbind_space("Consume")
+
 	Run(getEnv("CLIPEXT_ALIAS_" . num))
 }
 
