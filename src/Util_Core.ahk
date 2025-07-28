@@ -495,7 +495,7 @@ resetMods(){
 		Send("{CapsLock}")
 }
 
-;PhilipsHue用関数
+;PhilipsHue用関数 起動停止用関数
 philipsHue(state, bri:=0, ct:=0){
 	if state = 0 {
 		Run('curl -X PUT "http://192.168.10.20/api/wYcnCswCImWhoyfzFtGKhVgsS-W8H6J1S1LjcVbq/lights/2/state" -d "{\"on\":false}"', , "Hide")
@@ -504,6 +504,62 @@ philipsHue(state, bri:=0, ct:=0){
 		Run('curl -X PUT http://192.168.10.20/api/wYcnCswCImWhoyfzFtGKhVgsS-W8H6J1S1LjcVbq/lights/2/state -d "{\"on\":true,\"bri\":' . bri . ',\"ct\":' . ct . '}"', , "Hide")
 		Run('curl -X PUT http://192.168.10.20/api/wYcnCswCImWhoyfzFtGKhVgsS-W8H6J1S1LjcVbq/lights/3/state -d "{\"on\":true,\"bri\":' . bri . ',\"ct\":' . ct . '}"', , "Hide")
 	}
+}
+
+;PhilipsHue用関数 色温度制御用GUI
+philipsHueControlCT(){
+	local myGui := Gui("+AlwaysOnTop", "SELECTCOLOR")
+    myGui.SetFont("s10")
+
+    local defaultCT := getEnv("HUE_CT")
+    local selectedCT := defaultCT
+
+    myGui.Add("Text", "xm w200 +Center", "Choose color temperature")
+    local slider := myGui.Add("Slider", "xm w200 Range150-450 vCT", defaultCT)
+    local valText := myGui.Add("Text", "xm w200 +Center", "cold                                    warm")
+
+    myGui.Add("Button", "xm w90", "OK").OnEvent("Click", okPressed)
+    myGui.Add("Button", "x+10 w90", "Cancel").OnEvent("Click", (*) => myGui.Destroy())
+
+    myGui.Show("w220 h130")
+    return
+
+    okPressed(*) {
+        selectedCT := myGui["CT"].Value
+        myGui.Destroy()
+
+        if !(selectedCT is Integer) || selectedCT < 150 || selectedCT > 450 {
+            MsgBox("Invalid Input Number (must be between 150–450)")
+            return
+        }
+
+        setEnv("HUE_CT", selectedCT)
+        philipsHue(1, getEnv("HUE_BRI"), getEnv("HUE_CT"))
+    }
+}
+
+;PhilipsHue用関数 照度制御用関数
+; dir := "Up"    照度上昇(Max:254)
+; dir := "Down"  照度低下(Min:0)
+philipsHueControlBRI(dir) {
+
+	;現在の照度を取得
+	HUE_BRI := getEnv("HUE_BRI")
+
+	;clamp関数を用いてdelta値を作成
+	clamp := (n, low, high) => n < low ? low : n > high ? high : n
+    delta := dir = "Up" ? 40 : dir = "Down" ? -40 : ""
+    if (delta = "") {
+        Splash("philipsHueControlBRI 不明なステータス: " dir)
+        return
+    }
+    newBRI := clamp(HUE_BRI + delta, 0, 254)
+
+	;現在の照度を更新
+    setEnv("HUE_BRI", newBRI)
+
+	;照度を設定
+    philipsHue(1, newBRI, getEnv("HUE_CT"))
 }
 
 ; log出力機能(To Discord)

@@ -862,17 +862,7 @@ mbind_mmb(){
 	if MRB(){
 		Send("^{t}")
 	}else if MSBRB(){
-		IB := InputBox("choose color temp (150-450)", "SELECTCOLOR", "w200 h130", 300), ct := IB.Value, ErrorLevel := IB.Result="OK" ? 0 : IB.Result="CANCEL" ? 1 : IB.Result="Timeout" ? 2 : "ERROR"
-		if (ErrorLevel != 0)
-			return
-		else {
-			if isInteger(ct)
-			{
-				setEnv("HUE_CT",ct)
-				philipsHue(1,getEnv("HUE_BRI"),getEnv("HUE_CT"))
-			}else
-				MsgBox("Invalid Input Number")
-		}
+		philipsHueControlCT()
 	}else{
 		moveWindow()
 	}
@@ -945,14 +935,7 @@ mbind_wheelup(){
 	else if MSBRF()
 		Send("#^{Volume_Up}")
 	else if MSBRB() {
-		HUE_BRI := getEnv("HUE_BRI")
-		if ( HUE_BRI < 254 ){
-			setEnv("HUE_BRI", HUE_BRI += 40)
-		}else{
-			setEnv("HUE_BRI", 254)
-		}
-		philipsHue(1,getEnv("HUE_BRI"),getEnv("HUE_CT"))
-		
+		philipsHueControlBRI("Up")
 	}else if MMB()
 		Send("#^{Left}")
 	else
@@ -967,13 +950,7 @@ mbind_wheeldown(){
 	else if MSBRF()
 		Send("#^{Volume_Down}")
 	else if MSBRB() {
-		HUE_BRI := getEnv("HUE_BRI")
-		if ( HUE_BRI > 0){
-			setEnv("HUE_BRI",HUE_BRI -= 40)
-		}else{
-			setEnv("HUE_BRI",0)
-		}
-		philipsHue(1,getEnv("HUE_BRI"),getEnv("HUE_CT"))
+		philipsHueControlBRI("Down")
 	}else if MMB()
 		Send("#^{Right}")
 	else
