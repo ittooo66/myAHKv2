@@ -865,9 +865,16 @@ mbind_msblf(){
 		execScripts("SetAudioDevice.ps1")
 	else if MSBLB()
 		changeWindowSize()
-	else if MSBLF()
-		activeAllWindow()
-	else
+	else if MSBLF(){
+		;最小化されているウィンドウをすべてアクティブにする
+		; 配列idsに現在稼働中のWindowを突っ込む
+		ids := WinGetList(,,"Program Manager")
+
+		; 最下層から順番に検索
+		for i, this_id in ids {
+			WinActivate("ahk_id " this_id)
+		}
+	}else
 		Send("{XButton2}")
 }
 

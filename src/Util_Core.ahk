@@ -50,17 +50,6 @@ activateWindow(className := "", processName := "", titleName := "", multi := 0) 
     return false
 }
 
-;最小化されているウィンドウをすべてアクティブにする
-activeAllWindow(){
-    ; 配列idsに現在稼働中のWindowを突っ込む
-    ids := WinGetList(,,"Program Manager")
-
-	; 最下層から順番に検索
-    for i, this_id in ids {
-		WinActivate("ahk_id " this_id)
-	}
-}
-
 ;修飾キー付きのkeypress
 press(key){
 	;修飾キー変数
