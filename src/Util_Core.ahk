@@ -285,12 +285,8 @@ intelliScroll(){
 ;       - 存在しない場合は起動（man の値により起動方法を分岐）
 launch(str, shift, man:=0, arg:=""){
 	
-	;該当するショートカットがなければ、何もしない
+	;起動情報(パスまたはコマンド)を取得
 	path := getEnv("APP_" . str . "_PATH")
-	if !FileExist(path)	{
-		splash("invalid Application path : " . path )
-		return
-	}
 
 	;強制起動モードの場合、strに紐づくアプリショートカットを起動して終了
 	if (shift != 0){

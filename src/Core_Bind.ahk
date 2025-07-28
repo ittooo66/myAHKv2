@@ -764,13 +764,9 @@ mbind_backspace(){
 }
 
 mbind_enter(){
-	if (SPACE() && CAPS() && SHIFT()) {
-		Run("ssh RHEL9-Management")
-	}else if (SPACE() && CAPS()){
-		if !activateWindow("ConsoleWindowClass","",""){ 
-			Run("ssh RHEL9-Management")
-		}
-	}else if SPACE() && SHIFT()
+	if (SPACE() && CAPS()) 
+		launch("Enter",SHIFT())
+	else if SPACE() && SHIFT()
 		ClipExt_copyTo("Enter")
 	else if SPACE(){
 		ClipExt_pasteFrom("Enter")
