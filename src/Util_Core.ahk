@@ -409,6 +409,23 @@ resetMods(){
 		Send("{CapsLock}")
 }
 
+; log出力機能(To Discord)
+logger(message, label:="INFO") {
+    url := getEnv("WEBHOOK_" . label)
+	year := FormatTime(, "yyyy")
+	month := FormatTime(, "MM")
+	day := FormatTime(, "dd")
+	hour := FormatTime(, "HH")
+	minute := FormatTime(, "mm")
+	second := FormatTime(, "ss")
+	logger_date := year . "-" . month . "-" . day . " " . hour . ":" . minute ":" . second . "." . A_MSec . " "
+	json := '{ "content": "``' logger_date . message '``" }'
+    http := ComObject("WinHttp.WinHttpRequest.5.1")
+    http.Open("POST", url, false)
+    http.SetRequestHeader("Content-Type", "application/json")
+    http.Send(json)
+}
+
 ;PhilipsHue用関数 起動停止用関数
 philipsHue(state, bri:=0, ct:=0){
 	if state = 0 {
@@ -474,21 +491,4 @@ philipsHueControlBRI(dir) {
 
 	;照度を設定
     philipsHue(1, newBRI, getEnv("HUE_CT"))
-}
-
-; log出力機能(To Discord)
-logger(message, label:="INFO") {
-    url := getEnv("WEBHOOK_" . label)
-	year := FormatTime(, "yyyy")
-	month := FormatTime(, "MM")
-	day := FormatTime(, "dd")
-	hour := FormatTime(, "HH")
-	minute := FormatTime(, "mm")
-	second := FormatTime(, "ss")
-	logger_date := year . "-" . month . "-" . day . " " . hour . ":" . minute ":" . second . "." . A_MSec . " "
-	json := '{ "content": "``' logger_date . message '``" }'
-    http := ComObject("WinHttp.WinHttpRequest.5.1")
-    http.Open("POST", url, false)
-    http.SetRequestHeader("Content-Type", "application/json")
-    http.Send(json)
 }
