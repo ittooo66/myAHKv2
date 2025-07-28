@@ -1,14 +1,13 @@
 mbind_a(){
-	if (SPACE() && CAPS()){
+	if (SPACE() && CAPS())
 		launch("A",SHIFT(),1)
-	}else if LSHIFT() && RSHIFT()
+	else if LSHIFT() && RSHIFT()
 		ControlMouseFast("w","r","a","g")
 	else if CAPS() && ALT()
 		Send("{Volume_Down}")
-	else if LCMD() && CAPS(){
-		;Chromeの画面縮小。Q側の拡大バインドと対応
-		Send("^{NumpadSub}")
-	}else if RCMD() || CAPS()
+	else if LCMD() && CAPS()
+		Send("^{NumpadSub}") ;Chromeの画面縮小。Q側の拡大バインドと対応
+	else if RCMD() || CAPS()
 		press("^{LEFT}")
 	else if SPACE() && SHIFT()
 		ClipExt_copyTo("SA")
@@ -30,9 +29,9 @@ mbind_b(){
 }
 
 mbind_c(){
-	if (SPACE() && CAPS()){
+	if (SPACE() && CAPS())
 		launch("C",SHIFT())
-	}else if CAPS() && ALT()
+	else if CAPS() && ALT()
 		Send("#^{c}")
 	else if RCMD() || CAPS()
 		ClipExt_Tcopy()
@@ -47,9 +46,9 @@ mbind_c(){
 }
 
 mbind_d(){
-	if (SPACE() && CAPS()){
+	if (SPACE() && CAPS())
 		launch("D",SHIFT())
-	}else if LSHIFT() && RSHIFT()
+	else if LSHIFT() && RSHIFT()
 		ControlMouse("e","d","s","f")
 	else if CAPS() && ALT(){
 		;yt-dlp Support
@@ -60,9 +59,9 @@ mbind_d(){
 		Errorlevel := !ClipWait()
 		FileAppend(A_Clipboard, getEnv("YTDLP_PATH") . FormatTime(, "yyyyMMddHHmmss") , "UTF-8-RAW")
 		splash("yt-dlp Queued : " . A_Clipboard ,,800)
-	}else if RCMD() || CAPS(){
+	}else if RCMD() || CAPS()
 		press("{DOWN}")
-	}else if SPACE() && SHIFT()
+	else if SPACE() && SHIFT()
 		ClipExt_copyTo("SD")
 	else if SPACE()
 		ClipExt_pasteFrom("SD")
@@ -88,9 +87,9 @@ mbind_e(){
 }
 
 mbind_f(){
-	if (SPACE() && CAPS()){
+	if (SPACE() && CAPS())
 		launch("F",SHIFT())
-	}else if LCMD() && CAPS()
+	else if LCMD() && CAPS()
 		Send("^{PgDn}")
 	else if LSHIFT() && RSHIFT()
 		ControlMouse("e","d","s","f")
@@ -105,9 +104,9 @@ mbind_f(){
 }
 
 mbind_g(){
-	if (SPACE() && CAPS()){
+	if (SPACE() && CAPS())
 		launch("G",SHIFT())
-	}else if LSHIFT() && RSHIFT()
+	else if LSHIFT() && RSHIFT()
 		ControlMouseFast("w","r","a","g")
 	else if RCMD() || CAPS()
 		press("^{RIGHT}")
@@ -256,17 +255,15 @@ mbind_p(){
 }
 
 mbind_q(){
-	if (SPACE() && CAPS()){
+	if (SPACE() && CAPS())
 		launch("Q",SHIFT())
-	}else if LSHIFT() && RSHIFT()
+	else if LSHIFT() && RSHIFT()
 		mouseCursorResetToCenter()
 	else if CAPS() && ALT()
 		Send("{Volume_Up}")
-	else if LCMD() && CAPS(){
-		;Chromeの画面拡大。A側の拡大バインドと対応
-		;Explorerの表示整理バインドでもある
-		Send("^{NumpadAdd}")
-	}else if RCMD() || CAPS()
+	else if LCMD() && CAPS()
+		Send("^{NumpadAdd}") ;Chromeの画面拡大。A側の拡大バインドと対応。Explorerの表示整理バインドでもある
+	else if RCMD() || CAPS()
 		Send("{BackSpace}")
 	else if LCMD(){
 		;セーフティ付きのAltF4
@@ -362,11 +359,11 @@ mbind_u(){
 }
 
 mbind_v(){
-	if (SPACE() && CAPS() && SHIFT()){
+	if (SPACE() && CAPS() && SHIFT())
 		Run("`"C:\Program Files\TrueCrypt\TrueCrypt.exe`" /q /dr")
-	}else if (SPACE() && CAPS()){
+	else if (SPACE() && CAPS())
 		Run("`"C:\Program Files\TrueCrypt\TrueCrypt.exe`" /q /v \Device\Harddisk1\Partition0 /lr")
-	}else if RCMD() || CAPS()
+	else if RCMD() || CAPS()
 		ClipExt_Tpaste()
 	else if SPACE() && SHIFT()
 		ClipExt_copyTo("SV")
