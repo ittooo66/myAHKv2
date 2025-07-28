@@ -775,8 +775,7 @@ XButton2 & LButton::
 F19 & LButton::
 F20 & LButton::
 !+LButton::
-^!LButton::
-{
+^!LButton::{
 	mbind_mlb()
 }
 
