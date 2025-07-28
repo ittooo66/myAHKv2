@@ -217,6 +217,7 @@ launch(str, shift, man:=0, arg:=""){
 			Send("#{r}")
 			Sleep(300)
 			WinActivate("ファイル名を指定して実行")
+			Sleep(100)
 			directInput(name . " " . arg)
 			Send("{Enter}")
 		}else{
@@ -233,6 +234,7 @@ launch(str, shift, man:=0, arg:=""){
 				Send("#{r}")
 				Sleep(300)
 				WinActivate("ファイル名を指定して実行")
+				Sleep(100)
 				directInput(name . " " . arg)
 				Send("{Enter}")
 			}else{
