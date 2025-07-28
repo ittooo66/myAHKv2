@@ -70,11 +70,9 @@ mbind_d(){
 }
 
 mbind_e(){
-	if (SPACE() && CAPS()){
-		; 引数に日付メモ.txtを指定して起動
-		TimeString := FormatTime(, "yyyyMMdd")
-		launch("E",SHIFT(),1, A_Desktop . "\memo\"  . TimeString ".txt")
-	}else if LSHIFT() && RSHIFT()
+	if (SPACE() && CAPS())
+		launch("E",SHIFT(),1, A_Desktop . "\memo\"  . FormatTime(, "yyyyMMdd") ".txt") ; 引数に日付メモ.txtを指定して起動
+	else if LSHIFT() && RSHIFT()
 		ControlMouse("e","d","s","f")
 	else if CAPS() || RCMD(){
 		press("{UP}")
