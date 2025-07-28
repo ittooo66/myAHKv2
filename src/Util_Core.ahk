@@ -1,3 +1,5 @@
+; 関数全般
+
 ; 指定された条件（クラス名・プロセス名・タイトル名）に一致するウィンドウをアクティブ化する関数。
 ; ウィンドウはZオーダーの下位（背面）から順に検索され、最初に一致したものをアクティブにする。
 ; オプションで複数一致させる処理も可能。
@@ -192,80 +194,6 @@ execScripts(scriptName, visible := "Hide", arg := "") {
     }
 
     Run runner " " cmd, , visible
-}
-
-; マウスのドラッグ操作に応じて、スクロールを行う関数。
-; 左マウスボタン + サイドボタン（進むボタン）を押しながらマウスを移動することで、
-; 水平方向または垂直方向にスクロールする。
-; 移動量に応じてスクロール速度と回数を調整する動的な挙動を提供する。
-intelliScroll(){
-	;初期マウス位置の取得
-	MouseGetPos(&preMouseX, &preMouseY)
-	while(MLB() && MSBLF()){
-		;現在マウス位置の取得
-		MouseGetPos(&mouseX, &mouseY)
-		
-		;差分取得
-		mouseDiffX :=mouseX-preMouseX
-		mouseDiffY :=mouseY-preMouseY
-
-		;スクロール分量値調整
-		diffPointY := Float(mouseDiffY/30)
-		diffPointX := Float(mouseDiffX/50)
-
-		;絶対値取得
-		absDiffPointY := abs(diffPointY)
-		absDiffPointX := abs(diffPointX)
-
-		;適用対象判定
-		if(absDiffPointX > absDiffPointY ){
-			;Count値、Stack用意
-			sleepCount := float(100/absDiffPointX)
-			sleepStack := 0
-
-			;X方向適用
-			while(absDiffPointX > 0){
-				if(diffPointX>0)
-					Send("{WheelLeft}")
-				else
-					Send("{WheelRight}")
-
-				;スタック溜まったらSleep（１ミリSleepはまともに挙動しないので20程度見る）
-				sleepStack +=sleepCount
-				if(sleepStack > 20){
-					Sleep(sleepCount)
-					sleepStack := 0
-				}
-
-				absDiffPointX--
-			}
-		}else{
-			;Count値、Stack用意
-			if (absDiffPointY = 0){
-				absDiffPointY := 1
-			}
-			sleepCount := 100/absDiffPointY
-			sleepStack := 0
-
-			;Y方向適用
-			while(absDiffPointY > 0){
-				;ToolTip(absDiffPointY)
-				if(diffPointY>0.5)
-					Send("{WheelUp}")
-				else if(diffPointY<-0.5)
-					Send("{WheelDown}")
-
-				;スタック溜まったらSleep（１ミリSleepはまともに挙動しないので20程度見る）
-				sleepStack +=sleepCount
-				if(sleepStack > 20){
-					Sleep(sleepCount)
-					sleepStack := 0
-				}
-
-				absDiffPointY--
-			}
-		}
-	}
 }
 
 ; 環境変数に定義されたアプリケーションを起動、または既存のウィンドウをアクティブにする関数。
