@@ -51,7 +51,7 @@ myAHKv2/
 ### IWA_PowerPoint.ahk
 `iwa_pptx_1`, `iwa_pptx_2`, `iwa_pptx_3`, `iwa_pptx_4`, `iwa_pptx_5`, `iwa_pptx_tab`, `iwa_pptx_q`, `iwa_pptx_w`, `iwa_pptx_e`, `iwa_pptx_r`, `iwa_pptx_t`, `iwa_pptx_a`, `iwa_pptx_s`, `iwa_pptx_d`, `iwa_pptx_f`, `iwa_pptx_g`, `iwa_pptx_z`, `iwa_pptx_x`, `iwa_pptx_c`, `iwa_pptx_v`, `iwa_pptx_b`
 
-### Util_Core.ahk
+### Util_General.ahk
 `activateWindow`, `press`, `directInput`, `setEnv`, `getEnv`, `execScripts`, `launch`, `splash`, `AHK_Reload`, `AHK_Exit`, `AHK_Suspend`, `AHK_Dashboard`, `resetMods`, `logger`, `philipsHue`, `philipsHueControlCT`, `philipsHueControlBRI`
 
 ### Util_Clip.ahk
