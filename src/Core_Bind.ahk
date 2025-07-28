@@ -10,18 +10,18 @@ mbind_a(){
 	else if RCMD() || CAPS()
 		press("^{LEFT}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SA")
+		ClipExt_copyTo("A")
 	else if SPACE()
-		ClipExt_pasteFrom("SA")
+		ClipExt_pasteFrom("A")
 	else
 		press("a")
 }
 
 mbind_b(){
 	if SPACE() && SHIFT()
-		ClipExt_copyTo("SB")
+		ClipExt_copyTo("B")
 	else if SPACE()
-		ClipExt_pasteFrom("SB")
+		ClipExt_pasteFrom("B")
 	else if RCMD() || CAPS()
 		press("{PgDn}")
 	else
@@ -38,9 +38,9 @@ mbind_c(){
 	else if LCMD()
 		ClipExt_copy()
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SC")
+		ClipExt_copyTo("C")
 	else if SPACE()
-		ClipExt_pasteFrom("SC")
+		ClipExt_pasteFrom("C")
 	else
 		press("c")
 }
@@ -62,9 +62,9 @@ mbind_d(){
 	}else if RCMD() || CAPS()
 		press("{DOWN}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SD")
+		ClipExt_copyTo("D")
 	else if SPACE()
-		ClipExt_pasteFrom("SD")
+		ClipExt_pasteFrom("D")
 	else
 		press("d")
 }
@@ -77,9 +77,9 @@ mbind_e(){
 	else if CAPS() || RCMD(){
 		press("{UP}")
 	}else if SPACE() && SHIFT()
-		ClipExt_copyTo("SE")
+		ClipExt_copyTo("E")
 	else if SPACE()
-		ClipExt_pasteFrom("SE")
+		ClipExt_pasteFrom("E")
 	else
 		press("e")
 }
@@ -94,9 +94,9 @@ mbind_f(){
 	else if CAPS() || RCMD()
 		press("{RIGHT}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SF")
+		ClipExt_copyTo("F")
 	else if SPACE()
-		ClipExt_pasteFrom("SF")
+		ClipExt_pasteFrom("F")
 	else
 		press("f")
 }
@@ -109,9 +109,9 @@ mbind_g(){
 	else if RCMD() || CAPS()
 		press("^{RIGHT}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SG")
+		ClipExt_copyTo("G")
 	else if SPACE()
-		ClipExt_pasteFrom("SG")
+		ClipExt_pasteFrom("G")
 	else
 		press("g")
 }
@@ -122,9 +122,9 @@ mbind_h(){
 	else if RCMD() || CAPS()
 		press("{BackSpace}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SH")
+		ClipExt_copyTo("H")
 	else if SPACE()
-		ClipExt_pasteFrom("SH")
+		ClipExt_pasteFrom("H")
 	else
 		press("h")
 }
@@ -137,9 +137,9 @@ mbind_i(){
 	else if CAPS()
 		press("{numpad8}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SI")
+		ClipExt_copyTo("I")
 	else if SPACE()
-		ClipExt_pasteFrom("SI")
+		ClipExt_pasteFrom("I")
 	else
 		press("i")
 }
@@ -152,9 +152,9 @@ mbind_j(){
 	else if CAPS()
 		press("{numpad4}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SJ")
+		ClipExt_copyTo("J")
 	else if SPACE()
-		ClipExt_pasteFrom("SJ")
+		ClipExt_pasteFrom("J")
 	else
 		press("j")
 }
@@ -167,9 +167,9 @@ mbind_k(){
 	else if CAPS()
 		press("{numpad5}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SK")
+		ClipExt_copyTo("K")
 	else if SPACE()
-		ClipExt_pasteFrom("SK")
+		ClipExt_pasteFrom("K")
 	else
 		press("k")
 }
@@ -188,9 +188,9 @@ mbind_l(){
 	else if CAPS()
 		press("{numpad6}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SL")
+		ClipExt_copyTo("L")
 	else if SPACE()
-		ClipExt_pasteFrom("SL")
+		ClipExt_pasteFrom("L")
 	else if LCMD(){
 		;Win+L問題のため無効化。Lキーと組み合わせたとたんダメになる。
 		;上で書いてる通り、CAPS付きで入力すること。
@@ -204,9 +204,9 @@ mbind_m(){
 	else if CAPS()
 		press("{numpad1}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SM")
+		ClipExt_copyTo("M")
 	else if SPACE()
-		ClipExt_pasteFrom("SM")
+		ClipExt_pasteFrom("M")
 	else
 		press("m")
 }
@@ -219,9 +219,9 @@ mbind_n(){
 	else if CAPS()
 		press("{numpad0}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SN")
+		ClipExt_copyTo("N")
 	else if SPACE()
-		ClipExt_pasteFrom("SN")
+		ClipExt_pasteFrom("N")
 	else
 		press("n")
 }
@@ -232,9 +232,9 @@ mbind_o(){
 	else if CAPS()
 		press("{numpad9}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SO")
+		ClipExt_copyTo("O")
 	else if SPACE()
-		ClipExt_pasteFrom("SO")
+		ClipExt_pasteFrom("O")
 	else
 		press("o")
 }
@@ -245,9 +245,9 @@ mbind_p(){
 	else if LSHIFT() && RSHIFT()
 		Send("{WheelUp}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SP")
+		ClipExt_copyTo("P")
 	else if SPACE()
-		ClipExt_pasteFrom("SP")
+		ClipExt_pasteFrom("P")
 	else
 		press("p")
 }
@@ -280,9 +280,9 @@ mbind_q(){
 			windowCloseDownTime := A_TickCount
 		}
 	}else if SPACE() && SHIFT()
-		ClipExt_copyTo("SQ")
+		ClipExt_copyTo("Q")
 	else if SPACE()
-		ClipExt_pasteFrom("SQ")
+		ClipExt_pasteFrom("Q")
 	else
 		press("q")
 }
@@ -300,9 +300,9 @@ mbind_r(){
 	else if RCMD() || CAPS()
 		press("{END}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SR")
+		ClipExt_copyTo("R")
 	else if SPACE()
-		ClipExt_pasteFrom("SR")
+		ClipExt_pasteFrom("R")
 	else
 		press("r")
 }
@@ -323,9 +323,9 @@ mbind_s(){
 	}else if RCMD() || CAPS()
 		press("{LEFT}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SS")
+		ClipExt_copyTo("S")
 	else if SPACE()
-		ClipExt_pasteFrom("SS")
+		ClipExt_pasteFrom("S")
 	else
 		press("s")
 }
@@ -336,9 +336,9 @@ mbind_t(){
 	}else if RCMD() || CAPS(){
 		press("{Enter}")
 	}else if SPACE() && SHIFT()
-		ClipExt_copyTo("ST")
+		ClipExt_copyTo("T")
 	else if SPACE()
-		ClipExt_pasteFrom("ST")
+		ClipExt_pasteFrom("T")
 	else
 		press("t")
 }
@@ -349,9 +349,9 @@ mbind_u(){
 	else if CAPS()
 		press("{numpad7}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SU")
+		ClipExt_copyTo("U")
 	else if SPACE()
-		ClipExt_pasteFrom("SU")
+		ClipExt_pasteFrom("U")
 	else
 		press("u")
 }
@@ -364,9 +364,9 @@ mbind_v(){
 	else if RCMD() || CAPS()
 		ClipExt_Tpaste()
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SV")
+		ClipExt_copyTo("V")
 	else if SPACE()
-		ClipExt_pasteFrom("SV")
+		ClipExt_pasteFrom("V")
 	else if LCMD() && LALT(){
 		;テキスト形式の貼り付け
 		directInput(A_Clipboard)
@@ -382,9 +382,9 @@ mbind_w(){
 	else if RCMD() || CAPS()
 		press("{HOME}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SW")
+		ClipExt_copyTo("W")
 	else if SPACE()
-		ClipExt_pasteFrom("SW")
+		ClipExt_pasteFrom("W")
 	else
 		press("w")
 }
@@ -399,18 +399,18 @@ mbind_x(){
 	else if LCMD()
 		ClipExt_cut()
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SX")
+		ClipExt_copyTo("X")
 	else if SPACE()
-		ClipExt_pasteFrom("SX")
+		ClipExt_pasteFrom("X")
 	else
 		press("x")
 }
 
 mbind_y(){
 	if SPACE() && SHIFT()
-		ClipExt_copyTo("SY")
+		ClipExt_copyTo("Y")
 	else if SPACE()
-		ClipExt_pasteFrom("SY")
+		ClipExt_pasteFrom("Y")
 	else if RCMD() || CAPS()
 		press("{PgUp}")
 	else
@@ -425,9 +425,9 @@ mbind_z(){
 	else if RCMD() || CAPS()
 		MacroZ()
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SZ")
+		ClipExt_copyTo("Z")
 	else if SPACE()
-		ClipExt_pasteFrom("SZ")
+		ClipExt_pasteFrom("Z")
 	else if SHIFT() && LCMD()
 		;Shift押しで「進む」
 		Send("^{y}")
@@ -443,9 +443,9 @@ mbind_1(){
 	else if RCMD() || CAPS(){
 		;F1無効化
 	}else if SPACE() && SHIFT()
-		ClipExt_copyTo("S1")
+		ClipExt_copyTo("1")
 	else if SPACE()
-		ClipExt_pasteFrom("S1")
+		ClipExt_pasteFrom("1")
 	else
 		press("1")
 }
@@ -458,9 +458,9 @@ mbind_2(){
 	else if RCMD() || CAPS()
 		press("{F2}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("S2")
+		ClipExt_copyTo("2")
 	else if SPACE()
-		ClipExt_pasteFrom("S2")
+		ClipExt_pasteFrom("2")
 	else
 		press("2")
 }
@@ -473,9 +473,9 @@ mbind_3(){
 	else if RCMD() || CAPS()
 		press("{F3}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("S3")
+		ClipExt_copyTo("3")
 	else if SPACE()
-		ClipExt_pasteFrom("S3")
+		ClipExt_pasteFrom("3")
 	else
 		press("3")
 }
@@ -488,9 +488,9 @@ mbind_4(){
 	else if RCMD() || CAPS()
 		press("{F4}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("S4")
+		ClipExt_copyTo("4")
 	else if SPACE()
-		ClipExt_pasteFrom("S4")
+		ClipExt_pasteFrom("4")
 	else
 		press("4")
 }
@@ -503,9 +503,9 @@ mbind_5(){
 	else if RCMD() || CAPS()
 		press("{F5}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("S5")
+		ClipExt_copyTo("5")
 	else if SPACE()
-		ClipExt_pasteFrom("S5")
+		ClipExt_pasteFrom("5")
 	else
 		press("5")
 }
@@ -518,9 +518,9 @@ mbind_6(){
 	else if SPACE() && CAPS()
 		ClipExt_openAlias("6")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("S6")
+		ClipExt_copyTo("6")
 	else if SPACE()
-		ClipExt_pasteFrom("S6")
+		ClipExt_pasteFrom("6")
 	else
 		press("6")
 }
@@ -533,9 +533,9 @@ mbind_7(){
 	else if SPACE() && CAPS()
 		ClipExt_openAlias("7")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("S7")
+		ClipExt_copyTo("7")
 	else if SPACE()
-		ClipExt_pasteFrom("S7")
+		ClipExt_pasteFrom("7")
 	else
 		press("7")
 }
@@ -548,9 +548,9 @@ mbind_8(){
 	else if SPACE() && CAPS()
 		ClipExt_openAlias("8")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("S8")
+		ClipExt_copyTo("8")
 	else if SPACE()
-		ClipExt_pasteFrom("S8")
+		ClipExt_pasteFrom("8")
 	else
 		press("8")
 }
@@ -561,9 +561,9 @@ mbind_9(){
 	else if SPACE() && CAPS()
 		ClipExt_openAlias("9")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("S9")
+		ClipExt_copyTo("9")
 	else if SPACE()
-		ClipExt_pasteFrom("S9")
+		ClipExt_pasteFrom("9")
 	else if SHIFT()
 		Send("{(}{)}{Left}")
 	else if RCMD() || CAPS()
@@ -578,9 +578,9 @@ mbind_0(){
 	else if SPACE() && CAPS()
 		ClipExt_openAlias("0")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("S0")
+		ClipExt_copyTo("0")
 	else if SPACE()
-		ClipExt_pasteFrom("S0")
+		ClipExt_pasteFrom("0")
 	else if RCMD() || CAPS()
 		press("{F10}")
 	else
@@ -591,9 +591,9 @@ mbind_minus(){
 	if RCMD() || CAPS()
 		press("{F11}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SMinus")
+		ClipExt_copyTo("Minus")
 	else if SPACE()
-		ClipExt_pasteFrom("SMinus")
+		ClipExt_pasteFrom("Minus")
 	else
 		press("-")
 }
@@ -602,9 +602,9 @@ mbind_equal(){
 	if RCMD() || CAPS()
 		press("{F12}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SEqual")
+		ClipExt_copyTo("Equal")
 	else if SPACE()
-		ClipExt_pasteFrom("SEqual")
+		ClipExt_pasteFrom("Equal")
 	else
 		press("=")
 }
@@ -615,9 +615,9 @@ mbind_bracket_left(){
 	else if RCMD() || CAPS()
 		MacroBRL()
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SLBracket")
+		ClipExt_copyTo("LBracket")
 	else if SPACE()
-		ClipExt_pasteFrom("SLBracket")
+		ClipExt_pasteFrom("LBracket")
 	else{
 		press("[")
 		press("]")
@@ -631,9 +631,9 @@ mbind_bracket_right(){
 	else if RCMD() || CAPS()
 		MacroBRR()
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SRBracket")
+		ClipExt_copyTo("RBracket")
 	else if SPACE()
-		ClipExt_pasteFrom("SRBracket")
+		ClipExt_pasteFrom("RBracket")
 	else
 		press("]")
 }
@@ -642,9 +642,9 @@ mbind_backslash(){
 	if RCMD() || CAPS()
 		ClipExt_openLog()
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SBackslash")
+		ClipExt_copyTo("Backslash")
 	else if SPACE()
-		ClipExt_pasteFrom("SBackslash")
+		ClipExt_pasteFrom("Backslash")
 	else
 		press("\")
 }
@@ -657,9 +657,9 @@ mbind_semicolon(){
 	else if LSHIFT() && RSHIFT()
 		Send("{WheelDown}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SSemicolon")
+		ClipExt_copyTo("Semicolon")
 	else if SPACE()
-		ClipExt_pasteFrom("SSemicolon")
+		ClipExt_pasteFrom("Semicolon")
 	else if LCMD() && SHIFT(){
 		hour := FormatTime(, "HH")
 		minute := FormatTime(, "mm")
@@ -683,9 +683,9 @@ mbind_quote(){
 	else if LSHIFT() && RSHIFT()
 		Send("{WheelRight}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SQuote")
+		ClipExt_copyTo("Quote")
 	else if SPACE()
-		ClipExt_pasteFrom("SQuote")
+		ClipExt_pasteFrom("Quote")
 	else
 		press("'")
 }
@@ -696,9 +696,9 @@ mbind_period(){
 	else if CAPS()
 		press("{numpad3}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SPeriod")
+		ClipExt_copyTo("Period")
 	else if SPACE()
-		ClipExt_pasteFrom("SPeriod")
+		ClipExt_pasteFrom("Period")
 	else
 		press(".")
 }
@@ -709,9 +709,9 @@ mbind_camma(){
 	else if CAPS()
 		press("{numpad2}")
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SCamma")
+		ClipExt_copyTo("Camma")
 	else if SPACE()
-		ClipExt_pasteFrom("SCamma")
+		ClipExt_pasteFrom("Camma")
 	else
 		press(",")
 }
@@ -722,9 +722,9 @@ mbind_slash(){
 	else if RCMD() || CAPS()
 		MacroSLS()
 	else if SPACE() && SHIFT()
-		ClipExt_copyTo("SSlash")
+		ClipExt_copyTo("Slash")
 	else if SPACE()
-		ClipExt_pasteFrom("SSlash")
+		ClipExt_pasteFrom("Slash")
 	else
 		press("/")
 }
@@ -736,9 +736,9 @@ mbind_backspace(){
 		ClipExt_copy()
 		Send("{BackSpace}")
 	}else if SPACE() && SHIFT()
-		ClipExt_copyTo("SBackspace")
+		ClipExt_copyTo("Backspace")
 	else if SPACE()
-		ClipExt_pasteFrom("SBackspace")
+		ClipExt_pasteFrom("Backspace")
 	else
 		press("{BackSpace}")
 }
@@ -764,9 +764,9 @@ mbind_delete(){
 		ClipExt_copy()
 		Send("{BackSpace}")
 	}else if SPACE() && SHIFT()
-		ClipExt_copyTo("SDelete")
+		ClipExt_copyTo("Delete")
 	else if SPACE()
-		ClipExt_pasteFrom("SDelete")
+		ClipExt_pasteFrom("Delete")
 	else
 		press("{Delete}")
 }
