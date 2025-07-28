@@ -74,9 +74,9 @@ mbind_e(){
 		launch("E",SHIFT(),1, A_Desktop . "\memo\"  . FormatTime(, "yyyyMMdd") ".txt") ; 引数に日付メモ.txtを指定して起動
 	else if LSHIFT() && RSHIFT()
 		ControlMouse("e","d","s","f")
-	else if CAPS() || RCMD(){
+	else if CAPS() || RCMD()
 		press("{UP}")
-	}else if SPACE() && SHIFT()
+	else if SPACE() && SHIFT()
 		ClipExt_copyTo("E")
 	else if SPACE()
 		ClipExt_pasteFrom("E")
@@ -177,13 +177,9 @@ mbind_k(){
 mbind_l(){
 	if LSHIFT() && RSHIFT()
 		Send("{WheelLeft}")
-	else if RCMD() || (CAPS() && SHIFT()){
-		;Win+Lショートカットの対策(暫定なので、もっとうまいやり方あれば...)
-		Send("{RWin Up}")
+	else if RCMD() || (CAPS() && SHIFT())
 		press("6")
-		Sleep(150)
-		Send("{RWin Up}")
-	}else if CAPS() && LCMD()
+	else if CAPS() && LCMD()
 		Send("^{l}")
 	else if CAPS()
 		press("{numpad6}")
@@ -293,9 +289,9 @@ mbind_r(){
 		Run("taskkill /f /im explorer.exe", , "Hide")
 		Sleep(1000)  ; 1秒待機（explorerが完全に終了するのを待つ）
 		Run("explorer.exe")
-	}else if SPACE() && CAPS(){
+	}else if SPACE() && CAPS()
 		launch("R",SHIFT())
-	}else if LSHIFT() && RSHIFT()
+	else if LSHIFT() && RSHIFT()
 		ControlMouseFast("w","r","a","g")
 	else if RCMD() || CAPS()
 		press("{END}")
@@ -308,9 +304,9 @@ mbind_r(){
 }
 
 mbind_s(){
-	if SPACE() && CAPS(){
+	if SPACE() && CAPS()
 		launch("S",SHIFT())
-	}else if LCMD() && CAPS()
+	else if LCMD() && CAPS()
 		Send("^{PgUp}")
 	else if LSHIFT() && RSHIFT()
 		ControlMouse("e","d","s","f")
@@ -331,11 +327,11 @@ mbind_s(){
 }
 
 mbind_t(){
-	if SPACE() && CAPS(){
+	if SPACE() && CAPS()
 		launch("T",SHIFT())
-	}else if RCMD() || CAPS(){
+	else if RCMD() || CAPS()
 		press("{Enter}")
-	}else if SPACE() && SHIFT()
+	else if SPACE() && SHIFT()
 		ClipExt_copyTo("T")
 	else if SPACE()
 		ClipExt_pasteFrom("T")
@@ -367,10 +363,9 @@ mbind_v(){
 		ClipExt_copyTo("V")
 	else if SPACE()
 		ClipExt_pasteFrom("V")
-	else if LCMD() && LALT(){
-		;テキスト形式の貼り付け
-		directInput(A_Clipboard)
-	}else
+	else if LCMD() && LALT()
+		directInput(A_Clipboard) ;テキスト形式の貼り付け
+	else
 		press("v")
 }
 
@@ -429,8 +424,7 @@ mbind_z(){
 	else if SPACE()
 		ClipExt_pasteFrom("Z")
 	else if SHIFT() && LCMD()
-		;Shift押しで「進む」
-		Send("^{y}")
+		Send("^{y}") ;Shift押しで「進む」
 	else
 		press("z")
 }
@@ -660,18 +654,11 @@ mbind_semicolon(){
 		ClipExt_copyTo("Semicolon")
 	else if SPACE()
 		ClipExt_pasteFrom("Semicolon")
-	else if LCMD() && SHIFT(){
-		hour := FormatTime(, "HH")
-		minute := FormatTime(, "mm")
-		time := hour . ":" . minute
-		directInput(time)
-	}else if LCMD(){
-		year := FormatTime(, "yyyy")
-		month := FormatTime(, "MM")
-		day := FormatTime(, "dd")
-		date := year . "/" . month . "/" . day
-		directInput(date)
-	}else if SHIFT()
+	else if LCMD() && SHIFT()
+		directInput(FormatTime(, "HH") . ":" . FormatTime(, "mm"))
+	else if LCMD()
+		directInput(FormatTime(, "yyyy") . "/" . FormatTime(, "MM") . "/" . FormatTime(, "dd"))
+	else if SHIFT()
 		Send("{:}")
 	else
 		press("`;")
@@ -748,13 +735,12 @@ mbind_enter(){
 		launch("Enter",SHIFT())
 	else if SPACE() && SHIFT()
 		ClipExt_copyTo("Enter")
-	else if SPACE(){
+	else if SPACE()
 		ClipExt_pasteFrom("Enter")
-	}else if CAPS() || RCMD() {
+	else if CAPS() || RCMD()
 		Send("^{Enter}")
-	}else{
+	else
 		press("{Enter}")
-	}
 }
 
 mbind_delete(){
@@ -772,8 +758,7 @@ mbind_delete(){
 }
 
 mbind_escape(){
-	;押しっぱなし解消キー
-	resetMods()
+	resetMods() ;押しっぱなし解消キー
 
 	if CAPS() || RCMD()
 		Send("{Delete}")
@@ -782,40 +767,38 @@ mbind_escape(){
 }
 
 mbind_tab(){
-	if CAPS() || RCMD(){
+	if CAPS() || RCMD()
 		Send("^{Tab}")
-	}else if LCMD(){
+	else if LCMD()
 		Send("#{Tab}")
-	}else
+	else
 		press("{Tab}")
 }
 
 mbind_mlb(){
-	if MRB(){
+	if MRB()
 		changeWindowSize()
-	}else if MMB(){
+	else if MMB()
 		Send("#{Tab}")
-	}else if MSBRB(){
+	else if MSBRB()
 		philipsHue(1,getEnv("HUE_BRI"),getEnv("HUE_CT"))
-	}else if MSBLF(){
+	else if MSBLF()
 		intelliScroll()
-	}else if MSBLB(){
+	else if MSBLB(){
 		if !activateWindow("CabinetWClass","explorer.exe","")
 			Send("#{e}")
-	}else if MSBRF(){
-		; 要EarTrunpetショートカット設定
-		Send("^+{k}")
-	}else{
+	}else if MSBRF()
+		Send("^+{k}") ; 要EarTrunpetショートカット設定
+	else
 		Send("{LButton}")
-	}
 }
 
 mbind_mrb(){
-	if MMB(){
+	if MMB()
 		Send("^{n}")
-	}else if MSBRB(){
+	else if MSBRB()
 		philipsHue(0)
-	}else if MSBRF(){
+	else if MSBRF(){
 		execScripts("read_co2.py")
 		splash("CO2 Concentration : " . getEnv("CO2") . "ppm",1500,400)
 	}else if MSBLB(){
@@ -824,32 +807,30 @@ mbind_mrb(){
 			Sleep(30)
 		}
 		Send("{RWin Up}")
-	}else if MSBLF(){
+	}else if MSBLF()
 		AHK_Dashboard()
-	}else{
+	else
 		Send("{RButton}")
-	}
 }
 
 mbind_mmb(){
-	if MRB(){
+	if MRB()
 		Send("^{t}")
-	}else if MSBRB(){
+	else if MSBRB()
 		philipsHueControlCT()
-	}else{
+	else
 		moveWindow()
-	}
 }
 
 mbind_msblb(){
 	if MRB(){
 		Send("^{w}")
 		Sleep(250)
-	}else if MMB(){
+	}else if MMB()
 		WinMinimize("A")
-	}else if MSBLF(){
+	else if MSBLF()
 		changeWindowSize()
-	}else if MSBRF(){
+	else if MSBRF(){
 		; MuteTimer
 		IB := InputBox("Mute After N minute", "Delayed Mute", "w200 h130", 60), muteMinute := IB.Value, ErrorLevel := IB.Result="OK" ? 0 : IB.Result="CANCEL" ? 1 : IB.Result="Timeout" ? 2 : "ERROR"
 			if (ErrorLevel != 0)
@@ -869,27 +850,25 @@ mbind_msblb(){
 				}else
 					MsgBox("Invalid Input Number")
 			}
-	}else if MSBRB(){
+	}else if MSBRB()
 		Send("+{.}")
-	}else{
+	else
 		Send("{XButton1}")
-	}
 }
 
 mbind_msblf(){
-	if MRB(){
+	if MRB()
 		Send("^+{t}")
-	}else if MSBRB(){
+	else if MSBRB()
 		Send("+{,}")
-	}else if MSBRF(){
+	else if MSBRF()
 		execScripts("SetAudioDevice.ps1")
-	}else if MSBLB(){
+	else if MSBLB()
 		changeWindowSize()
-	}else if MSBLF(){
+	else if MSBLF()
 		activeAllWindow()
-	}else{
+	else
 		Send("{XButton2}")
-	}
 }
 
 mbind_msbrb(){
