@@ -501,12 +501,12 @@ mbind_5(){
 }
 
 mbind_6(){
-	if RCMD() || CAPS()
-		press("{F6}")
-	else if SPACE() && CAPS() && SHIFT()
+	if SPACE() && CAPS() && SHIFT()
 		ClipExt_addAlias("6")
 	else if SPACE() && CAPS()
 		ClipExt_openAlias("6")
+	else if RCMD() || CAPS()
+		press("{F6}")
 	else if SPACE() && SHIFT()
 		ClipExt_copyTo("6")
 	else if SPACE()
@@ -516,12 +516,12 @@ mbind_6(){
 }
 
 mbind_7(){
-	if RCMD() || CAPS()
-		press("{F7}")
-	else if SPACE() && CAPS() && SHIFT()
+	if SPACE() && CAPS() && SHIFT()
 		ClipExt_addAlias("7")
 	else if SPACE() && CAPS()
 		ClipExt_openAlias("7")
+	else if RCMD() || CAPS()
+		press("{F7}")
 	else if SPACE() && SHIFT()
 		ClipExt_copyTo("7")
 	else if SPACE()
@@ -531,12 +531,12 @@ mbind_7(){
 }
 
 mbind_8(){
-	if RCMD() || CAPS()
-		press("{F8}")
-	else if SPACE() && CAPS() && SHIFT()
+	if SPACE() && CAPS() && SHIFT()
 		ClipExt_addAlias("8")
 	else if SPACE() && CAPS()
 		ClipExt_openAlias("8")
+	else if RCMD() || CAPS()
+		press("{F8}")
 	else if SPACE() && SHIFT()
 		ClipExt_copyTo("8")
 	else if SPACE()
@@ -550,14 +550,14 @@ mbind_9(){
 		ClipExt_addAlias("9")
 	else if SPACE() && CAPS()
 		ClipExt_openAlias("9")
+	else if RCMD() || CAPS()
+		press("{F9}")
 	else if SPACE() && SHIFT()
 		ClipExt_copyTo("9")
 	else if SPACE()
 		ClipExt_pasteFrom("9")
 	else if SHIFT()
 		Send("{(}{)}{Left}")
-	else if RCMD() || CAPS()
-		press("{F9}")
 	else
 		press("9")
 }
@@ -567,12 +567,12 @@ mbind_0(){
 		ClipExt_addAlias("0")
 	else if SPACE() && CAPS()
 		ClipExt_openAlias("0")
+	else if RCMD() || CAPS()
+		press("{F10}")
 	else if SPACE() && SHIFT()
 		ClipExt_copyTo("0")
 	else if SPACE()
 		ClipExt_pasteFrom("0")
-	else if RCMD() || CAPS()
-		press("{F10}")
 	else
 		press("0")
 }
