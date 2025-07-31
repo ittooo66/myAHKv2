@@ -13,14 +13,14 @@ IME_JP(){
     IME_SET(1)
     IME_SetConvMode(25)
   }
-  SetCapsLockState("Off")
+  resetMods()
 }
 
 ;ENに切替
 IME_EN(){
   ;IME_OFF(ENG)
   IME_SET(0)
-  SetCapsLockState("Off")
+  resetMods()
 }
 
 
