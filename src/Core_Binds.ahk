@@ -703,7 +703,7 @@ mbind_slash(){
 	if ( CAPS() || RCMD() )&& SHIFT()
 		launch("E",SHIFT(),1," `"" . A_WorkingDir "\src\Util_Macros.ahk`"")
 	else if RCMD() || CAPS()
-		MacroSLS()
+		AHK_Dashboard()
 	else if SPACE() && SHIFT()
 		ClipExt_copyTo("Slash")
 	else if SPACE()

@@ -6,7 +6,5 @@ MacroBRL(){
 }
 MacroBRR(){
 }
-MacroSLS(){
-}
 MacroSMC(){
 }
