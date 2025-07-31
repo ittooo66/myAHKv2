@@ -322,7 +322,7 @@ AHK_Dashboard(){
 	WinGetPos(&wx, &wy, , , "a")
 	mx+=wx
 	my+=wy
-	while(GetKeyState("RButton","P")){
+	while(MRB() || RCMD()){
 		month := FormatTime(, "M")
 		daily := FormatTime(, "d")
 		yb := FormatTime(, "ddd")
