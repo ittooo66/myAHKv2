@@ -373,7 +373,7 @@ AHK_Dashboard(){
 ;修飾キーの押しっぱなし問題解除用
 resetMods(){
 	if LCMD() 
-		Send("{vkEB Up}{LWin Up}")
+	 	Reload() ;Send()だとどうにもならんので、Reloadして対処
 	if RCMD()
 		Send("{vkFF Up}{RWin Up}")
 	if CAPS()
