@@ -780,10 +780,9 @@ mbind_mlb(){
 		philipsHue(1,getEnv("HUE_BRI"),getEnv("HUE_CT"))
 	else if MSBLF()
 		intelliScroll()
-	else if MSBLB(){
-		if !activateWindow("CabinetWClass","explorer.exe","")
-			Send("#{e}")
-	}else if MSBRF()
+	else if MSBLB()
+		launch("F",0)
+	else if MSBRF()
 		Send("^+{k}") ; 要EarTrunpetショートカット設定
 	else
 		Send("{LButton}")
