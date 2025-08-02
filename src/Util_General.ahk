@@ -348,8 +348,12 @@ AHK_Dashboard(){
 			press .= "RALT "
 		if MLB()
 			press .= "MLB "
+		if MRB()
+			press .= "MRB "
 		if MMB()
 			press .= "MMB "
+		if MSBLF()
+			press .= "MSBLF "
 		if MSBLB()
 			press .= "MSBLB "
 		if MSBRF()
