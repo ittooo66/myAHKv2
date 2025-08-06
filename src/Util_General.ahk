@@ -80,7 +80,7 @@ directInput(string){
 		A_Clipboard := string
 	}
 	;Clipboard の変更を待機
-	ClipWait(1)
+	ClipWait(3)
 	;文字列貼り付け
 	Send("^v")
 	;入力完了を待ってClipboard内容を復元(要Tuning)

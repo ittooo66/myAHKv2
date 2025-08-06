@@ -5,7 +5,7 @@ ClipExt_copy(){
 	;ClipboardにCopy
     A_Clipboard := ""  ; ClipWait用の初期化
 	Send("^c")
-    ClipWait(1)
+    ClipWait(3)
 
 	;clip.logにログ追記
 	FileAppend(A_Clipboard . "`n`n-----`n`n", A_WorkingDir "\clip.log", "UTF-8-RAW")
@@ -16,7 +16,7 @@ ClipExt_cut(){
 	;ClipboardにCut
     A_Clipboard := ""  ; ClipWait用の初期化
 	Send("^x")
-    ClipWait(1)
+    ClipWait(3)
 
 	;clip.logにログ追記
 	FileAppend(A_Clipboard . "`n`n-----`n`n", A_WorkingDir "\clip.log", "UTF-8-RAW")
@@ -41,7 +41,7 @@ ClipExt_Tcopy() {
 
 	A_Clipboard := ""  ; ClipWait用の初期化
     Send("^c")
-    ClipWait(1)
+    ClipWait(3)
 
     clipText := A_Clipboard
     if clipText = ""
@@ -129,7 +129,7 @@ ClipExt_Tpaste() {
             ; レスポンスはJSON（例: {"desc":"説明文"})
             desc := JSONExtract(http.ResponseText, "_value")
             A_Clipboard := desc
-            ClipWait(1)
+            ClipWait(3)
         } else {
             MsgBox Format("エラー: Status {} - {}", http.Status, http.ResponseText)
         }
@@ -184,7 +184,7 @@ ClipExt_copyTo(num){
 	
 	A_Clipboard := ""  ; ClipWait用の初期化
 	Send("^c")
-	ClipWait(1)
+	ClipWait(3)
 
 	;clip.logにログ追記
 	FileAppend(A_Clipboard . "`n`n-----`n`n", A_WorkingDir "\clip.log", "UTF-8-RAW")
@@ -223,7 +223,7 @@ ClipExt_addAlias(num){
 
     A_Clipboard := ""  ; ClipWait用の初期化
 	Send("^c")
-	ClipWait(1)
+	ClipWait(3)
 
 	;filepathの書き出し
 	param := "CLIPEXT_ALIAS_" . num
