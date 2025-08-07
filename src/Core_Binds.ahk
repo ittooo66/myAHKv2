@@ -47,7 +47,7 @@ mbind_c(){
 
 mbind_d(){
 	if (SPACE() && CAPS())
-		launch("D",SHIFT())
+		launch("D",SHIFT(),1)
 	else if LSHIFT() && RSHIFT()
 		ControlMouse("e","d","s","f")
 	else if CAPS() && ALT(){
@@ -250,7 +250,7 @@ mbind_p(){
 
 mbind_q(){
 	if (SPACE() && CAPS())
-		launch("Q",SHIFT())
+		launch("Q",SHIFT(),1)
 	else if LSHIFT() && RSHIFT()
 		mouseCursorResetToCenter()
 	else if CAPS() && ALT()
