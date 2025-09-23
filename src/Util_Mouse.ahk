@@ -134,69 +134,74 @@ moveWindow(){
 ;ウィンドウサイズ変更
 ;ディスプレイ設定(DPIスケール、モニタ配置)に大幅に依存してるので、注意
 changeWindowSize(){
-	; Grab成功判定
-	grabSuccess := 0
+	try{
+		; Grab成功判定
+		grabSuccess := 0
 
-	; アクティブウィンドウの左上(x=0,y=0)に即時(=0)移動し、カーソル変化が起きるまでSleep()
-	MouseMove(0, 0, 0)
-	Sleep(5)
+		; アクティブウィンドウの左上(x=0,y=0)に即時(=0)移動し、カーソル変化が起きるまでSleep()
+		MouseMove(0, 0, 0)
+		Sleep(5)
 
-	; カーソルが左上-右下の矢印になっている場合、成功
-	if(A_Cursor = "SizeNWSE")
-		grabSuccess := 1
+		; カーソルが左上-右下の矢印になっている場合、成功
+		if(A_Cursor = "SizeNWSE")
+			grabSuccess := 1
 
-	; ここまでの処理でうまく掴めてない場合、試行錯誤を実施
-	if(!grabSuccess)
-		grabSuccess := MouseMove_NWSE(-3,+2) ; Windows Explorer (Low Dpi)
-	if(!grabSuccess)
-		grabSuccess := MouseMove_NWSE(-6,+4) ; Windows Explorer (High Dpi)
-	if(!grabSuccess)
-		grabSuccess := MouseMove_NWSE(-4,-24) ; Joplin & Mery (Low Dpi)
-	if(!grabSuccess)
-		grabSuccess := MouseMove_NWSE(-5,-38) ; Joplin & Mery (High Dpi)
-	if(!grabSuccess)
-		grabSuccess := MouseMove_NWSE(-7.5,-44) ; HWMonitor (Low Dpi)
-	if(!grabSuccess)
-		grabSuccess := MouseMove_NWSE(-8.5,-70) ; HWMonitor (High Dpi)
+		; ここまでの処理でうまく掴めてない場合、試行錯誤を実施
+		if(!grabSuccess)
+			grabSuccess := MouseMove_NWSE(-3,+2) ; Windows Explorer (Low Dpi)
+		if(!grabSuccess)
+			grabSuccess := MouseMove_NWSE(-6,+4) ; Windows Explorer (High Dpi)
+		if(!grabSuccess)
+			grabSuccess := MouseMove_NWSE(-4,-24) ; Joplin & Mery (Low Dpi)
+		if(!grabSuccess)
+			grabSuccess := MouseMove_NWSE(-5,-38) ; Joplin & Mery (High Dpi)
+		if(!grabSuccess)
+			grabSuccess := MouseMove_NWSE(-7.5,-44) ; HWMonitor (Low Dpi)
+		if(!grabSuccess)
+			grabSuccess := MouseMove_NWSE(-8.5,-70) ; HWMonitor (High Dpi)
 
-	; 試行錯誤で何ともならなかった場合、x,yの新セットを捜索
-	if(!grabSuccess){
-		x := 0
-		y := 0
-		xMatchStart := 9999
-		loopXMax := 20
-		loopYMax := 80
-		offset := 10
+		; 試行錯誤で何ともならなかった場合、x,yの新セットを捜索
+		if(!grabSuccess){
+			x := 0
+			y := 0
+			xMatchStart := 9999
+			loopXMax := 20
+			loopYMax := 80
+			offset := 10
 
-		;ポイント調整:X(-offset ~ loopXMax-offset)
-		Loop loopXMax {
-			x := A_Index - offset
-			MouseMove(x, 30, 0)
-			if ((A_Cursor = "SizeWE") && (xMatchStart = 9999)){
-				xMatchStart := x
-			}else if (xMatchStart != 9999){
-				x := (x + xMatchStart)/2
-				break
+			;ポイント調整:X(-offset ~ loopXMax-offset)
+			Loop loopXMax {
+				x := A_Index - offset
+				MouseMove(x, 30, 0)
+				if ((A_Cursor = "SizeWE") && (xMatchStart = 9999)){
+					xMatchStart := x
+				}else if (xMatchStart != 9999){
+					x := (x + xMatchStart)/2
+					break
+				}
 			}
-		}
-		;ポイント調整:Y(offset-loopYMax ~ offset)
-		Loop loopYMax {
-			y := offset - A_Index
-			MouseMove(x, y, 0)
-			if ( A_Cursor = "SizeNWSE")
-				break
+			;ポイント調整:Y(offset-loopYMax ~ offset)
+			Loop loopYMax {
+				y := offset - A_Index
+				MouseMove(x, y, 0)
+				if ( A_Cursor = "SizeNWSE")
+					break
+			}
+
+			;見つかった場合のみ、情報表示
+			if(!(x = loopXMax - offset && y = offset - loopYMax))
+				splash("New Window Type : x=" . x . ", y=" . y)
 		}
 
-		;見つかった場合のみ、情報表示
-		if(!(x = loopXMax - offset && y = offset - loopYMax))
-			splash("New Window Type : x=" . x . ", y=" . y)
+		; GrabWindow操作を実施
+		Send("{LButton Down}")
+		while(MRB()&&MLB())
+			Sleep(100)
+		Send("{LButton Up}")
+
+	}catch{
+		splash("Error in changeWindowSize()")
 	}
-
-	; GrabWindow操作を実施
-	Send("{LButton Down}")
-	while(MRB()&&MLB())
-		Sleep(100)
-	Send("{LButton Up}")
 }
 
 MouseMove_NWSE(x,y){
