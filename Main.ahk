@@ -29,3 +29,11 @@ InstallKeybdHook
 #Include "%A_ScriptDir%\src\IWA_Any.ahk"
 #Include "%A_ScriptDir%\src\IWA_Excel.ahk"
 #Include "%A_ScriptDir%\src\IWA_Powerpoint.ahk"
+
+; エラーのポップアップをtooltipで表示する
+OnError(MyErrorHandler)
+MyErrorHandler(e, mode) {
+    ToolTip "エラー: " e.Message "`nファイル: " e.File "`n行: " e.Line
+    SetTimer () => ToolTip(), -3000  ; 3秒後に消す
+    return true  ; true を返すとデフォルトのエラー表示を抑止
+}
