@@ -37,22 +37,28 @@ $window = [Windows.Markup.XamlReader]::Load($reader)
 $window.Topmost = $true
 
 # コントロール参照を取得
-$deviceList = $window.FindName("DeviceList")
-$okButton   = $window.FindName("OkButton")
+$deviceList   = $window.FindName("DeviceList")
+$okButton     = $window.FindName("OkButton")
 $cancelButton = $window.FindName("CancelButton")
 
 # オーディオデバイス取得（AudioDeviceCmdlets 必須）
 $devices = Get-AudioDevice -List | Where-Object { $_.Type -eq "Playback" }
 $devices | ForEach-Object { $deviceList.Items.Add($_.Name) }
 
-# OKボタン処理
-$okButton.Add_Click({
+# 共通：選択処理
+$selectAndClose = {
     if ($deviceList.SelectedIndex -ge 0) {
         $selected = $devices[$deviceList.SelectedIndex]
         Set-AudioDevice -Index $selected.Index
         $window.Close()
     }
-})
+}
+
+# OKボタン処理
+$okButton.Add_Click($selectAndClose)
+
+# デバイスをダブルクリックで選択
+$deviceList.Add_MouseDoubleClick($selectAndClose)
 
 # Cancelボタン処理
 $cancelButton.Add_Click({ $window.Close() })
