@@ -319,7 +319,12 @@ AHK_Suspend(){
 ;AHKのダッシュボード
 AHK_Dashboard(){
 	MouseGetPos(&mx, &my)
-	WinGetPos(&wx, &wy, , , "a")
+	Try{
+		WinGetPos(&wx, &wy, , , "a")
+	}Catch{
+		wx := 0
+		wy := 0
+	}
 	mx+=wx
 	my+=wy
 	while(MRB() || RCMD()){
