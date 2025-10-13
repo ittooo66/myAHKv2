@@ -3,6 +3,15 @@
 ; ・RDP時の挙動が安定しなくなる＆管理がしんどいので、使わない定義はなるべく削除すること
 ; ・PowerpointとExcel以外はここに雑多に追記していくこと
 
+#HotIf WinActive("ahk_exe Joplin.exe")           ;Joplin 個別定義 一式
+	RButton & WheelDown::Send("^l")              ;表示モード切替
+#HotIf
+
+#HotIf WinActive("ahk_exe Discord.exe")          ;Discord 個別定義 一式
+	RButton & WheelUp::Send("!{Up}")             ;チャンネル切り替え
+	RButton & WheelDown::Send("!{Down}")         ;チャンネル切り替え
+#HotIf
+
 #HotIf WinActive("ahk_exe Code.exe")             ;Visual Studio Code 個別定義 一式
 	RButton & MButton::Send("^n")                ;新規Tab
 #HotIf
