@@ -777,7 +777,7 @@ mbind_mlb(){
 	else if MMB()
 		Send("#{Tab}")
 	else if MSBRB()
-		philipsHue(1,getEnv("HUE_BRI"),getEnv("HUE_CT"))
+		return
 	else if MSBLF()
 		intelliScroll()
 	else if MSBLB()
@@ -792,7 +792,7 @@ mbind_mrb(){
 	if MMB()
 		Send("^{n}")
 	else if MSBRB()
-		philipsHue(0)
+		return
 	else if MSBRF(){
 		ToolTip "Measuring CO2 concentration..."
 		execScripts("read_co2.py",,,1)
@@ -814,7 +814,7 @@ mbind_mmb(){
 	if MRB()
 		Send("^{t}")
 	else if MSBRB()
-		philipsHueControlCT()
+		return
 	else
 		moveWindow()
 }
@@ -891,7 +891,7 @@ mbind_wheelup(){
 	else if MSBRF()
 		Send("#^{Volume_Up}")
 	else if MSBRB() {
-		philipsHueControlBRI("Up")
+		return
 	}else if MMB()
 		Send("#^{Left}")
 	else
@@ -906,7 +906,7 @@ mbind_wheeldown(){
 	else if MSBRF()
 		Send("#^{Volume_Down}")
 	else if MSBRB() {
-		philipsHueControlBRI("Down")
+		return
 	}else if MMB()
 		Send("#^{Right}")
 	else
