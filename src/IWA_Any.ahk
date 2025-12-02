@@ -63,6 +63,16 @@
 	else mbind_s()
 	}
 
+	RButton & MButton::{						 ;新規タブ
+		Send("^{l}^{c}^{t}")
+		Sleep 500
+		Send("^{l}^{v}{Enter}")
+	}
+
+	MButton & RButton::{						 ;↑へ
+		Send("!{Up}")
+	}
+
 #HotIf
 
 #HotIf WinActive("ahk_class RiotWindowClass")
