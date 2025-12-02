@@ -25,7 +25,6 @@ Alt & ,::AHK_Reload
 ;非常停止用
 F19 & MButton::AHK_Exit()
 ^!MButton::AHK_Exit()
-Alt & /::AHK_Exit
 #SuspendExempt False
 
 ;キーのフック定義一覧
