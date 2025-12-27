@@ -1,31 +1,31 @@
 ;Powerpoint 個別バインド一式
 #HotIf WinActive("ahk_class PPTFrameClass")
 
-iwa_pptx_1     := () => Send("!{j}{p}{v}{c}") ; トリミング
-iwa_pptx_2     := () => Send("!{h}{a}{t}{t}") ; 上揃え
-iwa_pptx_3     := () => Send("!{h}{a}{t}{m}") ; 中央揃え
-iwa_pptx_4     := () => Send("!{h}{a}{t}{b}") ; 下揃え
-iwa_pptx_5     := () => Send("!{h}{s}{o}")    ; 枠色変更
+iwa_pptx_1     := () => (Send("!{j}{p}{v}{c}"),0) ; トリミング
+iwa_pptx_2     := () => (Send("!{h}{a}{t}{t}"),0) ; 上揃え
+iwa_pptx_3     := () => (Send("!{h}{a}{t}{m}"),0) ; 中央揃え
+iwa_pptx_4     := () => (Send("!{h}{a}{t}{b}"),0) ; 下揃え
+iwa_pptx_5     := () => (Send("!{h}{s}{o}"),0)    ; 枠色変更
 
-iwa_pptx_tab   := () => Send("!{w}{m}")       ; スライドマスタ
+iwa_pptx_tab   := () => (Send("!{w}{m}"),0)       ; スライドマスタ
 
-iwa_pptx_q     := () => Send("!{h}{n}")       ; 箇条書き(ID)
-iwa_pptx_w     := () => Send("!{h}{a}{l}")    ; 文字左揃え
-iwa_pptx_e     := () => Send("!{h}{a}{c}")    ; 文字中央揃え
-iwa_pptx_r     := () => Send("!{h}{a}{r}")    ; 文字左揃え
-iwa_pptx_t     := () => Send("!{h}{f}{c}")    ; 文字色変更
+iwa_pptx_q     := () => (Send("!{h}{n}"),0)       ; 箇条書き(ID)
+iwa_pptx_w     := () => (Send("!{h}{a}{l}"),0)    ; 文字左揃え
+iwa_pptx_e     := () => (Send("!{h}{a}{c}"),0)    ; 文字中央揃え
+iwa_pptx_r     := () => (Send("!{h}{a}{r}"),0)    ; 文字左揃え
+iwa_pptx_t     := () => (Send("!{h}{f}{c}"),0)    ; 文字色変更
 
-iwa_pptx_a     := () => Send("!{h}{u}")       ; 箇条書き
-iwa_pptx_s     := () => Send("!{n}{s}{h}")    ; 図形選択
-iwa_pptx_d     := () => Send("!{h}{s}{f}")    ; 図形の塗りつぶし
-iwa_pptx_f     := () => Send("!{h}{g}{a}")    ; 図形の位置揃え
-iwa_pptx_g     := () => Send("!{h}{o}{1}")    ; 図形の書式設定
+iwa_pptx_a     := () => (Send("!{h}{u}"),0)       ; 箇条書き
+iwa_pptx_s     := () => (Send("!{n}{s}{h}"),0)    ; 図形選択
+iwa_pptx_d     := () => (Send("!{h}{s}{f}"),0)    ; 図形の塗りつぶし
+iwa_pptx_f     := () => (Send("!{h}{g}{a}"),0)    ; 図形の位置揃え
+iwa_pptx_g     := () => (Send("!{h}{o}{1}"),0)    ; 図形の書式設定
 
-iwa_pptx_z     := () => Send("!{h}{g}{k}")    ; 最背面に移動
-iwa_pptx_x     := () => Send("!{h}{g}{r}")    ; 最前面に移動
-iwa_pptx_c     := () => Send("!{n}{t}")       ; 表
-iwa_pptx_v     := () => Send("!{n}{n}{s}")    ; アイコン挿入
-iwa_pptx_b     := () => Send("!{h}{s}{o}")    ; 図形の枠線
+iwa_pptx_z     := () => (Send("!{h}{g}{k}"),0)    ; 最背面に移動
+iwa_pptx_x     := () => (Send("!{h}{g}{r}"),0)    ; 最前面に移動
+iwa_pptx_c     := () => (Send("!{n}{t}"),0)       ; 表
+iwa_pptx_v     := () => (Send("!{n}{n}{s}"),0)    ; アイコン挿入
+iwa_pptx_b     := () => (Send("!{h}{s}{o}"),0)    ; 図形の枠線
 
 LShift & WheelUp::Send("^{]}")                ;文字サイズ変更
 LShift & WheelDown::Send("^{[}")              ;文字サイズ変更

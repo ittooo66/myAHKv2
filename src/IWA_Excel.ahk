@@ -1,40 +1,40 @@
 ;Excel 個別バインド一式
 #HotIf WinActive("ahk_class XLMAIN")
 
-iwa_xlsx_1     := () => Send("!{h}{s}{f}") ; フィルタ
-iwa_xlsx_2     := () => Send("!{h}{a}{t}") ; 文字列 - 上揃え
-iwa_xlsx_3     := () => Send("!{h}{a}{m}") ; 文字列 - 上下中央揃え
-iwa_xlsx_4     := () => Send("!{h}{a}{b}") ; 文字列 - 下揃え
-iwa_xlsx_5     := () => Send("!{h}{b}{i}") ; 罫線 - 色変更
+iwa_xlsx_1     := () => (Send("!{h}{s}{f}"),0) ; フィルタ
+iwa_xlsx_2     := () => (Send("!{h}{a}{t}"),0) ; 文字列 - 上揃え
+iwa_xlsx_3     := () => (Send("!{h}{a}{m}"),0) ; 文字列 - 上下中央揃え
+iwa_xlsx_4     := () => (Send("!{h}{a}{b}"),0) ; 文字列 - 下揃え
+iwa_xlsx_5     := () => (Send("!{h}{b}{i}"),0) ; 罫線 - 色変更
 
-iwa_xlsx_tab   := () => Send("TBD")        ; TBD
+iwa_xlsx_tab   := () => (Send("TBD"),0)        ; TBD
 
-iwa_xlsx_q     := () => Send("!{o}{c}{a}") ; セル幅調整
-iwa_xlsx_w     := () => Send("!{h}{a}{l}") ; 文字列 - 左揃え
-iwa_xlsx_e     := () => Send("!{h}{a}{c}") ; 文字列 - 中央揃え
-iwa_xlsx_r     := () => Send("!{h}{a}{r}") ; 文字列 - 右揃え
-iwa_xlsx_t     := () => Send("!{h}{f}{c}") ; 文字色変更(任意)
+iwa_xlsx_q     := () => (Send("!{o}{c}{a}"),0) ; セル幅調整
+iwa_xlsx_w     := () => (Send("!{h}{a}{l}"),0) ; 文字列 - 左揃え
+iwa_xlsx_e     := () => (Send("!{h}{a}{c}"),0) ; 文字列 - 中央揃え
+iwa_xlsx_r     := () => (Send("!{h}{a}{r}"),0) ; 文字列 - 右揃え
+iwa_xlsx_t     := () => (Send("!{h}{f}{c}"),0) ; 文字色変更(任意)
 
-iwa_xlsx_a     := () => Send("TBD")        ; TBD
-;iwa_xlsx_s     :元バインドをそのまま利用    ; ページ送り(左)
-iwa_xlsx_d     := () => Send("!{h}{h}")    ; セルの塗りつぶし
-;iwa_xlsx_f     :元バインドをそのまま利用    ; ページ送り(右)
-iwa_xlsx_g     := () => Send("!{h}{m}{c}") ; セルの結合/結合解除
+iwa_xlsx_a     := () => (Send("TBD"),0)        ; TBD
+;iwa_xlsx_s    := 元バインドをそのまま利用    ; ページ送り(左)
+iwa_xlsx_d     := () => (Send("!{h}{h}"),0)    ; セルの塗りつぶし
+;iwa_xlsx_f    := 元バインドをそのまま利用    ; ページ送り(右)
+iwa_xlsx_g     := () => (Send("!{h}{m}{c}"),0) ; セルの結合/結合解除
 
-iwa_xlsx_z     := () => Send("TBD")        ; TBD
-iwa_xlsx_x     := () => Send("TBD")        ; TBD
-iwa_xlsx_c     := () => Send("TBD")        ; TBD
-iwa_xlsx_v     := () => Send("!{w}{f}{f}") ; ウィンドウ枠の固定/解除
-iwa_xlsx_b     := () => Send("!{h}{b}{y}") ; 罫線 - スタイル変更
+iwa_xlsx_z     := () => (Send("TBD"),0)        ; TBD
+iwa_xlsx_x     := () => (Send("TBD"),0)        ; TBD
+iwa_xlsx_c     := () => (Send("TBD"),0)        ; TBD
+iwa_xlsx_v     := () => (Send("!{w}{f}{f}"),0) ; ウィンドウ枠の固定/解除
+iwa_xlsx_b     := () => (Send("!{h}{b}{y}"),0) ; 罫線 - スタイル変更
 
 ; Excelバインド - 罫線関連
-iwa_xlsx_u     := () => Send("!{h}{b}{a}") ; 罫線 - 格子
-iwa_xlsx_h     := () => Send("!{h}{b}{n}") ; 罫線 - 枠なし
-iwa_xlsx_i     := () => Send("!{h}{b}{p}") ; 罫線 - 上罫線
-iwa_xlsx_j     := () => Send("!{h}{b}{l}") ; 罫線 - 左罫線
-iwa_xlsx_k     := () => Send("!{h}{b}{o}") ; 罫線 - 下罫線
-iwa_xlsx_l     := () => Send("!{h}{b}{r}") ; 罫線 - 右罫線
-iwa_xlsx_o     := () => Send("!{h}{b}{s}") ; 罫線 - 外枠
+iwa_xlsx_u     := () => (Send("!{h}{b}{a}"),0) ; 罫線 - 格子
+iwa_xlsx_h     := () => (Send("!{h}{b}{n}"),0) ; 罫線 - 枠なし
+iwa_xlsx_i     := () => (Send("!{h}{b}{p}"),0) ; 罫線 - 上罫線
+iwa_xlsx_j     := () => (Send("!{h}{b}{l}"),0) ; 罫線 - 左罫線
+iwa_xlsx_k     := () => (Send("!{h}{b}{o}"),0) ; 罫線 - 下罫線
+iwa_xlsx_l     := () => (Send("!{h}{b}{r}"),0) ; 罫線 - 右罫線
+iwa_xlsx_o     := () => (Send("!{h}{b}{s}"),0) ; 罫線 - 外枠
 
 ; Excelバインド - 挙動是正パッチ
 Shift & Space::Send("+{Space}")
