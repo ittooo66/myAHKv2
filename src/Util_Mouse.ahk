@@ -187,10 +187,6 @@ changeWindowSize(){
 				if ( A_Cursor = "SizeNWSE")
 					break
 			}
-
-			;見つかった場合のみ、情報表示
-			if(!(x = loopXMax - offset && y = offset - loopYMax))
-				splash("New Window Type : x=" . x . ", y=" . y)
 		}
 
 		; GrabWindow操作を実施
