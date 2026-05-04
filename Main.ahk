@@ -1,6 +1,9 @@
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 
+;押しっぱなし現象への対処案。一旦試してみる
+SendMode "Event"
+
 ;タッチパッドのスクロールで上限こえるため、ホットキー入力頻度を緩和する(デフォルト70)。
 A_MaxHotkeysPerInterval := 140
 
@@ -34,6 +37,6 @@ InstallKeybdHook
 OnError(MyErrorHandler)
 MyErrorHandler(e, mode) {
     ToolTip "エラー: " e.Message "`nファイル: " e.File "`n行: " e.Line
-    SetTimer () => ToolTip(), -3000  ; 3秒後に消す
+    SetTimer () => ToolTip(), -5000  ; 5秒後に消す
     return true  ; true を返すとデフォルトのエラー表示を抑止
 }
