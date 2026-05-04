@@ -3,3 +3,6 @@
 
 #Env無視
 env/*
+
+#vscode無視
+.vscode/*
