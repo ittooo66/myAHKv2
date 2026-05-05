@@ -77,7 +77,7 @@ ModifierStuckMonitor_Definitions() {
         ["ALT()", ALT, ["LAlt", "RAlt"]],
         ["RALT()", RALT, ["RAlt"]],
         ["LALT()", LALT, ["LAlt"]],
-        ["MLB()", MLB, ["LButton"]],
+        ;["MLB()", MLB, ["LButton"]], ; 左クリックはStuck監視不要
         ["MRB()", MRB, ["RButton"]],
         ["MMB()", MMB, ["MButton"]],
         ["MSBLB()", MSBLB, ["XButton1"]],
