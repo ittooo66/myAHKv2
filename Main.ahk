@@ -28,6 +28,7 @@ InstallKeybdHook
 #Include "%A_ScriptDir%\src\Util_IME.ahk"
 #Include "%A_ScriptDir%\src\Util_Mouse.ahk"
 #Include "%A_ScriptDir%\src\Util_Macros.ahk"
+#Include "%A_ScriptDir%\src\Util_ModifierStuckMonitor.ahk"
 ;HotIf WinActives
 #Include "%A_ScriptDir%\src\IWA_Any.ahk"
 #Include "%A_ScriptDir%\src\IWA_Excel.ahk"
