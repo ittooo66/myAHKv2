@@ -83,9 +83,8 @@ directInput(string){
 	ClipWait(3)
 	;文字列貼り付け
 	Send("^v")
-	;入力完了を待ってClipboard内容を復元(要Tuning)
-	Sleep(200)
-	A_Clipboard := cb_bk
+	;非同期でClipboard内容を復元
+	SetTimer(() => ((A_Clipboard = string) && (A_Clipboard := cb_bk)), -1000)
 }
 
 ; 指定された名前と値を環境設定ファイル(env.yaml)に保存する関数。
