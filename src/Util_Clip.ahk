@@ -24,6 +24,8 @@ ClipExt_cut(){
 
 ;Supabaseにコピー
 ClipExt_SCopy() {
+    cb_bk := ClipboardAll()
+
     A_Clipboard := ""
     Send("^c")
     if !ClipWait(3)
@@ -38,22 +40,22 @@ ClipExt_SCopy() {
     bytesWritten := StrPut(clipText, buf, "UTF-8")
     bytesLen := bytesWritten - 1
 
-    DllCall("Crypt32\CryptBinaryToStringW"
-        , "Ptr", buf
-        , "UInt", bytesLen
-        , "UInt", 0x40000001
-        , "Ptr", 0
-        , "UInt*", &outLen := 0)
+    ;簡易的な暗号化（XOR + Base64）
+    key := getEnv("ClipExt_ApiKey")
+    keyLen := StrLen(key)
+    Loop bytesLen {
+        i := A_Index - 1
+        b := NumGet(buf, i, "UChar")
+        k := Ord(SubStr(key, Mod(i, keyLen) + 1, 1)) & 0xFF
+        NumPut("UChar", b ^ k, buf, i)
+    }
 
+    ;Base64エンコードのためのバッファサイズ取得
+    DllCall("Crypt32\CryptBinaryToStringW", "Ptr", buf, "UInt", bytesLen, "UInt", 0x40000001, "Ptr", 0, "UInt*", &outLen := 0)
     out := Buffer(outLen * 2)
 
-    DllCall("Crypt32\CryptBinaryToStringW"
-        , "Ptr", buf
-        , "UInt", bytesLen
-        , "UInt", 0x40000001
-        , "Ptr", out
-        , "UInt*", outLen)
-
+    ;Base64エンコードの実行
+    DllCall("Crypt32\CryptBinaryToStringW", "Ptr", buf, "UInt", bytesLen, "UInt", 0x40000001, "Ptr", out, "UInt*", outLen)
     sclip := StrGet(out)
 
     ; JSON escape
@@ -63,75 +65,63 @@ ClipExt_SCopy() {
     sclip := StrReplace(sclip, "`n", "\n")
     sclip := StrReplace(sclip, "`t", "\t")
 
-    url := getEnv("ClipExt_Api") "?on_conflict=slot"
-    body := '[{"slot":"default","content_base64":"' sclip '"}]'
-
+    ;SupabaseにPOST
     http := ComObject("WinHttp.WinHttpRequest.5.1")
-    http.Open("POST", url, false)
+    http.Open("POST", getEnv("ClipExt_Api") "?on_conflict=slot", false)
     http.SetRequestHeader("apikey", getEnv("ClipExt_ApiKey"))
     http.SetRequestHeader("Authorization", "Bearer " getEnv("ClipExt_ApiKey"))
     http.SetRequestHeader("Content-Type", "application/json")
     http.SetRequestHeader("Prefer", "resolution=merge-duplicates,return=representation")
-    http.Send(body)
-
+    http.Send('[{"slot":"default","content_base64":"' sclip '"}]')
     if (http.Status < 200 || http.Status >= 300) {
         MsgBox("ClipExt_SCopy failed.`nStatus: " http.Status "`nResponse: " http.ResponseText)
         return
     }
+   
+    ;Clipboard内容を復元
+	A_Clipboard := cb_bk
 }
 
 ;Supabaseからペースト
 ClipExt_SPaste() {
-    url := getEnv("ClipExt_Api") "?select=content_base64&slot=eq.default&limit=1"
 
+    ;Getリクエストで最新のクリップを取得
     http := ComObject("WinHttp.WinHttpRequest.5.1")
-    http.Open("GET", url, false)
+    http.Open("GET", getEnv("ClipExt_Api") "?select=content_base64&slot=eq.default&limit=1", false)
     http.SetRequestHeader("apikey", getEnv("ClipExt_ApiKey"))
     http.SetRequestHeader("Authorization", "Bearer " getEnv("ClipExt_ApiKey"))
     http.Send()
-
     if (http.Status < 200 || http.Status >= 300) {
         MsgBox("ClipExt_SPaste failed.`nStatus: " http.Status "`nResponse: " http.ResponseText)
         return
     }
-
     res := http.ResponseText
-
+    
+    ;JSONからBase64部分を抜き取る
     if !RegExMatch(res, '"content_base64"\s*:\s*"([^"]*)"', &m)
         return
-
     b64 := m[1]
 
-    ; Base64 → UTF-8
-    DllCall("Crypt32\CryptStringToBinaryW"
-        , "Str", b64
-        , "UInt", 0
-        , "UInt", 0x1
-        , "Ptr", 0
-        , "UInt*", &bytesLen := 0
-        , "Ptr", 0
-        , "Ptr", 0)
-
+    ; Base64 → UTF-8 (バッファサイズの取得)
+    DllCall("Crypt32\CryptStringToBinaryW", "Str", b64, "UInt", 0, "UInt", 0x1, "Ptr", 0, "UInt*", &bytesLen := 0, "Ptr", 0, "Ptr", 0)
     buf := Buffer(bytesLen)
 
-    ok := DllCall("Crypt32\CryptStringToBinaryW"
-        , "Str", b64
-        , "UInt", 0
-        , "UInt", 0x1
-        , "Ptr", buf
-        , "UInt*", bytesLen
-        , "Ptr", 0
-        , "Ptr", 0)
-
+    ; Base64 → UTF-8 (実際の変換)
+    ok := DllCall("Crypt32\CryptStringToBinaryW", "Str", b64, "UInt", 0, "UInt", 0x1, "Ptr", buf, "UInt*", bytesLen, "Ptr", 0, "Ptr", 0)
     if !ok
         return
 
-    sclip := StrGet(buf, bytesLen, "UTF-8")
+    ;簡易的な復号化（Base64 + XOR）
+    key := getEnv("ClipExt_ApiKey")
+    keyLen := StrLen(key)
+    Loop bytesLen {
+        i := A_Index - 1
+        b := NumGet(buf, i, "UChar")
+        k := Ord(SubStr(key, Mod(i, keyLen) + 1, 1)) & 0xFF
+        NumPut("UChar", b ^ k, buf, i)
+    }
 
-    if sclip = ""
-        return
-
-    directInput(sclip)
+    directInput(StrGet(buf, bytesLen, "UTF-8"))
 }
 
 ;拡張クリップボード(copy)
