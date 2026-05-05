@@ -92,7 +92,7 @@ ClipExt_Tcopy() {
 
 }
 
-; URIエンコード関数（必要）
+; URIエンコード関数
 UriEncode(str) {
     static enc := "%"
     size := StrPut(str, "UTF-8")
