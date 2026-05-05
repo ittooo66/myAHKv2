@@ -58,7 +58,9 @@ mbind_d(){
 		Send("^c")
 		Errorlevel := !ClipWait(3)
 		FileAppend(A_Clipboard, getEnv("YTDLP_PATH") . FormatTime(, "yyyyMMddHHmmss") , "UTF-8-RAW")
-		splash("yt-dlp Queued : " . A_Clipboard ,,800)
+		
+		;ログ出力
+		ToolTip("yt-dlp Queued : " . A_Clipboard), SetTimer(() => ToolTip(), -3000)
 	}else if RCMD() || CAPS()
 		press("{DOWN}")
 	else if SPACE() && SHIFT()
@@ -703,7 +705,7 @@ mbind_slash(){
 	if ( CAPS() || RCMD() )&& SHIFT()
 		launch("E",SHIFT(),1," `"" . A_WorkingDir "\src\Util_Macros.ahk`"")
 	else if RCMD() || CAPS()
-		AHK_Dashboard()
+		AHK_Watch()
 	else if SPACE() && SHIFT()
 		ClipExt_copyTo("Slash")
 	else if SPACE()
@@ -802,7 +804,7 @@ mbind_mrb(){
 		}
 		Send("{RWin Up}")
 	}else if MSBLF()
-		AHK_Dashboard()
+		AHK_Watch()
 	else
 		Send("{RButton}")
 }

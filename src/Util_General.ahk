@@ -244,52 +244,10 @@ launch(str, shift, man:=0, arg:=""){
 	}
 }
 
-; 指定したテキストを、マウス位置または指定位置に一時的にスプラッシュ表示する関数。
-; DPIスケーリングに対応し、現在のモニターの解像度に合わせた表示を行う。
-;
-; パラメータ:
-;   str       - 表示する文字列（スプラッシュメッセージ）
-;   sleeptime - 表示持続時間（ミリ秒、デフォルト: 1500ms）
-;   width     - （未使用）GUIの幅。将来的な拡張用（現在は0）
-;   mx, my    - スプラッシュ表示位置の座標。省略時は現在のマウス位置＋アクティブウィンドウ位置
-splash(str, sleeptime := 1500, width := 0, mx := 0, my := 0) {
-    if (mx = 0 && my = 0) {
-        MouseGetPos(&mx, &my)
-        WinGetPos(&wx, &wy, , , "A")
-        mx += wx
-        my += wy
-    }
-
-    ; DPI取得（内部関数として統合）
-    GetDpiForMonitor(hMonitor) {
-        return DllCall("Shcore\GetDpiForMonitor"
-            , "ptr", hMonitor
-            , "int", 0  ; MDT_EFFECTIVE_DPI
-            , "uint*", &dpiX := 0
-            , "uint*", &dpiY := 0
-        ) = 0 ? dpiX : 96  ; 失敗時は96dpiとみなす
-    }
-
-    hMonitor := DllCall("MonitorFromPoint", "int64", (mx & 0xFFFFFFFF) | (my << 32), "uint", 2, "ptr")
-    dpi := GetDpiForMonitor(hMonitor)
-    scale := dpi / 96
-
-    fontSize := Round(16 * scale)
-
-    splashGui := Gui()
-    splashGui.SetFont("s" fontSize " c12d4b4 bold")
-    splashGui.BackColor := "000000"
-    splashGui.Opt("-Caption +AlwaysOnTop")
-
-    splashGui.AddText(, str)
-    splashGui.Show("x" . mx . " y" . my)
-    Sleep sleeptime
-    splashGui.Destroy
-}
-
 ;AHKのリロード
 AHK_Reload(){
-    splash("Reloading AHK...", 300)
+	ToolTip("Reloading AHK...")
+	Sleep(1000)
 	Reload()
 	ClipLogGarbage()
 	resetMods()
@@ -298,7 +256,8 @@ AHK_Reload(){
 
 ;AHKの停止
 AHK_Exit(){
-    splash("Shutting down AHK...", 500)
+    ToolTip("Exiting AHK...")
+	Sleep(1000)
 	execScripts("SetMouseCursor.ps1",,"standard")
 	logger("AHK Exit")
 	ExitApp()
@@ -309,38 +268,20 @@ AHK_Suspend(){
 	if !A_IsSuspended {
 		Suspend
 		execScripts("SetMouseCursor.ps1",,"standard")
-		splash("Suspending AHK...", 300)
+		ToolTip("Suspending AHK..."), SetTimer(() => ToolTip(), -1500)
 		logger("AHK Suspend Enabled")
 	}else{
-		splash("AHK is already suspended.", 300)
+		ToolTip("AHK is already suspended."), SetTimer(() => ToolTip(), -1500)
 	}
 }
 
-;AHKのダッシュボード
-AHK_Dashboard(){
-	MouseGetPos(&mx, &my)
-	Try{
-		WinGetPos(&wx, &wy, , , "a")
-	}Catch{
-		wx := 0
-		wy := 0
-	}
-	mx+=wx
-	my+=wy
-	while(MRB() || RCMD()){
-		month := FormatTime(, "M")
-		daily := FormatTime(, "d")
-		yb := FormatTime(, "ddd")
-		hour := FormatTime(, "H")
-		minute := FormatTime(, "mm")
-		second := FormatTime(, "ss")
-		press := ""
-
-		if (press != "")
-			press := "`n" . press
-
-		splash(month . "/" . daily . "(" . yb . ") " . hour . ":" . minute . ":" . second . press,1000,,mx,my)
-	}
+;時刻表示
+AHK_Watch() {
+    while (MRB() || RCMD()) {
+        Tooltip(FormatTime(, "M/d(ddd) H:mm:ss"))
+        Sleep(250)
+    }
+    Tooltip()
 }
 
 ;修飾キーの押しっぱなし問題解除用
@@ -381,7 +322,7 @@ resetMods(){
 
 ; log出力機能(To Discord)
 logger(message, label:="INFO") {
-    url := getEnv("WEBHOOK_" . label)
+	
 	year := FormatTime(, "yyyy")
 	month := FormatTime(, "MM")
 	day := FormatTime(, "dd")
@@ -389,9 +330,8 @@ logger(message, label:="INFO") {
 	minute := FormatTime(, "mm")
 	second := FormatTime(, "ss")
 	logger_date := year . "-" . month . "-" . day . " " . hour . ":" . minute ":" . second . "." . A_MSec . " "
-	json := '{ "content": "``' logger_date . message '``" }'
-    http := ComObject("WinHttp.WinHttpRequest.5.1")
-    http.Open("POST", url, false)
-    http.SetRequestHeader("Content-Type", "application/json")
-    http.Send(json)
+
+	;端末名.logに追記
+	FileAppend(logger_date . "[" . label . "] " . message "`n", A_WorkingDir . "\" . A_ComputerName . ".log", "UTF-8-RAW")
+
 }

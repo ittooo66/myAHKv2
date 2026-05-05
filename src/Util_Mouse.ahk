@@ -196,7 +196,8 @@ changeWindowSize(){
 		Send("{LButton Up}")
 
 	}catch{
-		splash("Error in changeWindowSize()")
+		ToolTip("Error in changeWindowSize()"), SetTimer(() => ToolTip(), -3000)
+		logger("Error in changeWindowSize() : " . A_ThisFunc(), "ERROR")
 	}
 }
 
