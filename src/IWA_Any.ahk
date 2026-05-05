@@ -66,7 +66,7 @@
 
 #HotIf
 
-#HotIf WinActive("ahk_class RiotWindowClass")
+#HotIf WinActive("ahk_class RiotWindowClass")    ;League of Legends 個別定義 一式
 	;TFT AHKバインド回避用上書き定義
 	;  無効でかぶせておけば直接入力側だけ入っていくのでそれでOK
 	RButton::return
