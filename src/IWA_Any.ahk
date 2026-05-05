@@ -3,64 +3,52 @@
 ; ・RDP時の挙動が安定しなくなる＆管理がしんどいので、使わない定義はなるべく削除すること
 ; ・PowerpointとExcel以外はここに雑多に追記していくこと
 
-#HotIf WinActive("ahk_exe Code.exe")             ;Visual Studio Code 個別定義 一式
-	RButton & MButton::Send("^n")                ;新規Tab
+#HotIf WinActive("ahk_exe Code.exe")             					;Visual Studio Code 個別定義 一式
+	RButton & MButton::Send("^n")                					;新規Tab
 #HotIf
 
-#HotIf WinActive("ahk_exe mpc-hc64.exe")         ;MPC-HC 個別定義 一式
-	XButton2 & WheelUp::Send("{Left}")           ;戻る
-	XButton2 & WheelDown::Send("{Right}")        ;進む
-	RButton & XButton1::Send("!{x}")             ;閉じる
-	XButton2 & LButton::MPC_intelliScroll()      ;IntelliScroll
+#HotIf WinActive("ahk_exe mpc-hc64.exe")         					;MPC-HC 個別定義 一式
+	XButton2 & WheelUp::Send("{Left}")           					;戻る
+	XButton2 & WheelDown::Send("{Right}")        					;進む
+	RButton & XButton1::Send("!{x}")             					;閉じる
+	XButton2 & LButton::MPC_intelliScroll()      					;IntelliScroll
 #HotIf
 
-#HotIf WinActive("ahk_exe mpc-be64.exe")         ;MPC-BE 個別定義 一式
-	XButton2 & WheelUp::Send("{Left}")           ;戻る
-	XButton2 & WheelDown::Send("{Right}")        ;進む
-	RButton & XButton1::Send("!{x}")             ;閉じる
-	XButton2 & LButton::MPC_intelliScroll()      ;IntelliScroll
+#HotIf WinActive("ahk_exe mpc-be64.exe")         					;MPC-BE 個別定義 一式
+	XButton2 & WheelUp::Send("{Left}")           					;戻る
+	XButton2 & WheelDown::Send("{Right}")        					;進む
+	RButton & XButton1::Send("!{x}")            					;閉じる
+	XButton2 & LButton::MPC_intelliScroll()     					;IntelliScroll
 	F20 & XButton1::Send("^{Up}")
 	F20 & XButton2::Send("^{Down}")
 #HotIf
 
-#HotIf WinActive("ahk_exe vlc.exe")              ;VLC 個別定義 一式
-	XButton2 & WheelUp::Send("{Left}")           ;戻る
-	XButton2 & WheelDown::Send("{Right}")        ;進む
-	RButton & XButton1::Send("!{x}")             ;閉じる
-	XButton2 & LButton::MPC_intelliScroll()      ;IntelliScroll
+#HotIf WinActive("ahk_exe vlc.exe")              					;VLC 個別定義 一式
+	XButton2 & WheelUp::Send("{Left}")           					;戻る
+	XButton2 & WheelDown::Send("{Right}")        					;進む
+	RButton & XButton1::Send("!{x}")             					;閉じる
+	XButton2 & LButton::MPC_intelliScroll()      					;IntelliScroll
 	F20 & XButton1::Send("^{Up}")
 	F20 & XButton2::Send("^{Down}")
 	XButton1::Send("p")
 	XButton2::Send("n")
 #HotIf
 
-#HotIf WinActive("ahk_class CabinetWClass")      ;WindowsExplorer 個別定義 一式
+#HotIf WinActive("ahk_class CabinetWClass")      					;WindowsExplorer 個別定義 一式
 
-	RButton & WheelUp::Send("^+{Tab}")           ;左へ
-	*f::
-	<^f::
-	LControl & f::{ 
-	if LCMD() && CAPS()
-		Send("^{Tab}")
-	else mbind_f()
-	}
+	LControl & s:: LCMD() && CAPS() ? Send("^+{Tab}") : mbind_s()	;左へ
+	RButton & WheelUp::Send("^+{Tab}")           					;左へ
 
-	RButton & WheelDown::Send("^{Tab}")          ;右へ
-	*s::
-	<^s::
-	LControl & s::{ 
-	if LCMD() && CAPS()
-		Send("^+{Tab}")
-	else mbind_s()
-	}
+	LControl & f:: LCMD() && CAPS() ? Send("^{Tab}") : mbind_f()	;右へ
+	RButton & WheelDown::Send("^{Tab}")          					;右へ
 
-	RButton & MButton::{						 ;新規タブ
+	RButton & MButton::{						 					;新規タブ
 		Send("^{l}^{c}^{t}")
-		Sleep 500
+		Sleep 700
 		Send("^{l}^{v}{Enter}")
 	}
 
-	MButton & RButton::{						 ;↑へ
+	MButton & RButton::{											 ;↑へ
 		Send("!{Up}")
 	}
 
