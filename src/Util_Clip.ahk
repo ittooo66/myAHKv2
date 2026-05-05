@@ -85,7 +85,7 @@ ClipExt_Tcopy() {
 
 	; レスポンスの確認
 	if (http.Status == 200) {
-		splash "TrelloClipの送信処理が正常終了しました。"
+		ToolTip("TrelloClipの送信処理が正常終了しました。"), SetTimer(() => ToolTip(), -3000)
 	} else {
 		MsgBox Format("エラーが発生しました。Status: {}`nResponse: {}", http.Status, http.ResponseText)
 	}
