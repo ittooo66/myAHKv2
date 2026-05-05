@@ -22,152 +22,117 @@ ClipExt_cut(){
 	FileAppend(A_Clipboard . "`n`n-----`n`n", A_WorkingDir "\clip.log", "UTF-8-RAW")
 }
 
-; XOR暗号化・復号（共通）
-xorCrypt(buf) {
-	key := getEnv("key")
-    keyLen := StrLen(key)
-    out := Buffer(buf.Size)
-    Loop buf.Size {
-        offset := A_Index - 1
-        byte := NumGet(buf, offset, "UChar")
-        keyByte := Ord(SubStr(key, Mod(offset, keyLen) + 1, 1))
-        NumPut("UChar", byte ^ keyByte, out, offset)
-    }
-    return out
-}
-
-; クリップボードのテキストを暗号化し、Base64文字列に置き換えてTrelloに送信
-ClipExt_Tcopy() {
-
-	A_Clipboard := ""  ; ClipWait用の初期化
+;Supabaseにコピー
+ClipExt_SCopy() {
+    A_Clipboard := ""
     Send("^c")
-    ClipWait(3)
+    if !ClipWait(3)
+        return
 
     clipText := A_Clipboard
     if clipText = ""
         return
 
-    ; UTF-8 文字列をバッファに格納
-    textSize := StrPut(clipText, "UTF-8")
-    buf := Buffer(textSize - 1, 0)
-    StrPut(clipText, buf, "UTF-8")
+    ; UTF-8 → Base64
+    buf := Buffer(StrPut(clipText, "UTF-8"))
+    bytesWritten := StrPut(clipText, buf, "UTF-8")
+    bytesLen := bytesWritten - 1
 
-    ; 暗号化
-    encrypted := xorCrypt(buf)
+    DllCall("Crypt32\CryptBinaryToStringW"
+        , "Ptr", buf
+        , "UInt", bytesLen
+        , "UInt", 0x40000001
+        , "Ptr", 0
+        , "UInt*", &outLen := 0)
 
-    ; Base64 エンコード (CryptBinaryToStringW)
-    DllCall("Crypt32\CryptBinaryToStringW", "Ptr", encrypted, "UInt", encrypted.Size
-        , "UInt", 0x40000001, "Ptr", 0, "UInt*", &outSize := 0)
-    outBuf := Buffer(outSize * 2, 0)
-    success := DllCall("Crypt32\CryptBinaryToStringW", "Ptr", encrypted, "UInt", encrypted.Size
-        , "UInt", 0x40000001, "Ptr", outBuf, "UInt*", &outSize)
-    if !success {
-        MsgBox("Base64エンコードに失敗しました。")
+    out := Buffer(outLen * 2)
+
+    DllCall("Crypt32\CryptBinaryToStringW"
+        , "Ptr", buf
+        , "UInt", bytesLen
+        , "UInt", 0x40000001
+        , "Ptr", out
+        , "UInt*", outLen)
+
+    sclip := StrGet(out)
+
+    ; JSON escape
+    sclip := StrReplace(sclip, "\", "\\")
+    sclip := StrReplace(sclip, '"', '\"')
+    sclip := StrReplace(sclip, "`r", "\r")
+    sclip := StrReplace(sclip, "`n", "\n")
+    sclip := StrReplace(sclip, "`t", "\t")
+
+    url := getEnv("ClipExt_SupabaseUrl") "/rest/v1/" getEnv("ClipExt_Table") "?on_conflict=slot"
+    body := '[{"slot":"default","content_base64":"' sclip '"}]'
+
+    http := ComObject("WinHttp.WinHttpRequest.5.1")
+    http.Open("POST", url, false)
+    http.SetRequestHeader("apikey", getEnv("ClipExt_ApiKey"))
+    http.SetRequestHeader("Authorization", "Bearer " getEnv("ClipExt_ApiKey"))
+    http.SetRequestHeader("Content-Type", "application/json")
+    http.SetRequestHeader("Prefer", "resolution=merge-duplicates,return=representation")
+    http.Send(body)
+
+    if (http.Status < 200 || http.Status >= 300) {
+        MsgBox("ClipExt_SCopy failed.`nStatus: " http.Status "`nResponse: " http.ResponseText)
+        return
+    }
+}
+
+;Supabaseからペースト
+ClipExt_SPaste() {
+    url := getEnv("ClipExt_SupabaseUrl") "/rest/v1/" getEnv("ClipExt_Table")
+        . "?select=content_base64&slot=eq.default&limit=1"
+
+    http := ComObject("WinHttp.WinHttpRequest.5.1")
+    http.Open("GET", url, false)
+    http.SetRequestHeader("apikey", getEnv("ClipExt_ApiKey"))
+    http.SetRequestHeader("Authorization", "Bearer " getEnv("ClipExt_ApiKey"))
+    http.Send()
+
+    if (http.Status < 200 || http.Status >= 300) {
+        MsgBox("ClipExt_SPaste failed.`nStatus: " http.Status "`nResponse: " http.ResponseText)
         return
     }
 
-    base64 := StrGet(outBuf, outSize, "UTF-16")
-    A_Clipboard := base64
+    res := http.ResponseText
 
-	CardID := getEnv("TRELLO_CARD_ID") 
-	TrelloKey := getEnv("TRELLO_API_KEY")
-	TrelloToken := getEnv("TRELLO_API_TOKEN")
-	descText := A_Clipboard
-
-	; Trello API の URL（descの更新）
-	url := Format("https://api.trello.com/1/cards/{}/desc?key={}&token={}", CardID, TrelloKey, TrelloToken)
-
-	; HTTPリクエスト送信（POST）
-	http := ComObject("WinHttp.WinHttpRequest.5.1")
-	http.Open("PUT", url, false)
-	http.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-	http.Send("value=" . UriEncode(descText))
-
-	; レスポンスの確認
-	if (http.Status == 200) {
-		ToolTip("TrelloClipの送信処理が正常終了しました。"), SetTimer(() => ToolTip(), -3000)
-	} else {
-		MsgBox Format("エラーが発生しました。Status: {}`nResponse: {}", http.Status, http.ResponseText)
-	}
-
-}
-
-; URIエンコード関数
-UriEncode(str) {
-    static enc := "%"
-    size := StrPut(str, "UTF-8")
-    buf := Buffer(size)
-    StrPut(str, buf.Ptr, size, "UTF-8")
-
-    out := ""
-    Loop size - 1 {
-        code := NumGet(buf.Ptr + A_Index - 1, "UChar")
-        if (code >= 0x30 && code <= 0x39  ; 0-9
-         || code >= 0x41 && code <= 0x5A  ; A-Z
-         || code >= 0x61 && code <= 0x7A  ; a-z
-         || code = 0x2D || code = 0x2E || code = 0x5F || code = 0x7E)  ; - . _ ~
-            out .= Chr(code)
-        else
-            out .= enc . Format("{:02X}", code)
-    }
-    return out
-}
-
-; クリップボード内のBase64文字列を復号・貼り付け
-ClipExt_Tpaste() {
-	CardID := getEnv("TRELLO_CARD_ID") 
-	TrelloKey := getEnv("TRELLO_API_KEY")
-	TrelloToken := getEnv("TRELLO_API_TOKEN")
-    url := Format("https://api.trello.com/1/cards/{}/desc?key={}&token={}", CardID, TrelloKey, TrelloToken)
-
-    try {
-        http := ComObject("WinHttp.WinHttpRequest.5.1")
-        http.Open("GET", url, false)
-        http.Send()
-
-        if (http.Status == 200) {
-            ; レスポンスはJSON（例: {"desc":"説明文"})
-            desc := JSONExtract(http.ResponseText, "_value")
-            A_Clipboard := desc
-            ClipWait(3)
-        } else {
-            MsgBox Format("エラー: Status {} - {}", http.Status, http.ResponseText)
-        }
-    } catch {
-        MsgBox "通信エラー" 
-    }
-
-    try {
-        base64 := A_Clipboard
-        if !base64
-            throw Error("Clipboard is empty")
-
-        ; Base64デコード (CryptStringToBinaryW)
-        DllCall("Crypt32\CryptStringToBinaryW", "Str", base64, "UInt", 0
-            , "UInt", 0x1, "Ptr", 0, "UInt*", &outSize := 0, "Ptr", 0, "Ptr", 0)
-        bin := Buffer(outSize, 0)
-        success := DllCall("Crypt32\CryptStringToBinaryW", "Str", base64, "UInt", 0
-            , "UInt", 0x1, "Ptr", bin, "UInt*", &outSize, "Ptr", 0, "Ptr", 0)
-        if !success
-            throw Error("Base64デコードに失敗しました。")
-
-        ; 復号
-        decryptedBuf := xorCrypt(bin)
-        decrypted := StrGet(decryptedBuf, decryptedBuf.Size, "UTF-8")
-    } catch {
-        MsgBox("復号に失敗しました。")
+    if !RegExMatch(res, '"content_base64"\s*:\s*"([^"]*)"', &m)
         return
-    }
 
-    directInput(decrypted) 
-}
+    b64 := m[1]
 
-JSONExtract(json, key) {
-    ; 例: {"desc":"Hello world"} から "Hello world" を取り出す
-    pattern := '"' key '":"((?:\\.|[^"\\])*)"'  ; エスケープ文字も考慮
-    if RegExMatch(json, pattern, &m)
-        return StrReplace(m[1], '\"', '"')  ; \" を " に戻す
-    return ""
+    ; Base64 → UTF-8
+    DllCall("Crypt32\CryptStringToBinaryW"
+        , "Str", b64
+        , "UInt", 0
+        , "UInt", 0x1
+        , "Ptr", 0
+        , "UInt*", &bytesLen := 0
+        , "Ptr", 0
+        , "Ptr", 0)
+
+    buf := Buffer(bytesLen)
+
+    ok := DllCall("Crypt32\CryptStringToBinaryW"
+        , "Str", b64
+        , "UInt", 0
+        , "UInt", 0x1
+        , "Ptr", buf
+        , "UInt*", bytesLen
+        , "Ptr", 0
+        , "Ptr", 0)
+
+    if !ok
+        return
+
+    sclip := StrGet(buf, bytesLen, "UTF-8")
+
+    if sclip = ""
+        return
+
+    directInput(sclip)
 }
 
 ;拡張クリップボード(copy)
