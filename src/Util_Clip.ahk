@@ -63,7 +63,7 @@ ClipExt_SCopy() {
     sclip := StrReplace(sclip, "`n", "\n")
     sclip := StrReplace(sclip, "`t", "\t")
 
-    url := getEnv("ClipExt_SupabaseUrl") "/rest/v1/" getEnv("ClipExt_Table") "?on_conflict=slot"
+    url := getEnv("ClipExt_Api") "?on_conflict=slot"
     body := '[{"slot":"default","content_base64":"' sclip '"}]'
 
     http := ComObject("WinHttp.WinHttpRequest.5.1")
@@ -82,8 +82,7 @@ ClipExt_SCopy() {
 
 ;Supabaseからペースト
 ClipExt_SPaste() {
-    url := getEnv("ClipExt_SupabaseUrl") "/rest/v1/" getEnv("ClipExt_Table")
-        . "?select=content_base64&slot=eq.default&limit=1"
+    url := getEnv("ClipExt_Api") "?select=content_base64&slot=eq.default&limit=1"
 
     http := ComObject("WinHttp.WinHttpRequest.5.1")
     http.Open("GET", url, false)
