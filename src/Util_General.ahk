@@ -335,42 +335,6 @@ AHK_Dashboard(){
 		minute := FormatTime(, "mm")
 		second := FormatTime(, "ss")
 		press := ""
-		if LCMD() 
-			press .= "LCMD "
-		if RCMD()
-			press .= "RCMD "
-		if CAPS()
-			press .= "CAPS "
-		if LSHIFT()
-			press .= "LSHIFT "
-		if RSHIFT()
-			press .= "RSHIFT "
-		if SPACE()
-			press .= "SPACE "
-		if LALT()
-			press .= "LALT "
-		if RALT()
-			press .= "RALT "
-		if MLB()
-			press .= "MLB "
-		if MRB()
-			press .= "MRB "
-		if MMB()
-			press .= "MMB "
-		if MSBLF()
-			press .= "MSBLF "
-		if MSBLB()
-			press .= "MSBLB "
-		if MSBRF()
-			press .= "MSBRF "
-		if MSBRB()
-			press .= "MSBRB "
-		if (GetKeyState("NumLock", "T"))
-			press .= "NumLock "
-		if (GetKeyState("ScrollLock", "T"))
-			press .= "ScrollLock "
-		if (GetKeyState("CapsLock", "T"))
-			press .= "CapsLock "
 
 		if (press != "")
 			press := "`n" . press
