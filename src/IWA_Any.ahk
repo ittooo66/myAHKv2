@@ -5,6 +5,8 @@
 
 #HotIf WinActive("ahk_exe Code.exe")             					;Visual Studio Code 個別定義 一式
 	RButton & MButton::Send("^n")                					;新規Tab
+	LControl & WheelUp::Send("^{+}")         						;拡大
+	LControl & WheelDown::Send("^{-}")      						;縮小
 #HotIf
 
 #HotIf WinActive("ahk_exe mpc-hc64.exe")         					;MPC-HC 個別定義 一式

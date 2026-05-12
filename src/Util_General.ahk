@@ -280,6 +280,7 @@ AHK_Watch() {
         Tooltip(FormatTime(, "M/d(ddd) H:mm:ss"))
         Sleep(250)
     }
+	Sleep(1500)
     Tooltip()
 }
 
