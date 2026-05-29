@@ -22,96 +22,89 @@ ClipExt_cut(){
 	FileAppend(A_Clipboard . "`n`n-----`n`n", A_WorkingDir "\clip.log", "UTF-8-RAW")
 }
 
-;Supabaseにコピー
+;Cloudflare KVにコピー
 ClipExt_SCopy() {
     cb_bk := ClipboardAll()
 
-    A_Clipboard := ""
-    Send("^c")
-    if !ClipWait(3)
-        return
+    try {
+        A_Clipboard := ""
+        Send("^c")
+        if !ClipWait(3)
+            return
 
-    clipText := A_Clipboard
-    if clipText = ""
-        return
+        clipText := A_Clipboard
+        if clipText = ""
+            return
 
-    ; UTF-8 → Base64
-    buf := Buffer(StrPut(clipText, "UTF-8"))
-    bytesWritten := StrPut(clipText, buf, "UTF-8")
-    bytesLen := bytesWritten - 1
+        ; UTF-8 → Buffer
+        buf := Buffer(StrPut(clipText, "UTF-8"))
+        bytesWritten := StrPut(clipText, buf, "UTF-8")
+        bytesLen := bytesWritten - 1
 
-    ;簡易的な暗号化（XOR + Base64）
-    key := getEnv("ClipExt_ApiKey")
-    keyLen := StrLen(key)
-    Loop bytesLen {
-        i := A_Index - 1
-        b := NumGet(buf, i, "UChar")
-        k := Ord(SubStr(key, Mod(i, keyLen) + 1, 1)) & 0xFF
-        NumPut("UChar", b ^ k, buf, i)
+        ;簡易的な暗号化（XOR + Base64）
+        key := getEnv("ClipExt_ApiKey")
+        keyLen := StrLen(key)
+        Loop bytesLen {
+            i := A_Index - 1
+            b := NumGet(buf, i, "UChar")
+            k := Ord(SubStr(key, Mod(i, keyLen) + 1, 1)) & 0xFF
+            NumPut("UChar", b ^ k, buf, i)
+        }
+
+        ;Base64エンコード
+        DllCall("Crypt32\CryptBinaryToStringW", "Ptr", buf, "UInt", bytesLen, "UInt", 0x40000001, "Ptr", 0, "UInt*", &outLen := 0)
+        out := Buffer(outLen * 2)
+        DllCall("Crypt32\CryptBinaryToStringW", "Ptr", buf, "UInt", bytesLen, "UInt", 0x40000001, "Ptr", out, "UInt*", outLen)
+        sclip := StrGet(out)
+
+        ;Cloudflare WorkerにPOST
+        http := ComObject("WinHttp.WinHttpRequest.5.1")
+        http.Open("POST", getEnv("ClipExt_Api") "/set", false)
+        http.SetRequestHeader("Authorization", "Bearer " getEnv("ClipExt_ApiKey"))
+        http.SetRequestHeader("Content-Type", "text/plain; charset=utf-8")
+        http.Send(sclip)
+
+        if (http.Status < 200 || http.Status >= 300) {
+            MsgBox("ClipExt_SCopy failed.`nStatus: " http.Status "`nResponse: " http.ResponseText)
+            return
+        }
+    } finally {
+        A_Clipboard := cb_bk
     }
-
-    ;Base64エンコードのためのバッファサイズ取得
-    DllCall("Crypt32\CryptBinaryToStringW", "Ptr", buf, "UInt", bytesLen, "UInt", 0x40000001, "Ptr", 0, "UInt*", &outLen := 0)
-    out := Buffer(outLen * 2)
-
-    ;Base64エンコードの実行
-    DllCall("Crypt32\CryptBinaryToStringW", "Ptr", buf, "UInt", bytesLen, "UInt", 0x40000001, "Ptr", out, "UInt*", outLen)
-    sclip := StrGet(out)
-
-    ; JSON escape
-    sclip := StrReplace(sclip, "\", "\\")
-    sclip := StrReplace(sclip, '"', '\"')
-    sclip := StrReplace(sclip, "`r", "\r")
-    sclip := StrReplace(sclip, "`n", "\n")
-    sclip := StrReplace(sclip, "`t", "\t")
-
-    ;SupabaseにPOST
-    http := ComObject("WinHttp.WinHttpRequest.5.1")
-    http.Open("POST", getEnv("ClipExt_Api") "?on_conflict=slot", false)
-    http.SetRequestHeader("apikey", getEnv("ClipExt_ApiKey"))
-    http.SetRequestHeader("Authorization", "Bearer " getEnv("ClipExt_ApiKey"))
-    http.SetRequestHeader("Content-Type", "application/json")
-    http.SetRequestHeader("Prefer", "resolution=merge-duplicates,return=representation")
-    http.Send('[{"slot":"default","content_base64":"' sclip '"}]')
-    if (http.Status < 200 || http.Status >= 300) {
-        MsgBox("ClipExt_SCopy failed.`nStatus: " http.Status "`nResponse: " http.ResponseText)
-        return
-    }
-   
-    ;Clipboard内容を復元
-	A_Clipboard := cb_bk
 }
 
-;Supabaseからペースト
+;Cloudflare KVからペースト
 ClipExt_SPaste() {
-
-    ;Getリクエストで最新のクリップを取得
     http := ComObject("WinHttp.WinHttpRequest.5.1")
-    http.Open("GET", getEnv("ClipExt_Api") "?select=content_base64&slot=eq.default&limit=1", false)
-    http.SetRequestHeader("apikey", getEnv("ClipExt_ApiKey"))
+    http.Open("GET", getEnv("ClipExt_Api") "/get", false)
     http.SetRequestHeader("Authorization", "Bearer " getEnv("ClipExt_ApiKey"))
     http.Send()
+
     if (http.Status < 200 || http.Status >= 300) {
         MsgBox("ClipExt_SPaste failed.`nStatus: " http.Status "`nResponse: " http.ResponseText)
         return
     }
+
     res := http.ResponseText
-    
-    ;JSONからBase64部分を抜き取る
-    if !RegExMatch(res, '"content_base64"\s*:\s*"([^"]*)"', &m)
+
+    ;Workerのレスポンス: {"result":"..."}
+    if !RegExMatch(res, '"result"\s*:\s*"([^"]*)"', &m)
         return
+
     b64 := m[1]
 
-    ; Base64 → UTF-8 (バッファサイズの取得)
+    if (b64 = "")
+        return
+
+    ; Base64 → Buffer
     DllCall("Crypt32\CryptStringToBinaryW", "Str", b64, "UInt", 0, "UInt", 0x1, "Ptr", 0, "UInt*", &bytesLen := 0, "Ptr", 0, "Ptr", 0)
     buf := Buffer(bytesLen)
 
-    ; Base64 → UTF-8 (実際の変換)
     ok := DllCall("Crypt32\CryptStringToBinaryW", "Str", b64, "UInt", 0, "UInt", 0x1, "Ptr", buf, "UInt*", bytesLen, "Ptr", 0, "Ptr", 0)
     if !ok
         return
 
-    ;簡易的な復号化（Base64 + XOR）
+    ;復号化（XOR）
     key := getEnv("ClipExt_ApiKey")
     keyLen := StrLen(key)
     Loop bytesLen {
