@@ -31,9 +31,14 @@ mbind_b(){
 mbind_c(){
 	if (SPACE() && CAPS())
 		launch("C",SHIFT())
-	else if CAPS() && ALT()
-		Send("#^{c}")
-	else if RCMD() || CAPS()
+	else if CAPS() && ALT(){
+		A_Clipboard := ""
+		Send("^c")
+    	if !ClipWait(3) 
+        	return
+		;Google検索
+		Run("https://www.google.com/search?q=" Trim(A_Clipboard) " について")
+	}else if RCMD() || CAPS()
 		ClipExt_Scopy()
 	else if LCMD()
 		ClipExt_copy()
@@ -387,6 +392,8 @@ mbind_x(){
 		launch("X",SHIFT())
 	else if ( CAPS() || RCMD() )&& SHIFT()
 		launch("E",SHIFT(),1," `"" . A_WorkingDir "\src\Util_Macros.ahk`"")
+	else if CAPS() && ALT()
+		Send("#^{c}")
 	else if RCMD() || CAPS()
 		MacroX()
 	else if LCMD()

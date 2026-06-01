@@ -10,6 +10,15 @@ SetTimer ModifierStuckMonitor_Check, 1000
 ModifierStuckMonitor_Check() {
     global ModifierStuckMonitor_LastInputAt
     static firstPressedAt := Map(), delayMs := 5000, tooltipId := 20
+
+    ; スクリプトが一時停止している間は、修飾キーの状態に関わらず通知を消す
+    if A_IsSuspended {
+        firstPressedAt.Clear()
+        ModifierStuckMonitor_LastInputAt := A_TickCount
+        ToolTip , , , tooltipId
+        return
+    }
+
     stuckLabels := []
 
     ; 修飾キーが押され始めた時刻を記録し、一定時間を超えたものだけ表示対象にする
