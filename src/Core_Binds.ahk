@@ -357,9 +357,9 @@ mbind_u(){
 
 mbind_v(){
 	if (SPACE() && CAPS() && SHIFT())
-		Run("`"C:\Program Files\TrueCrypt\TrueCrypt.exe`" /q /dr")
+		Run("`"C:\Program Files\VeraCrypt\VeraCrypt.exe`" /q /u") ; 全ドライブのマウント解除
 	else if (SPACE() && CAPS())
-		Run("`"C:\Program Files\TrueCrypt\TrueCrypt.exe`" /q /v \Device\Harddisk1\Partition0 /lr")
+		Run("`"C:\Program Files\VeraCrypt\VeraCrypt.exe`" /q /v \Device\Harddisk1\Partition0 /l R") ; 予めVドライブにマウントするドライブを指定しておく
 	else if RCMD() || CAPS()
 		ClipExt_Spaste()
 	else if SPACE() && SHIFT()
