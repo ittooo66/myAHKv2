@@ -8,7 +8,7 @@ ClipExt_copy(){
     ClipWait(3)
 
 	;clip.logにログ追記
-	FileAppend(A_Clipboard . "`n`n-----`n`n", A_WorkingDir "\clip.log", "UTF-8-RAW")
+	FileAppend(A_Clipboard . "`n`n-----`n`n", A_WorkingDir . "\" . A_ComputerName . "-clip.log", "UTF-8-RAW")
 }
 
 ;切り取り
@@ -19,7 +19,7 @@ ClipExt_cut(){
     ClipWait(3)
 
 	;clip.logにログ追記
-	FileAppend(A_Clipboard . "`n`n-----`n`n", A_WorkingDir "\clip.log", "UTF-8-RAW")
+	FileAppend(A_Clipboard . "`n`n-----`n`n", A_WorkingDir . "\" . A_ComputerName . "-clip.log", "UTF-8-RAW")
 }
 
 ;Cloudflare KVにコピー
@@ -134,7 +134,7 @@ ClipExt_copyTo(num){
 	ClipWait(3)
 
 	;clip.logにログ追記
-	FileAppend(A_Clipboard . "`n`n-----`n`n", A_WorkingDir "\clip.log", "UTF-8-RAW")
+	FileAppend(A_Clipboard . "`n`n-----`n`n", A_WorkingDir . "\" . A_ComputerName . "-clip.log", "UTF-8-RAW")
 	;ファイルにClipboardを保存
 	setEnv("CLIPEXT_" . num , A_Clipboard)
 	;cb_bkから取得
@@ -189,14 +189,14 @@ ClipExt_openAlias(num){
 
 ;ClipBoard履歴の表示
 ClipExt_openLog(){
-	Run("notepad.exe " A_WorkingDir "\clip.log")
+	Run("notepad.exe " A_WorkingDir . "\" . A_ComputerName . "-clip.log")
 	Sleep(500)
 	Send("^{End}")
 }
 
 ;ClipLogのガベージ(AHKのReloadにひっかけて定期実行)
 ClipLogGarbage() {
-    logFile := A_WorkingDir "\clip.log"
+    logFile := A_WorkingDir . "\" . A_ComputerName . "-clip.log"
 
     ; ファイルが存在しない場合は終了
     if !FileExist(logFile)
