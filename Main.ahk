@@ -19,20 +19,20 @@ InstallKeybdHook
 #UseHook
 
 ;Core
-#Include "%A_ScriptDir%\src\Core_Hooks.ahk"
-#Include "%A_ScriptDir%\src\Core_Mods.ahk"
-#Include "%A_ScriptDir%\src\Core_Binds.ahk"
+#Include "src\Core_Hooks.ahk"
+#Include "src\Core_Mods.ahk"
+#Include "src\Core_Binds.ahk"
 ;Library
-#Include "%A_ScriptDir%\src\Util_General.ahk"
-#Include "%A_ScriptDir%\src\Util_Clip.ahk"
-#Include "%A_ScriptDir%\src\Util_IME.ahk"
-#Include "%A_ScriptDir%\src\Util_Mouse.ahk"
-#Include "%A_ScriptDir%\src\Util_Macros.ahk"
-#Include "%A_ScriptDir%\src\Util_ModifierStuckMonitor.ahk"
+#Include "src\Util_General.ahk"
+#Include "src\Util_Clip.ahk"
+#Include "src\Util_IME.ahk"
+#Include "src\Util_Mouse.ahk"
+#Include "src\Util_Macros.ahk"
+#Include "src\Util_ModifierStuckMonitor.ahk"
 ;HotIf WinActives
-#Include "%A_ScriptDir%\src\IWA_Any.ahk"
-#Include "%A_ScriptDir%\src\IWA_Excel.ahk"
-#Include "%A_ScriptDir%\src\IWA_Powerpoint.ahk"
+#Include "src\IWA_Any.ahk"
+#Include "src\IWA_Excel.ahk"
+#Include "src\IWA_Powerpoint.ahk"
 
 ; エラーのポップアップをtooltipで表示する
 OnError(MyErrorHandler)
