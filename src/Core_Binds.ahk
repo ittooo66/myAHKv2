@@ -61,8 +61,8 @@ mbind_d(){
 		Sleep(250)
 		A_Clipboard := ""
 		Send("^c")
-		Errorlevel := !ClipWait(3)
-		FileAppend(A_Clipboard, getEnv("YTDLP_PATH") . FormatTime(, "yyyyMMddHHmmss") , "UTF-8-RAW")
+		if ClipWait(3)
+    		Run('curl.exe -k -s -X POST --data-urlencode "url=' A_Clipboard '" https://c-youtube.apps.ittooo66.click/api/download', , "Hide")
 		
 		;ログ出力
 		ToolTip("yt-dlp Queued : " . A_Clipboard), SetTimer(() => ToolTip(), -3000)
