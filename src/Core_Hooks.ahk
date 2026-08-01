@@ -3,8 +3,8 @@ Delete::`
 RAlt::RWin
 
 ;IME向けキー定義
-LShift Up::IME_EN()
-RShift Up::IME_JP()
+~LShift Up::IME_EN()
+~RShift Up::IME_JP()
 
 ;無効キー定義
 sc03a::return ; Capslock
