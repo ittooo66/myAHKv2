@@ -2,9 +2,28 @@
 Delete::`
 RAlt::RWin
 
+;Copilotキー対策パッチ
+LAlt & LShift::{
+    Send("{Blind}{LShift Up}{LAlt Up}")
+    ih := InputHook("V"), ih.KeyOpt("{vk50}{vkBC}{vkBE}", "SE"), ih.Start()
+    while ih.InProgress && GetKeyState("LShift", "P")
+        Sleep(5)
+    if ih.InProgress
+        ih.Stop()
+    vk := GetKeyVK(ih.EndKey)
+    if vk
+        KeyWait(Format("vk{:02X}", vk), "P")
+    switch vk {
+        case 0x50: Send("{Blind}{RWin Down}p{RWin Up}")
+        case 0xBC: AHK_Reload()
+        case 0xBE: AHK_Suspend()
+        default:   Send("{Blind}{RWin}")
+    }
+}
+
 ;IME向けキー定義
-~LShift Up::IME_EN()
-~RShift Up::IME_JP()
+~LShift Up::(A_PriorKey = "LShift") ? IME_EN() : 0
+~RShift Up::(A_PriorKey = "RShift") ? IME_JP() : 0
 
 ;無効キー定義
 sc03a::return ; Capslock
