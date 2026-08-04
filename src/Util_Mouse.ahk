@@ -209,3 +209,22 @@ MouseMove_NWSE(x,y){
 	else
 		return 0
 }
+
+; マウスジグラー
+MouseJigToggle(){
+	static enabled := false
+	static jigFunc := () => (
+		x := Random(-1, 1),
+		y := x ? 0 : (Random(0, 1) ? 1 : -1),
+		MouseMove(x, y, 0, "R")
+	)
+
+	enabled := !enabled
+	if(enabled){
+		ToolTip("MouseJig Start"), SetTimer(() => ToolTip(), -3000)
+		SetTimer(jigFunc, 1000)
+	}else{
+		SetTimer(jigFunc, 0)
+		ToolTip("MouseJig End"), SetTimer(() => ToolTip(), -3000)
+	}
+}

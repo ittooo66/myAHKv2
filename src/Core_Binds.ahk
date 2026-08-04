@@ -832,7 +832,7 @@ mbind_msblb(){
 	}else if MMB()
 		WinMinimize("A")
 	else if MSBLF()
-		changeWindowSize()
+		MouseJigToggle()
 	else if MSBRF(){
 		; MuteTimer
 		IB := InputBox("Mute After N minute", "Delayed Mute", "w200 h130", 60), muteMinute := IB.Value, ErrorLevel := IB.Result="OK" ? 0 : IB.Result="CANCEL" ? 1 : IB.Result="Timeout" ? 2 : "ERROR"
@@ -867,7 +867,7 @@ mbind_msblf(){
 	else if MSBRF()
 		execScripts("SetAudioDevice.ps1")
 	else if MSBLB()
-		changeWindowSize()
+		MouseJigToggle()
 	else if MSBLF(){
 		;最小化されているウィンドウをすべてアクティブにする
 		; 配列idsに現在稼働中のWindowを突っ込む
