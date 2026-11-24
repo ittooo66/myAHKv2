@@ -214,8 +214,11 @@ launch(str, shift, man:=0, arg:=""){
 		if (man = 1 ){
 			name := getEnv("APP_" . str . "_PATH")
 			Send("#{r}")
-			Sleep(300)
+			if !WinWait("ファイル名を指定して実行", , 5)
+    			return
 			WinActivate("ファイル名を指定して実行")
+			if !WinWaitActive("ファイル名を指定して実行", , 5)
+    			return
 			Sleep(100)
 			directInput(name . " " . arg)
 			Send("{Enter}")
@@ -231,8 +234,11 @@ launch(str, shift, man:=0, arg:=""){
 			if (man = 1){
 				name := getEnv("APP_" . str . "_PATH")
 				Send("#{r}")
-				Sleep(300)
+				if !WinWait("ファイル名を指定して実行", , 5)
+    				return
 				WinActivate("ファイル名を指定して実行")
+				if !WinWaitActive("ファイル名を指定して実行", , 5)
+    				return
 				Sleep(100)
 				directInput(name . " " . arg)
 				Send("{Enter}")
