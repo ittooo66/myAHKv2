@@ -25,6 +25,7 @@ InstallKeybdHook
 ;Library
 #Include "src\Util_General.ahk"
 #Include "src\Util_Clip.ahk"
+#Include "src\Util_Explorer.ahk"
 #Include "src\Util_IME.ahk"
 #Include "src\Util_Mouse.ahk"
 #Include "src\Util_Macros.ahk"

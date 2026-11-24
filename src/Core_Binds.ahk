@@ -79,6 +79,8 @@ mbind_d(){
 mbind_e(){
 	if (SPACE() && CAPS())
 		launch("E",SHIFT(),1, "`"" . A_Desktop . "\memo\"  . FormatTime(, "yyyyMMdd") ".txt" . "`"" ) ; 引数に日付メモ.txtを指定して起動
+	else if CAPS() && ALT()
+		ExplorerPrefixRename_ShowGui()
 	else if LSHIFT() && RSHIFT()
 		ControlMouse("e","d","s","f")
 	else if CAPS() || RCMD()
@@ -786,7 +788,7 @@ mbind_mlb(){
 	else if MMB()
 		Send("#{Tab}")
 	else if MSBRB()
-		return
+		execScripts("DisplayLayout.ps1")
 	else if MSBLF()
 		intelliScroll()
 	else if MSBLB()
